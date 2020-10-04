@@ -1,50 +1,59 @@
 ---
-bio: My research interests include distributed robotics, mobile computing and programmable matter.
+bio:
 education:
   courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
-email: ""
+  - course: Ph.D in Educational Policy and Evaluation (EPE)
+    institution: Arizona State University
+    year: May 2021 (expected)
+  - course: M.A. in Global Education Cooperation
+    institution: Seoul National University
+    year: 2015
+  - course: B.A. in English Education 
+    institution: Hankuk University of Foreign Studies
+    year: 2011
+email: "gong.bg7@gmail.com"
 highlight_name: false
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Technological change and education
+- Educational big data analytics 
+- Online learning data analytics 
+- Comparative and international education
+- Environmental education
+- Large-scale international assessment and its analysis
+- Structure of pedagogic knowledge and discourse
+
 organizations:
-- name: Stanford University
-  url: https://www.stanford.edu/
-role: Professor of Artificial Intelligence
+- name: Mary Lou Fulton Teachers College
+  url: https://education.asu.edu/
+- name: Arizona State university
+  url: https://www.asu.edu/
+role: Research Assistant / PhD Candidate
 social:
 - icon: envelope
   icon_pack: fas
   link: /#contact
-- icon: twitter
+- icon: facebook
   icon_pack: fab
-  link: https://twitter.com/GeorgeCushen
+  link: https://www.facebook.com/byunggyu.gong
 - icon: graduation-cap
   icon_pack: fas
   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://github.com/Arizonagong
 - icon: linkedin
   icon_pack: fab
-  link: https://www.linkedin.com/
+  link: https://www.linkedin.com/in/byoung-gyu-gong-b52a30199/
 superuser: true
-title: Nelson Bighetti
-user_groups:
+title: Byoung-gyu Gong, Ph.D
+user_groups: 
 - Principal Investigators
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+Byoung-gyu Gong is a Ph.D candidate of educational policy and evaluation program at Arizona State University. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+**Big Data Analytics** and **Network Analysis** are pivotal to his educational research. He explores new dimensions of educational policy and phenomenon using big data retrieved from open web sources. In particular, his research interest is in the **structure and relational pattern** of the **educational documents and discourse**, to see how our **perception** and **paradigm** of the education has been **structured** in a certain way. Also, he is interested in the studies of **international large-sized assessments** to see how the demographics, cognitive capacity, and perception of students, teachers, and parents are structured and changed globally. 
+
+His research covers the following specific topics: (1) **topic modeling** of educational discourse, (2) **citation network analysis** of the educational documents, (3) topic modeling and **social network analysis** of the online learning platforms, and (4) **regression** and **multilevel modeling analysis** of the international large-sized assessment. 
 
 {{< icon name="download" pack="fas" >}} Download my {{< staticref "media/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
