@@ -1,4 +1,4 @@
-+++
++++ 
 # A Projects section created with the Portfolio widget.
 widget = "portfolio"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
@@ -26,12 +26,16 @@ subtitle = ""
     tag = "*"
   
   [[content.filter_button]]
-    name = "Deep Learning"
-    tag = "Deep Learning"
+    name = "Citation Network Analysis"
+    tag = "Network Analysis"
   
   [[content.filter_button]]
-    name = "Other"
-    tag = "Demo"
+    name = "OECD PISA"
+    tag = "International Large-sized Assessment"
+    
+  [[content.filter_button]]
+    name = "Topic Modeling"
+    tag = "Topic Modeling"
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
