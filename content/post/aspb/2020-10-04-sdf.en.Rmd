@@ -1,10 +1,10 @@
 ---
-title: sdf
-author: bgong
+title: 'Student contact network at school: Spread of virus'
+author: admin
 date: '2020-10-04'
-slug: sdf
+slug: Network
 categories: []
-tags: []
+tags: [Network analysis]
 subtitle: ''
 summary: ''
 authors: []
@@ -16,5 +16,3 @@ image:
   preview_only: no
 projects: []
 ---
-sdfsdf
-sdfsdfsd
