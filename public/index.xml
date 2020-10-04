@@ -99,17 +99,17 @@ where k[i] is the in-degree of vertex i in the current time, a is an exponent to
 &lt;p&gt;We can create the Albert-Barabasi network data set using “sample_pa” function in igraph package. 100 means the number of vertices to create, power=3 is the ‘a’ in the above formula, and m is the number of edges to add for each time step.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;A&amp;lt;-sample_pa(100, power=3, m=2, directed=FALSE, algorithm = &amp;quot;psumtree&amp;quot;)
 A&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH ceb5a35 U--- 100 197 -- Barabasi graph
+&lt;pre&gt;&lt;code&gt;## IGRAPH 670def5 U--- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c)
-## + edges from ceb5a35:
-##  [1] 1-- 2 1-- 3 2-- 3 1-- 4 2-- 4 2-- 5 3-- 5 3-- 6 1-- 6 1-- 7 3-- 7 1-- 8
-## [13] 2-- 8 1-- 9 3-- 9 1--10 6--10 1--11 3--11 2--12 1--12 3--13 1--13 3--14
-## [25] 1--14 1--15 3--15 3--16 1--16 1--17 3--17 1--18 3--18 1--19 3--19 1--20
-## [37] 3--20 1--21 3--21 3--22 1--22 3--23 1--23 1--24 3--24 3--25 1--25 3--26
-## [49] 1--26 1--27 3--27 1--28 3--28 3--29 1--29 3--30 1--30 1--31 3--31 3--32
-## [61] 1--32 1--33 3--33 3--34 1--34 1--35 3--35 3--36 1--36 3--37 1--37 1--38
-## [73] 3--38 1--39 3--39 3--40 1--40 1--41 3--41 3--42 1--42 1--43 3--43 1--44
+## + edges from 670def5:
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  2-- 4  2-- 5  1-- 5  2-- 6  1-- 6  2-- 7
+## [11]  1-- 7  1-- 8  2-- 8  1-- 9  2-- 9  1--10  2--10  2--11  1--11  2--12
+## [21]  1--12  1--13  2--13  1--14  2--14  1--15  2--15  1--16  2--16  2--17
+## [31]  1--17  2--18 15--18  2--19  1--19  1--20  2--20  1--21  2--21  1--22
+## [41]  2--22  2--23  1--23  2--24  1--24  1--25  2--25  1--26  2--26  2--27
+## [51]  1--27  1--28  2--28  2--29  1--29  2--30  1--30  2--31  1--31  1--32
+## [61]  2--32  1--33  2--33  2--34  1--34  2--35  1--35  2--36  1--36  1--37
 ## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The above network data object does not include any information on the time step as an edge attribute (we need information on when the given edge will be added to generate the network). So, we need to create a time step information and merge it to the network data object A.&lt;/p&gt;
 &lt;p&gt;T is the vector of the time step. The reason why the same number repeats twice is that we modeled the network to add 2 edges per each time step.&lt;/p&gt;
@@ -128,22 +128,66 @@ T&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;E(A)$time&amp;lt;-T
 V(A)$name&amp;lt;-V(A)
 A&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH ceb5a35 UN-- 100 197 -- Barabasi graph
+&lt;pre&gt;&lt;code&gt;## IGRAPH 670def5 UN-- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c), name (v/n), time (e/n)
-## + edges from ceb5a35 (vertex names):
-##  [1] 1-- 2 1-- 3 2-- 3 1-- 4 2-- 4 2-- 5 3-- 5 3-- 6 1-- 6 1-- 7 3-- 7 1-- 8
-## [13] 2-- 8 1-- 9 3-- 9 1--10 6--10 1--11 3--11 2--12 1--12 3--13 1--13 3--14
-## [25] 1--14 1--15 3--15 3--16 1--16 1--17 3--17 1--18 3--18 1--19 3--19 1--20
-## [37] 3--20 1--21 3--21 3--22 1--22 3--23 1--23 1--24 3--24 3--25 1--25 3--26
-## [49] 1--26 1--27 3--27 1--28 3--28 3--29 1--29 3--30 1--30 1--31 3--31 3--32
-## [61] 1--32 1--33 3--33 3--34 1--34 1--35 3--35 3--36 1--36 3--37 1--37 1--38
-## [73] 3--38 1--39 3--39 3--40 1--40 1--41 3--41 3--42 1--42 1--43 3--43 1--44
+## + edges from 670def5 (vertex names):
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  2-- 4  2-- 5  1-- 5  2-- 6  1-- 6  2-- 7
+## [11]  1-- 7  1-- 8  2-- 8  1-- 9  2-- 9  1--10  2--10  2--11  1--11  2--12
+## [21]  1--12  1--13  2--13  1--14  2--14  1--15  2--15  1--16  2--16  2--17
+## [31]  1--17  2--18 15--18  2--19  1--19  1--20  2--20  1--21  2--21  1--22
+## [41]  2--22  2--23  1--23  2--24  1--24  1--25  2--25  1--26  2--26  2--27
+## [51]  1--27  1--28  2--28  2--29  1--29  2--30  1--30  2--31  1--31  1--32
+## [61]  2--32  1--33  2--33  2--34  1--34  2--35  1--35  2--36  1--36  1--37
 ## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The following script was directly copied from the blog of Dr. Esteban Moro &lt;a href=&#34;http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/&#34; class=&#34;uri&#34;&gt;http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/&lt;/a&gt;. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#this version of the script has been tested on igraph 1.0.1
+#load libraries
+require(igraph,RcolorBrewer)
+install.packages(&amp;quot;RColorBrewer&amp;quot;)
+library(RColorBrewer)
+#generate a cool palette for the graph (darker colors = older nodes)
+YlOrBr.pal &amp;lt;- colorRampPalette(brewer.pal(8,&amp;quot;YlOrRd&amp;quot;))
+#colors for the nodes are chosen from the very beginning
+V(A)$color &amp;lt;- rev(YlOrBr.pal(vcount(A)))[as.numeric(V(A)$name)]
+
+#time in the edges goes from 1 to 300. We kick off at time 3
+ti &amp;lt;- 2
+#remove edges which are not present
+gt &amp;lt;- delete_edges(A,which(E(A)$time &amp;gt; ti))
+# Generate first layout using graphopt with normalized coordinates. 
+# This places the initially connected set of nodes in the middle. 
+# If you use fruchterman.reingold it will place that initial set in the outer ring.
+layout.old &amp;lt;- norm_coords(layout.graphopt(gt), 
+                          xmin = -1, xmax = 1, ymin = -1, ymax = 1)
+#total time of the dynamics
+total_time &amp;lt;- max(E(A)$time)
+#This is the time interval for the animation. In this case is taken to be 1/10
+#of the time (i.e. 10 snapshots) between adding two consecutive nodes
+dt &amp;lt;- 0.1
+#Output for each frame will be a png with HD size 1600x900 :)
+png(file=&amp;quot;example%03d.png&amp;quot;, width=1600,height=900)
+#Time loop starts
+for(time in seq(3,total_time,dt)){
+  #remove edges which are not present
+  gt &amp;lt;- delete_edges(A,which(E(A)$time &amp;gt; time))
+  #with the new graph, we update the layout a little bit
+  layout.new &amp;lt;- layout_with_fr(gt,coords=layout.old,niter=10,start.temp=0.05,grid=&amp;quot;nogrid&amp;quot;)
+  #plot the new graph
+  plot(gt,layout=layout.new,
+       vertex.label=&amp;quot;&amp;quot;,vertex.size=1+2*log(degree(gt)),
+       vertex.frame.color=V(A)$color,edge.width=1.5,
+       asp=9/16,margin=-0.15)
+  #use the new layout in the next round
+  layout.old &amp;lt;- layout.new
+}
+dev.off()&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Once you created the png image files of the network for each time step, then you can create an animation using “ffmpeg” application. If you already installed ‘brew’ in your computer, then you can easily install the “ffmpeg” with very short code like this in your terminal:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;$ brew install ffmpeg&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Then, you can create an network animation with the following code in your terminal:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://youtu.be/ePzu6xg975I&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ffmpeg -r 10 -i example%03d.png -b:v 20M output.mp4&lt;/code&gt;&lt;/pre&gt;
+&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/ePzu6xg975I&#34; frameborder=&#34;0&#34; allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&#34; allowfullscreen&gt;
+&lt;/iframe&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
@@ -177,7 +221,7 @@ data.head()
 &lt;p&gt;Demo:&lt;/p&gt;
 
 
-&lt;div id=&#34;chart-683751492&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-692145378&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -187,7 +231,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-683751492&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-692145378&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();

@@ -65,7 +65,7 @@ A
 
 The following script was directly copied from the blog of Dr. Esteban Moro <http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/>. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.
 
-```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+```{r eval=FALSE}
 #this version of the script has been tested on igraph 1.0.1
 #load libraries
 require(igraph,RcolorBrewer)
@@ -111,16 +111,18 @@ dev.off()
 
 Once you created the png image files of the network for each time step, then you can create an animation using "ffmpeg" application. If you already installed 'brew' in your computer, then you can easily install the "ffmpeg" with very short code like this in your terminal:
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=FALSE}
 $ brew install ffmpeg
 ```
 
 Then, you can create an network animation with the following code in your terminal:
-```{r eval=FALSE, include=FALSE}
+```{r eval=FALSE}
 ffmpeg -r 10 -i example%03d.png -b:v 20M output.mp4
 ```
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ePzu6xg975I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-![](https://youtu.be/ePzu6xg975I)
+
+
 
 
