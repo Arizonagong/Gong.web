@@ -15,6 +15,7 @@ authors: []
 lastmod: '2020-10-03T22:21:31-07:00'
 featured: yes
 image:
+  placement: 1
   caption: ''
   focal_point: ''
   preview_only: no
