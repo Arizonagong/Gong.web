@@ -75,6 +75,88 @@
     </item>
     
     <item>
+      <title>Temporal network simulation: Albert-Barabasi model</title>
+      <link>/post/temporal-network-simulation-albert-barabasi-model/</link>
+      <pubDate>Sat, 03 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>/post/temporal-network-simulation-albert-barabasi-model/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-10-03-temporal-network-simulation-albert-barabasi-model.en_files/example961.png&#34; /&gt;
+# Theory&lt;/p&gt;
+&lt;p&gt;Albert-Barabasi model is well-known network generation method, adding new vertices at each time steps. The connections added to the existing vertices at each time are proportional to the degree of the given vertice. The generated network shows the rich-get-richer phenomenon in the networked world as new connection tends to increase proportional to the previous degree.&lt;/p&gt;
+&lt;p&gt;The master equation is as follows:
+&lt;span class=&#34;math display&#34;&gt;\[P[i] ~ k[i]^a + b\]&lt;/span&gt;
+where k[i] is the in-degree of vertex i in the current time, a is an exponent to create a power-law distribution, and b is attractiveness of the vertices with no degree.&lt;/p&gt;
+&lt;div id=&#34;r-script&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;R script&lt;/h1&gt;
+&lt;div id=&#34;albert-barabasi-network-creation&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Albert-Barabasi network creation&lt;/h2&gt;
+&lt;p&gt;We can create the Albert-Barabasi network data set using “sample_pa” function in igraph package. 100 means the number of vertices to create, power=3 is the ‘a’ in the above formula, and m is the number of edges to add for each time step.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(igraph)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;igraph&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:stats&amp;#39;:
+## 
+##     decompose, spectrum&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following object is masked from &amp;#39;package:base&amp;#39;:
+## 
+##     union&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;A&amp;lt;-sample_pa(100, power=3, m=2, directed=FALSE, algorithm = &amp;quot;psumtree&amp;quot;)
+A&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## IGRAPH b9687a8 U--- 100 197 -- Barabasi graph
+## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
+## | (g/c)
+## + edges from b9687a8:
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  1-- 4  3-- 5  2-- 5  1-- 6  3-- 6  2-- 7
+## [11]  3-- 7  3-- 8  4-- 8  1-- 9  3-- 9  1--10  2--10  1--11  3--11  1--12
+## [21]  3--12  3--13  1--13  1--14  2--14  3--15  1--15  2--16  1--16  1--17
+## [31] 10--17  3--18  1--18  1--19  3--19  2--20  9--20  1--21  3--21  1--22
+## [41]  2--22  1--23  3--23  1--24  2--24  2--25  1--25  3--26  1--26  1--27
+## [51]  3--27  3--28  1--28  9--29  2--29  1--30  2--30  2--31  1--31  1--32
+## [61]  3--32  1--33  3--33  3--34  2--34  1--35  3--35  1--36  3--36  3--37
+## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The above network data object does not include any information on the time step as an edge attribute (we need information on when the given edge will be added to generate the network). So, we need to create a time step information and merge it to the network data object A.&lt;/p&gt;
+&lt;p&gt;T is the vector of the time step. The reason why the same number repeats twice is that we modeled the network to add 2 edges per each time step.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;T&amp;lt;-rep(x=seq(2,99), each=2)
+T&amp;lt;-append(1,T)
+T&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   [1]  1  2  2  3  3  4  4  5  5  6  6  7  7  8  8  9  9 10 10 11 11 12 12 13 13
+##  [26] 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26
+##  [51] 26 27 27 28 28 29 29 30 30 31 31 32 32 33 33 34 34 35 35 36 36 37 37 38 38
+##  [76] 39 39 40 40 41 41 42 42 43 43 44 44 45 45 46 46 47 47 48 48 49 49 50 50 51
+## [101] 51 52 52 53 53 54 54 55 55 56 56 57 57 58 58 59 59 60 60 61 61 62 62 63 63
+## [126] 64 64 65 65 66 66 67 67 68 68 69 69 70 70 71 71 72 72 73 73 74 74 75 75 76
+## [151] 76 77 77 78 78 79 79 80 80 81 81 82 82 83 83 84 84 85 85 86 86 87 87 88 88
+## [176] 89 89 90 90 91 91 92 92 93 93 94 94 95 95 96 96 97 97 98 98 99 99&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, we can merge the time step data into the network data. Now, we can find “time (e/n)” in the igraph object, which means that the time step information is now assigned as an edge attribute.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;E(A)$time&amp;lt;-T
+V(A)$name&amp;lt;-V(A)
+A&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## IGRAPH b9687a8 UN-- 100 197 -- Barabasi graph
+## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
+## | (g/c), name (v/n), time (e/n)
+## + edges from b9687a8 (vertex names):
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  1-- 4  3-- 5  2-- 5  1-- 6  3-- 6  2-- 7
+## [11]  3-- 7  3-- 8  4-- 8  1-- 9  3-- 9  1--10  2--10  1--11  3--11  1--12
+## [21]  3--12  3--13  1--13  1--14  2--14  3--15  1--15  2--16  1--16  1--17
+## [31] 10--17  3--18  1--18  1--19  3--19  2--20  9--20  1--21  3--21  1--22
+## [41]  2--22  1--23  3--23  1--24  2--24  2--25  1--25  3--26  1--26  1--27
+## [51]  3--27  3--28  1--28  9--29  2--29  1--30  2--30  2--31  1--31  1--32
+## [61]  3--32  1--33  3--33  3--34  2--34  1--35  3--35  1--36  3--36  3--37
+## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The following script was directly copied from the blog of Dr. Esteban Moro &lt;a href=&#34;http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/&#34; class=&#34;uri&#34;&gt;http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/&lt;/a&gt;. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.&lt;/p&gt;
+&lt;p&gt;Once you created the png image files of the network for each time step, then you can create an animation using “ffmpeg” application. If you already installed ‘brew’ in your computer, then you can easily install the “ffmpeg” with very short code like this in your terminal:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# $ brew install ffmpeg&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, you can create an network animation with the following code in your terminal:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# ffmpeg -r 10 -i example%03d.png -b:v 20M output.mp4&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;hhttps://youtu.be/ePzu6xg975I&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Writing technical content in Academic</title>
       <link>/post/writing-technical-content/</link>
       <pubDate>Fri, 12 Jul 2019 00:00:00 +0000</pubDate>
@@ -102,7 +184,7 @@ data.head()
 &lt;p&gt;Demo:&lt;/p&gt;
 
 
-&lt;div id=&#34;chart-934872651&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
+&lt;div id=&#34;chart-145729836&#34; class=&#34;chart pb-3&#34; style=&#34;max-width: 100%; margin: auto;&#34;&gt;&lt;/div&gt;
 &lt;script&gt;
   (function() {
     let a = setInterval( function() {
@@ -112,7 +194,7 @@ data.head()
       clearInterval( a );
 
       Plotly.d3.json(&#34;./line-chart.json&#34;, function(chart) {
-        Plotly.plot(&#39;chart-934872651&#39;, chart.data, chart.layout, {responsive: true});
+        Plotly.plot(&#39;chart-145729836&#39;, chart.data, chart.layout, {responsive: true});
       });
     }, 500 );
   })();
