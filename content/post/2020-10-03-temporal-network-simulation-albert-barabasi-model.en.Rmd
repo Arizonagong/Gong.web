@@ -14,7 +14,7 @@ summary: ''
 authors: []
 lastmod: '2020-10-03T22:21:31-07:00'
 featured: no
-image: post/2020-10-03-temporal-network-simulation-albert-barabasi-model.en_files/example961.png
+image:
   caption: ''
   focal_point: ''
   preview_only: no
@@ -29,7 +29,7 @@ slug: temporal-network-simulation-albert-barabasi-model
 Albert-Barabasi model is well-known network generation method, adding new vertices at each time steps. The connections added to the existing vertices at each time are proportional to the degree of the given vertice. The generated network shows the rich-get-richer phenomenon in the networked world as new connection tends to increase proportional to the previous degree. 
 
 The master equation is as follows: 
-$P[i] ~ k[i]^a + b$
+$$P[i] ~ k[i]^a + b$$
 
 where k[i] is the in-degree of vertex i in the current time, a is an exponent to create a power-law distribution, and b is attractiveness of the vertices with no degree. 
 

@@ -29,10 +29,8 @@ slug: temporal-network-simulation-albert-barabasi-model
 <h1>Theory</h1>
 <p>Albert-Barabasi model is well-known network generation method, adding new vertices at each time steps. The connections added to the existing vertices at each time are proportional to the degree of the given vertice. The generated network shows the rich-get-richer phenomenon in the networked world as new connection tends to increase proportional to the previous degree.</p>
 <p>The master equation is as follows:
-<span class="math display">\[
-P[i] ~ k[i]^a + b
-\]</span>
-where k[i] is the in-degree of vertex i in the current time, a is an exponent to create a power-law distribution, and b is attractiveness of the vertices with no degree.</p>
+<span class="math display">\[P[i] ~ k[i]^a + b\]</span></p>
+<p>where k[i] is the in-degree of vertex i in the current time, a is an exponent to create a power-law distribution, and b is attractiveness of the vertices with no degree.</p>
 </div>
 <div id="r-script" class="section level1">
 <h1>R script</h1>
@@ -41,17 +39,17 @@ where k[i] is the in-degree of vertex i in the current time, a is an exponent to
 <p>We can create the Albert-Barabasi network data set using “sample_pa” function in igraph package. 100 means the number of vertices to create, power=3 is the ‘a’ in the above formula, and m is the number of edges to add for each time step.</p>
 <pre class="r"><code>A&lt;-sample_pa(100, power=3, m=2, directed=FALSE, algorithm = &quot;psumtree&quot;)
 A</code></pre>
-<pre><code>## IGRAPH c57fd28 U--- 100 197 -- Barabasi graph
+<pre><code>## IGRAPH e40d560 U--- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c)
-## + edges from c57fd28:
-##  [1]  1-- 2  1-- 3  2-- 3  1-- 4  2-- 4  2-- 5  4-- 5  2-- 6  4-- 6  2-- 7
-## [11]  4-- 7  2-- 8  1-- 8  4-- 9  2-- 9  2--10  5--10  4--11  2--11 11--12
-## [21]  2--12  2--13 12--13  4--14  2--14  2--15  1--15  4--16  2--16  2--17
-## [31]  5--17  4--18  2--18  4--19  2--19  2--20  4--20  2--21  4--21  4--22
-## [41]  2--22  2--23  4--23  4--24  2--24  2--25  4--25  2--26  4--26  2--27
-## [51]  4--27  4--28  2--28  2--29  4--29  4--30  2--30  2--31  4--31  2--32
-## [61]  4--32  2--33  4--33  2--34  4--34  2--35  4--35  2--36  4--36  2--37
+## + edges from e40d560:
+##  [1] 1-- 2 1-- 3 2-- 3 2-- 4 3-- 4 3-- 5 2-- 5 1-- 6 3-- 6 3-- 7 1-- 7 3-- 8
+## [13] 1-- 8 3-- 9 1-- 9 3--10 1--10 3--11 1--11 1--12 3--12 3--13 1--13 1--14
+## [25] 3--14 3--15 1--15 3--16 1--16 1--17 3--17 3--18 1--18 3--19 1--19 1--20
+## [37] 3--20 3--21 2--21 1--22 3--22 3--23 1--23 1--24 3--24 1--25 3--25 3--26
+## [49] 1--26 3--27 1--27 3--28 1--28 1--29 5--29 1--30 3--30 1--31 3--31 3--32
+## [61] 1--32 3--33 1--33 3--34 1--34 1--35 3--35 3--36 1--36 1--37 3--37 3--38
+## [73] 1--38 1--39 3--39 1--40 3--40 1--41 3--41 1--42 3--42 3--43 1--43 3--44
 ## + ... omitted several edges</code></pre>
 <p>The above network data object does not include any information on the time step as an edge attribute (we need information on when the given edge will be added to generate the network). So, we need to create a time step information and merge it to the network data object A.</p>
 <p>T is the vector of the time step. The reason why the same number repeats twice is that we modeled the network to add 2 edges per each time step.</p>
@@ -70,19 +68,19 @@ T</code></pre>
 <pre class="r"><code>E(A)$time&lt;-T
 V(A)$name&lt;-V(A)
 A</code></pre>
-<pre><code>## IGRAPH c57fd28 UN-- 100 197 -- Barabasi graph
+<pre><code>## IGRAPH e40d560 UN-- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c), name (v/n), time (e/n)
-## + edges from c57fd28 (vertex names):
-##  [1]  1-- 2  1-- 3  2-- 3  1-- 4  2-- 4  2-- 5  4-- 5  2-- 6  4-- 6  2-- 7
-## [11]  4-- 7  2-- 8  1-- 8  4-- 9  2-- 9  2--10  5--10  4--11  2--11 11--12
-## [21]  2--12  2--13 12--13  4--14  2--14  2--15  1--15  4--16  2--16  2--17
-## [31]  5--17  4--18  2--18  4--19  2--19  2--20  4--20  2--21  4--21  4--22
-## [41]  2--22  2--23  4--23  4--24  2--24  2--25  4--25  2--26  4--26  2--27
-## [51]  4--27  4--28  2--28  2--29  4--29  4--30  2--30  2--31  4--31  2--32
-## [61]  4--32  2--33  4--33  2--34  4--34  2--35  4--35  2--36  4--36  2--37
+## + edges from e40d560 (vertex names):
+##  [1] 1-- 2 1-- 3 2-- 3 2-- 4 3-- 4 3-- 5 2-- 5 1-- 6 3-- 6 3-- 7 1-- 7 3-- 8
+## [13] 1-- 8 3-- 9 1-- 9 3--10 1--10 3--11 1--11 1--12 3--12 3--13 1--13 1--14
+## [25] 3--14 3--15 1--15 3--16 1--16 1--17 3--17 3--18 1--18 3--19 1--19 1--20
+## [37] 3--20 3--21 2--21 1--22 3--22 3--23 1--23 1--24 3--24 1--25 3--25 3--26
+## [49] 1--26 3--27 1--27 3--28 1--28 1--29 5--29 1--30 3--30 1--31 3--31 3--32
+## [61] 1--32 3--33 1--33 3--34 1--34 1--35 3--35 3--36 1--36 1--37 3--37 3--38
+## [73] 1--38 1--39 3--39 1--40 3--40 1--41 3--41 1--42 3--42 3--43 1--43 3--44
 ## + ... omitted several edges</code></pre>
-<p>The following script was directly copied from the blog of Dr. Esteban Moro <a href="http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/" class="uri">http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/</a>. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.</p>
+<p>The following script was directly copied from the blog of <a href="http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/">Dr. Esteban Moro</a>. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.</p>
 <pre class="r"><code>#this version of the script has been tested on igraph 1.0.1
 #load libraries
 require(igraph,RcolorBrewer)
