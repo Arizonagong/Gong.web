@@ -1,15 +1,14 @@
 ---
 title: 'Temporal network simulation: Albert-Barabasi model'
-author: Byoung-gyu Gong
+author: "Byoung-gyu Gong"
 date: '2020-10-03'
-slug: temporal-network-simulation-albert-barabasi-model
-categories:
-  - R
+output: pdf_document
+categories: R
 tags:
-  - Network analysis
-  - Network simulation
-  - Temporal network
-  - Albert-Barabasi model
+- Network analysis
+- Network simulation
+- Temporal network
+- Albert-Barabasi model
 subtitle: ''
 summary: ''
 authors: []
@@ -20,15 +19,19 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
+slug: temporal-network-simulation-albert-barabasi-model
 ---
 
 ![](/post/2020-10-03-temporal-network-simulation-albert-barabasi-model.en_files/example961.png)
+
 # Theory
 
 Albert-Barabasi model is well-known network generation method, adding new vertices at each time steps. The connections added to the existing vertices at each time are proportional to the degree of the given vertice. The generated network shows the rich-get-richer phenomenon in the networked world as new connection tends to increase proportional to the previous degree. 
 
 The master equation is as follows: 
-$$P[i] ~ k[i]^a + b$$
+$$
+P[i] ~ k[i]^a + b
+$$
 where k[i] is the in-degree of vertex i in the current time, a is an exponent to create a power-law distribution, and b is attractiveness of the vertices with no degree. 
 
 # R script
@@ -36,8 +39,10 @@ where k[i] is the in-degree of vertex i in the current time, a is an exponent to
 ## Albert-Barabasi network creation
 
 We can create the Albert-Barabasi network data set using "sample_pa" function in igraph package. 100 means the number of vertices to create, power=3 is the 'a' in the above formula, and m is the number of edges to add for each time step.
-```{r}
+```{r include=FALSE}
 library(igraph)
+```
+```{r}
 A<-sample_pa(100, power=3, m=2, directed=FALSE, algorithm = "psumtree")
 A
 ```
@@ -60,7 +65,7 @@ A
 
 The following script was directly copied from the blog of Dr. Esteban Moro <http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/>. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.
 
-```{r eval=FALSE, include=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 #this version of the script has been tested on igraph 1.0.1
 #load libraries
 require(igraph,RcolorBrewer)
@@ -106,15 +111,16 @@ dev.off()
 
 Once you created the png image files of the network for each time step, then you can create an animation using "ffmpeg" application. If you already installed 'brew' in your computer, then you can easily install the "ffmpeg" with very short code like this in your terminal:
 
-```{r}
-# $ brew install ffmpeg
+```{r eval=FALSE, include=FALSE}
+$ brew install ffmpeg
 ```
 
 Then, you can create an network animation with the following code in your terminal:
-```{r}
-# ffmpeg -r 10 -i example%03d.png -b:v 20M output.mp4
+```{r eval=FALSE, include=FALSE}
+ffmpeg -r 10 -i example%03d.png -b:v 20M output.mp4
 ```
 
-![](hhttps://youtu.be/ePzu6xg975I)
+
+![](https://youtu.be/ePzu6xg975I)
 
 
