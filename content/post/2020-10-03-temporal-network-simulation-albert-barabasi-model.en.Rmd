@@ -29,9 +29,8 @@ slug: temporal-network-simulation-albert-barabasi-model
 Albert-Barabasi model is well-known network generation method, adding new vertices at each time steps. The connections added to the existing vertices at each time are proportional to the degree of the given vertice. The generated network shows the rich-get-richer phenomenon in the networked world as new connection tends to increase proportional to the previous degree. 
 
 The master equation is as follows: 
-$$
-P[i] ~ k[i]^a + b
-$$
+$P[i] ~ k[i]^a + b$
+
 where k[i] is the in-degree of vertex i in the current time, a is an exponent to create a power-law distribution, and b is attractiveness of the vertices with no degree. 
 
 # R script
@@ -63,7 +62,7 @@ A
 ```
 
 
-The following script was directly copied from the blog of Dr. Esteban Moro <http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/>. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.
+The following script was directly copied from the blog of [Dr. Esteban Moro](http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/). You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.
 
 ```{r eval=FALSE}
 #this version of the script has been tested on igraph 1.0.1
