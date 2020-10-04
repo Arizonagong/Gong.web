@@ -56,4 +56,4 @@ Byoung-gyu Gong is a Ph.D candidate of educational policy and evaluation program
 
 His research covers the following specific topics: (1) **topic modeling** of educational discourse, (2) **citation network analysis** of the educational documents, (3) topic modeling and **social network analysis** of the online learning platforms, and (4) **regression** and **multilevel modeling analysis** of the international large-sized assessment. 
 
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "media/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
+# {{< icon name="download" pack="fas" >}} Download my {{< staticref  "media/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
