@@ -1,5 +1,5 @@
 ---
-title: 'Temporal network simulation with Albert Barabasi model'
+title: 'Temporal network simulation: Albert-Barabasi model'
 author: Byoung-gyu Gong
 date: '2020-10-03'
 slug: temporal-network-simulation-albert-barabasi-model
