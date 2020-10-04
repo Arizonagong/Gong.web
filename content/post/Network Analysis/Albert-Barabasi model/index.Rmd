@@ -1,0 +1,25 @@
+---
+title: "Barabasi-Albert model - Network simulation"
+author: "Byoung-gyu Gong"
+date: "10/3/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Albert-Barabasi model
+
+```{r}
+library(igraph)
+```
+
+# Creating network dataset with Barabasi-Albert model
+
+```{r pressure, echo=FALSE}
+A<-sample_pa(100, power=3, m=2, directed=FALSE, algorithm = "psumtree")
+A
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
