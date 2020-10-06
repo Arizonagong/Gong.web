@@ -1,5 +1,7 @@
 ---
 bio:
+
+
 education:
   courses:
   - course: Ph.D in Educational Policy and Evaluation (EPE)
@@ -8,7 +10,6 @@ education:
   - course: M.A. in Global Education Cooperation
     institution: Seoul National University
     year: 2015
-
 email: "gong.bg7@gmail.com"
 highlight_name: false
 interests:
@@ -20,7 +21,6 @@ interests:
 - International Large-scale assessment (ILSA)
 - Textual analysis of pedagogic documents
 - Scientometrics / bibliometrics / citation network analysis
-
 organizations:
 - name: Mary Lou Fulton Teachers College
   url: https://education.asu.edu/
