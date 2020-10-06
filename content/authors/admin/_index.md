@@ -1,6 +1,5 @@
 ---
 bio:
-education:
 email: "gong.bg7@gmail.com"
 highlight_name: false
 interests: 
