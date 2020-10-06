@@ -10,7 +10,7 @@ education:
     year: 2015
 email: "gong.bg7@gmail.com"
 highlight_name: false
-interests:
+interests: n
 - Artificial intelligence and education
 - Educational (big) data mining
 - Educational policy analytics
