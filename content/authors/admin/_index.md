@@ -1,7 +1,5 @@
 ---
 bio:
-
-
 education:
   courses:
   - course: Ph.D in Educational Policy and Evaluation (EPE)
@@ -13,9 +11,9 @@ education:
 email: "gong.bg7@gmail.com"
 highlight_name: false
 interests:
-- Artificial intelligence and its impact to education
+- Artificial intelligence and education
 - Educational (big) data mining
-- Educational policy analytics (machine learning and statistics)
+- Educational policy analytics
 - Online learning data analytics 
 - Comparative and international education
 - International Large-scale assessment (ILSA)
@@ -49,6 +47,9 @@ user_groups:
 - Principal Investigators
 ---
 
+element {
+  font-size: 75;
+}
 Byoung-gyu Gong is a Ph.D candidate of educational policy and evaluation program at Arizona State University. 
 
 **Big Data Analytics** and **Network Analysis** are pivotal to his educational research. He explores new dimensions of educational policy and phenomenon using big data retrieved from open web sources. In particular, his research interest is in the **structure and relational pattern** of the **educational documents and discourse**, to see how our **perception** and **paradigm** of the education has been **structured** in a certain way. Also, he is interested in the studies of **international large-sized assessments** to see how the demographics, cognitive capacity, and perception of students, teachers, and parents are structured and changed globally. 
