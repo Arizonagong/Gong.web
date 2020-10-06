@@ -1,13 +1,6 @@
 ---
 bio:
 education:
-  courses:
-  - course: Ph.D in Educational Policy and Evaluation (EPE)
-    institution: Arizona State University
-    year: May 2021 (expected)
-  - course: M.A. in Global Education Cooperation
-    institution: Seoul National University
-    year: 2015
 email: "gong.bg7@gmail.com"
 highlight_name: false
 interests: 
