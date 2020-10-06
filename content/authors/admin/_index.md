@@ -8,19 +8,18 @@ education:
   - course: M.A. in Global Education Cooperation
     institution: Seoul National University
     year: 2015
-  - course: B.A. in English Education 
-    institution: Hankuk University of Foreign Studies
-    year: 2011
+
 email: "gong.bg7@gmail.com"
 highlight_name: false
 interests:
-- Technological change and education
-- Educational big data analytics 
+- Artificial intelligence and its impact to education
+- Educational (big) data mining
+- Educational policy analytics (machine learning and statistics)
 - Online learning data analytics 
 - Comparative and international education
-- Environmental education
-- Large-scale international assessment and its analysis
-- Structure of pedagogic knowledge and discourse
+- International Large-scale assessment (ILSA)
+- Textual analysis of pedagogic documents
+- Scientometrics / bibliometrics / citation network analysis
 
 organizations:
 - name: Mary Lou Fulton Teachers College

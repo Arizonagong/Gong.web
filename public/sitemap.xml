@@ -33,6 +33,26 @@
   </url>
   
   <url>
+    <loc>/tag/network-analysis/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/aspb/network/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tag/albert-barabasi-model/</loc>
     <lastmod>2020-10-03T22:21:31-07:00</lastmod>
   </url>
@@ -43,27 +63,12 @@
   </url>
   
   <url>
-    <loc>/tag/network-analysis/</loc>
-    <lastmod>2020-10-03T22:21:31-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tag/network-simulation/</loc>
     <lastmod>2020-10-03T22:21:31-07:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-10-03T22:21:31-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/category/r/</loc>
-    <lastmod>2020-10-03T22:21:31-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-10-03T22:21:31-07:00</lastmod>
   </url>
   
