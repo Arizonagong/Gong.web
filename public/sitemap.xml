@@ -33,7 +33,42 @@
   </url>
   
   <url>
+    <loc>/tag/assortativity/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/betweenness-centrality/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/community-detection/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/degree-centrality/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/eivenvector-centrality/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tag/network-analysis/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/network-density/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
@@ -43,7 +78,7 @@
   </url>
   
   <url>
-    <loc>/tag/r/</loc>
+    <loc>/category/r-network-analysis/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
@@ -59,11 +94,6 @@
   
   <url>
     <loc>/tag/albert-barabasi-model/</loc>
-    <lastmod>2020-10-03T22:21:31-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
     <lastmod>2020-10-03T22:21:31-07:00</lastmod>
   </url>
   
