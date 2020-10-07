@@ -47,3 +47,5 @@ user_groups:
 - Principal Investigators
 ---
 Byoung-gyu Gong is a Ph.D candidate of educational policy and evaluation program at Arizona State University. He studies the **intersection of artificial intelligence(AI) and education**. Using citation network and topic modeling analysis method, he explores how this new technological advancement shapes ground of new educational policy and practice. He is also interested in educational data analytics using educational & learning big data and international large-scale assessment data. 
+
+ 

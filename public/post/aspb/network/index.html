@@ -34,7 +34,7 @@
   
     
   
-  <meta name="description" content="">
+  <meta name="description" content="Pandemic and School Reopening Issue With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children’s learning opportunity.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/aspb/network/">
@@ -277,8 +277,8 @@
   
   <meta property="og:site_name" content="Byoung-gyu Gong Ph.D">
   <meta property="og:url" content="/post/aspb/network/">
-  <meta property="og:title" content="Student contact network at school: Spread of virus | Byoung-gyu Gong Ph.D">
-  <meta property="og:description" content=""><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+  <meta property="og:title" content="Student contact network at school: Spread of the virus | Byoung-gyu Gong Ph.D">
+  <meta property="og:description" content="Pandemic and School Reopening Issue With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children’s learning opportunity."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
@@ -310,7 +310,7 @@
     "@type": "WebPage",
     "@id": "/post/aspb/network/"
   },
-  "headline": "Student contact network at school: Spread of virus",
+  "headline": "Student contact network at school: Spread of the virus",
   
   "datePublished": "2020-10-04T00:00:00Z",
   "dateModified": "2020-10-04T14:55:59-07:00",
@@ -328,7 +328,7 @@
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
     }
   },
-  "description": ""
+  "description": "Pandemic and School Reopening Issue With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children’s learning opportunity."
 }
 </script>
 
@@ -346,7 +346,7 @@
 
 
 
-  <title>Student contact network at school: Spread of virus | Byoung-gyu Gong Ph.D</title>
+  <title>Student contact network at school: Spread of the virus | Byoung-gyu Gong Ph.D</title>
 
 </head>
 
@@ -577,7 +577,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>Student contact network at school: Spread of virus</h1>
+  <h1>Student contact network at school: Spread of the virus</h1>
 
   
 
@@ -607,7 +607,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    0 min read
+    13 min read
   </span>
   
 
@@ -646,7 +646,289 @@
       
 
 
+<div id="pandemic-and-school-reopening-issue" class="section level1">
+<h1>Pandemic and School Reopening Issue</h1>
+<p>With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children’s learning opportunity. Despite that, the reopening school can be very costly as children can transmit the virus to their families and communities. Now that there is significant uncertainty on the impact of school reopening, we see that many countries are still under discussion on this issue. Disappointingly, we do not know much about how the school affects the children’s virus infection.</p>
+<p> </p>
+</div>
+<div id="purpose-of-the-analysis" class="section level1">
+<h1>Purpose of the Analysis</h1>
+<p>Given this situation, in this post, I will analyze children’s physical contact network at school to see how much contact happens among children. The contact network indicators at school can be a basic knowledge we can reorganize our school space, time, and activity to adjust to the post-pandemic world.<br />
+ </p>
+</div>
+<div id="data-source" class="section level1">
+<h1>Data Source</h1>
+<p>For the network analysis, I prepared two data sets from the study of <em>Gemnetto, Barrat, &amp; Cattuto (2014) titled Mitigation of infectious disease at school: Targeted class closure vs school closure</em>, which studied the infection network at the primary school. You can also find the data of this study from <a href="http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/">Sociopatterns</a>. It is the open-source network data platform readily available for any studies and researches. The students’ contact network data provides a fundamental sense to design and implement a plan for contact tracing and social distance at each school level.</p>
+<p>The authors collected this contact network data using a wearable device that records contact whenever students get closer over a certain threshold. The data was collected from an elementary school in France.</p>
+</div>
+<div id="analysis" class="section level1">
+<h1>Analysis</h1>
+<p>For the analysis, I will use igraph package in R program. Using this package, I will calculate centrality scores to detect the central node in the school network and network structure indicators, such as network density and homophily score. Also, I will visualize the network to show you the birds-eye view of the school network.</p>
+<div id="data-pre-processing" class="section level2">
+<h2><strong>Data pre-processing</strong></h2>
+<p>First, install the required packages and open the library.</p>
+<pre class="r"><code>install.packages(c(&quot;igraph&quot;,&quot;readr&quot;,&quot;tidyr&quot;,&quot;RColorBrewer&quot;))</code></pre>
+<p>Then, you can download the data file directly from my github repository through the following code. (If there is an error message, you should try it multiple times until you can get access to it.)</p>
+<p>Now, let’s look into the data set. The first dataset names as “D” is an edge list indicating contact between the students. It is represented like 1234-4424, which means one contact between the student 1234 and 4424.</p>
+<pre class="r"><code>head(D, 5)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   Source Target
+##    &lt;dbl&gt;  &lt;dbl&gt;
+## 1   1558   1567
+## 2   1560   1570
+## 3   1567   1574
+## 4   1632   1818
+## 5   1632   1866</code></pre>
+<p>The data set “D_meta” includes node information with students ID, class, and gender information.</p>
+<pre class="r"><code>head(D_meta, 5)</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##      ID Class Gender
+##   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; 
+## 1  1426 5B    M     
+## 2  1427 5B    F     
+## 3  1428 5B    M     
+## 4  1429 5B    F     
+## 5  1430 5B    M</code></pre>
+<p>Then, I just created “frequency” column in the edgelist, “D” to give an edge attribute for each edges with their contact frequency, and deleted all edges having 0 contact.</p>
+<pre class="r"><code>#2. Manage dataset
+B&lt;-as.data.frame(table(D)) # Create an edge weight column named &quot;Freq&quot;
+B1&lt;-subset(B,Freq&gt;0) # Delete all the edges having weight equal to 0
+head(B1, 5)</code></pre>
+<pre><code>##     Source Target Freq
+## 1     1426   1427   27
+## 240   1426   1428   45
+## 241   1427   1428    4
+## 479   1426   1429   75
+## 480   1427   1429  100</code></pre>
+<p>Then, we can now create an igraph object. igraph object is different from the data frame and requires totally different grammar from the code handling general data frame. igraph is specially designed to handle large-sized complex network data with high speed. The igraph object, “Stucont” includes edgelist, nodelist, and their attributes.</p>
+<pre class="r"><code>#3. Create an igraph object from the dataframes
+Stucont&lt;-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
+E(Stucont)$weight&lt;-E(Stucont)$Freq # Assigning edge attribute to each edge
+Stucont</code></pre>
+<pre><code>## IGRAPH fe006d7 UNW- 242 8317 -- 
+## + attr: name (v/c), Class (v/c), Gender (v/c), Freq (e/n), weight (e/n)
+## + edges from fe006d7 (vertex names):
+##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
+##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
+## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
+## [19] 1429--1434 1430--1434 1431--1434 1426--1435 1427--1435 1428--1435
+## [25] 1429--1435 1430--1435 1431--1435 1434--1435 1426--1437 1427--1437
+## [31] 1428--1437 1429--1437 1430--1437 1431--1437 1434--1437 1435--1437
+## [37] 1426--1439 1427--1439 1428--1439 1429--1439 1430--1439 1431--1439
+## [43] 1434--1439 1435--1439 1437--1439 1426--1441 1427--1441 1428--1441
+## + ... omitted several edges</code></pre>
+</div>
+<div id="exploring-basic-network-features" class="section level2">
+<h2><strong>Exploring basic network features</strong></h2>
+<p>gsize shows us the number of edges, and gorder shows the number of nodes</p>
+<pre class="r"><code>gsize(Stucont)</code></pre>
+<pre><code>## [1] 8317</code></pre>
+<pre class="r"><code>gorder(Stucont)</code></pre>
+<pre><code>## [1] 242</code></pre>
+<p>V means the vertex (node), so with this function you can see the nodelist.</p>
+<pre class="r"><code>#2. Nodelist
+V(Stucont)</code></pre>
+<pre><code>## + 242/242 vertices, named, from fe006d7:
+##   [1] 1426 1427 1428 1429 1430 1431 1434 1435 1437 1439 1441 1443 1451 1452 1453
+##  [16] 1457 1458 1459 1461 1465 1468 1471 1475 1477 1479 1480 1482 1483 1486 1489
+##  [31] 1493 1495 1498 1500 1501 1502 1503 1504 1511 1516 1519 1520 1521 1522 1524
+##  [46] 1525 1528 1532 1533 1538 1539 1545 1546 1548 1549 1551 1552 1555 1558 1560
+##  [61] 1562 1563 1564 1567 1570 1572 1574 1578 1579 1580 1585 1592 1594 1601 1603
+##  [76] 1604 1606 1609 1613 1616 1617 1618 1625 1628 1630 1632 1637 1641 1643 1647
+##  [91] 1648 1649 1650 1653 1656 1661 1663 1664 1665 1666 1668 1670 1673 1674 1675
+## [106] 1680 1681 1682 1684 1685 1687 1688 1695 1696 1697 1698 1700 1702 1704 1705
+## [121] 1706 1707 1708 1709 1710 1711 1712 1713 1714 1715 1718 1719 1720 1722 1723
+## [136] 1727 1730 1731 1732 1735 1737 1738 1739 1741 1743 1744 1745 1746 1748 1749
+## + ... omitted several vertices</code></pre>
+<p>E means the edge.</p>
+<pre class="r"><code>#3. Edgelist
+E(Stucont)</code></pre>
+<pre><code>## + 8317/8317 edges from fe006d7 (vertex names):
+##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
+##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
+## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
+## [19] 1429--1434 1430--1434 1431--1434 1426--1435 1427--1435 1428--1435
+## [25] 1429--1435 1430--1435 1431--1435 1434--1435 1426--1437 1427--1437
+## [31] 1428--1437 1429--1437 1430--1437 1431--1437 1434--1437 1435--1437
+## [37] 1426--1439 1427--1439 1428--1439 1429--1439 1430--1439 1431--1439
+## [43] 1434--1439 1435--1439 1437--1439 1426--1441 1427--1441 1428--1441
+## [49] 1429--1441 1431--1441 1434--1441 1435--1441 1437--1441 1439--1441
+## [55] 1426--1443 1427--1443 1428--1443 1429--1443 1430--1443 1431--1443
+## + ... omitted several edges</code></pre>
+<p>Each node have attributes such as ID, class, and gender. There are missing values so we will change “unknown” into NA.</p>
+<pre class="r"><code>#4. Attributes
+V(Stucont)$Gender</code></pre>
+<pre><code>##   [1] &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;      
+##   [8] &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;      
+##  [15] &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;      
+##  [22] &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;      
+##  [29] &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;      
+##  [36] &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;      
+##  [43] &quot;Unknown&quot; &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;      
+##  [50] &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;      
+##  [57] &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;      
+##  [64] &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;      
+##  [71] &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;      
+##  [78] &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;Unknown&quot; &quot;M&quot;       &quot;M&quot;      
+##  [85] &quot;M&quot;       &quot;F&quot;       &quot;Unknown&quot; &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;      
+##  [92] &quot;M&quot;       &quot;Unknown&quot; &quot;Unknown&quot; &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;      
+##  [99] &quot;M&quot;       &quot;M&quot;       &quot;Unknown&quot; &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;      
+## [106] &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;      
+## [113] &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;      
+## [120] &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;Unknown&quot; &quot;M&quot;       &quot;F&quot;      
+## [127] &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;      
+## [134] &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;Unknown&quot; &quot;M&quot;       &quot;M&quot;       &quot;M&quot;      
+## [141] &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;Unknown&quot;
+## [148] &quot;Unknown&quot; &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;Unknown&quot;
+## [155] &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;      
+## [162] &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;Unknown&quot;
+## [169] &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;      
+## [176] &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;Unknown&quot;
+## [183] &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;      
+## [190] &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;Unknown&quot;
+## [197] &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;      
+## [204] &quot;M&quot;       &quot;M&quot;       &quot;Unknown&quot; &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;      
+## [211] &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;      
+## [218] &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;      
+## [225] &quot;M&quot;       &quot;F&quot;       &quot;F&quot;       &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;      
+## [232] &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;       &quot;M&quot;       &quot;F&quot;       &quot;M&quot;      
+## [239] &quot;F&quot;       &quot;M&quot;       &quot;F&quot;       &quot;F&quot;</code></pre>
+<pre class="r"><code>V(Stucont)$Gender[V(Stucont)$Gender==&#39;Unknown&#39;] &lt;- NA</code></pre>
+<p>The adjacency matrix is the most important indication of the network. However, igraph does not store the network data in the adjacency matrix format. Still, you can represent the network in the matrix format as below. We can know that the contact network is a symmetric and undirected network from the adjacency matrix, which means there is no arrow on edges.</p>
+<pre class="r"><code>#5. Adjacency matrix
+Stucont[c(1:10),c(1:10)]</code></pre>
+<pre><code>## 10 x 10 sparse Matrix of class &quot;dgCMatrix&quot;</code></pre>
+<pre><code>##    [[ suppressing 10 column names &#39;1426&#39;, &#39;1427&#39;, &#39;1428&#39; ... ]]</code></pre>
+<pre><code>##                                     
+## 1426  .  27 45  75 19 43  8 12 23 27
+## 1427 27   .  4 100  4 63 20  5 44 13
+## 1428 45   4  .   9  4 16  2  4 19 14
+## 1429 75 100  9   .  9 75 11  5 62 36
+## 1430 19   4  4   9  . 15  4  7  4  3
+## 1431 43  63 16  75 15  . 43 16 42 41
+## 1434  8  20  2  11  4 43  .  3  8  8
+## 1435 12   5  4   5  7 16  3  .  6 11
+## 1437 23  44 19  62  4 42  8  6  . 29
+## 1439 27  13 14  36  3 41  8 11 29  .</code></pre>
+</div>
+<div id="measuring-centrality" class="section level2">
+<h2><strong>Measuring centrality</strong></h2>
+<p>Centrality is the most important indicator of the network. The centrality measure shows which node has the highest contact frequency in the network. To understand more about the centrality measure, please visit <a href="https://youtu.be/o5-o1EPSWZg">my lecture page on the Youtube channel</a>. I will not explain the details of each centrality measure in this post.</p>
+<p>I identified the nodes recording the highest score in each of the centrality measures and found that student 1551 shows the highest centrality in the degree and betweenness centrality measure.</p>
+<pre class="r"><code>#1. Degree centrality
+Stucont_deg&lt;-degree(Stucont,mode=c(&quot;All&quot;))
+V(Stucont)$degree&lt;-Stucont_deg
+which.max(Stucont_deg)</code></pre>
+<pre><code>## 1551 
+##   56</code></pre>
+<pre class="r"><code>#2. Eigenvector centrality
+Stucont_eig &lt;- evcent(Stucont)$vector
+V(Stucont)$Eigen&lt;-Stucont_eig
+which.max(Stucont_eig)</code></pre>
+<pre><code>## 1665 
+##   99</code></pre>
+<pre class="r"><code>#3. Betweenness centrality
+Stucont_bw&lt;-betweenness(Stucont, directed = FALSE)
+V(Stucont)$betweenness&lt;-Stucont_bw
+which.max(Stucont_bw)</code></pre>
+<pre><code>## 1551 
+##   56</code></pre>
+</div>
+<div id="measuring-network-structure" class="section level2">
+<h2><strong>Measuring network structure</strong></h2>
+<p>Each network has its unique structural features.</p>
+<p>First, network density indicates how much densely the nodes are connected in the network. Also, if you’d like to know more about the network theory, please watch my lecture on Youtube.</p>
+<p>Here I compared the network density between the school and the class level. It shows that the school level density is 0.28 while the class level density is 0.98. Thus, there is a considerable density gap between the school and the class.</p>
+<pre class="r"><code>#1. Network Density
+edge_density(Stucont) # Global density</code></pre>
+<pre><code>## [1] 0.2852097</code></pre>
+<pre class="r"><code>A1&lt;-induced_subgraph(Stucont, V(Stucont)[Class==&quot;1A&quot;], impl=c(&quot;auto&quot;)) # Subgraphing into each class
+edge_density(A1) # Class level density</code></pre>
+<pre><code>## [1] 0.9841897</code></pre>
+<p>We can also calculate the assortativity score, which means mingling together with the nodes having a similar attribute. For instance, we can expect that the same class students or having the same gender may have more frequent contact. The assortativity score of the class is 0.23.</p>
+<pre class="r"><code>#2. Assortativity
+values &lt;- as.numeric(factor(V(Stucont)$Class))
+assortativity_nominal(Stucont, types=values)</code></pre>
+<pre><code>## [1] 0.2337739</code></pre>
+<p>But, we do not know how big enough or small to assess the level of assortativity. We can then create a random network, which has the same probability of having an edge between every node and comparing it. The histogram indicates that the school network data is such an abnormal case having a high assortativity score according to the random network’s probability distribution.</p>
+<pre class="r"><code>#2.1. Calculate the observed assortativity
+observed.assortativity &lt;- assortativity_nominal(Stucont, types=values)
+results &lt;- vector(&#39;list&#39;, 1000)
+for(i in 1:1000){results[[i]] &lt;- assortativity_nominal(Stucont, sample(values))}
+#2.2.  Plot the distribution of assortativity values and add a red vertical line at the original observed value
+hist(unlist(results), xlim = c(0,0.4))
+abline(v = observed.assortativity,col = &quot;red&quot;, lty = 3, lwd=2) </code></pre>
+<p><img src="/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="network-visualization" class="section level2">
+<h2><strong>Network Visualization</strong></h2>
+<p>The final step is the network visualization. The beauty of network analysis is that we can visually confirm the features we indicated by the numbers above. Also, the visual mapping of the network is instrumental in communicating with the audiences with data. Here, I set the size of each node with a value of degree centrality. Each different color indicates different classes.</p>
+<pre class="r"><code>#1. Plotting a network with the degree centrality
+set.seed(1001)
+library(RColorBrewer) # This is the color library
+pal&lt;-brewer.pal(length(unique(V(Stucont)$Class)), &quot;Set3&quot;) # Vertex color assigned per each class number
+plot(Stucont,edge.color = &#39;black&#39;,vertex.label.cex =0.5, 
+     vertex.color=pal[as.numeric(as.factor(vertex_attr(Stucont, &quot;Class&quot;)))],
+     vertex.size = sqrt(Stucont_deg)/2, edge.width=sqrt(E(Stucont)$weight/800),
+     layout = layout.fruchterman.reingold)</code></pre>
+<p><img src="/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
+<div id="community-detection" class="section level2">
+<h2><strong>Community Detection</strong></h2>
+<p>Based on the networking pattern of the node, we can cluster them into several groups. We can intuitively think that the nodes will be clustered based on their affiliation with the classes. However, the result is counter-intuitive. We have ten classes in the school dataset, but the number of detected communities (cluster) is 6, which means that this school is composed of 6 different sub-network groups.</p>
+<pre class="r"><code>#1. Louvain clustering
+lc &lt;- cluster_louvain(Stucont) # Create a cluster based on the Louvain method
+communities(lc) # You can check which vertices belongs to which clusters.</code></pre>
+<pre><code>## $`1`
+##  [1] &quot;1426&quot; &quot;1427&quot; &quot;1428&quot; &quot;1429&quot; &quot;1430&quot; &quot;1431&quot; &quot;1434&quot; &quot;1435&quot; &quot;1437&quot; &quot;1439&quot;
+## [11] &quot;1441&quot; &quot;1443&quot; &quot;1451&quot; &quot;1452&quot; &quot;1453&quot; &quot;1457&quot; &quot;1458&quot; &quot;1459&quot; &quot;1461&quot; &quot;1465&quot;
+## [21] &quot;1468&quot; &quot;1471&quot; &quot;1475&quot; &quot;1477&quot; &quot;1479&quot; &quot;1480&quot; &quot;1482&quot; &quot;1483&quot; &quot;1486&quot; &quot;1489&quot;
+## [31] &quot;1493&quot; &quot;1495&quot; &quot;1498&quot; &quot;1501&quot; &quot;1502&quot; &quot;1511&quot; &quot;1516&quot; &quot;1520&quot; &quot;1522&quot; &quot;1563&quot;
+## [41] &quot;1578&quot; &quot;1585&quot; &quot;1592&quot; &quot;1637&quot; &quot;1668&quot; &quot;1750&quot; &quot;1751&quot; &quot;1824&quot; &quot;1885&quot;
+## 
+## $`2`
+##  [1] &quot;1656&quot; &quot;1661&quot; &quot;1663&quot; &quot;1664&quot; &quot;1665&quot; &quot;1666&quot; &quot;1670&quot; &quot;1673&quot; &quot;1674&quot; &quot;1675&quot;
+## [11] &quot;1680&quot; &quot;1681&quot; &quot;1682&quot; &quot;1684&quot; &quot;1687&quot; &quot;1688&quot; &quot;1695&quot; &quot;1696&quot; &quot;1697&quot; &quot;1698&quot;
+## [21] &quot;1745&quot; &quot;1765&quot; &quot;1779&quot; &quot;1908&quot; &quot;1912&quot; &quot;1920&quot;
+## 
+## $`3`
+##  [1] &quot;1711&quot; &quot;1752&quot; &quot;1753&quot; &quot;1757&quot; &quot;1759&quot; &quot;1760&quot; &quot;1761&quot; &quot;1764&quot; &quot;1766&quot; &quot;1767&quot;
+## [11] &quot;1768&quot; &quot;1770&quot; &quot;1772&quot; &quot;1774&quot; &quot;1775&quot; &quot;1778&quot; &quot;1783&quot; &quot;1787&quot; &quot;1789&quot; &quot;1790&quot;
+## [21] &quot;1792&quot; &quot;1796&quot; &quot;1798&quot; &quot;1799&quot;
+## 
+## $`4`
+##  [1] &quot;1500&quot; &quot;1503&quot; &quot;1504&quot; &quot;1519&quot; &quot;1521&quot; &quot;1524&quot; &quot;1525&quot; &quot;1528&quot; &quot;1532&quot; &quot;1533&quot;
+## [11] &quot;1538&quot; &quot;1539&quot; &quot;1545&quot; &quot;1546&quot; &quot;1548&quot; &quot;1549&quot; &quot;1601&quot; &quot;1618&quot; &quot;1630&quot; &quot;1632&quot;
+## [21] &quot;1653&quot; &quot;1705&quot; &quot;1730&quot; &quot;1797&quot; &quot;1802&quot; &quot;1803&quot; &quot;1805&quot; &quot;1807&quot; &quot;1815&quot; &quot;1818&quot;
+## [31] &quot;1819&quot; &quot;1821&quot; &quot;1831&quot; &quot;1835&quot; &quot;1836&quot; &quot;1837&quot; &quot;1847&quot; &quot;1857&quot; &quot;1865&quot; &quot;1866&quot;
+## [41] &quot;1880&quot; &quot;1888&quot; &quot;1892&quot; &quot;1895&quot; &quot;1910&quot;
+## 
+## $`5`
+##  [1] &quot;1603&quot; &quot;1604&quot; &quot;1606&quot; &quot;1609&quot; &quot;1613&quot; &quot;1616&quot; &quot;1617&quot; &quot;1625&quot; &quot;1628&quot; &quot;1641&quot;
+## [11] &quot;1643&quot; &quot;1647&quot; &quot;1648&quot; &quot;1649&quot; &quot;1650&quot; &quot;1702&quot; &quot;1704&quot; &quot;1706&quot; &quot;1708&quot; &quot;1710&quot;
+## [21] &quot;1713&quot; &quot;1715&quot; &quot;1718&quot; &quot;1732&quot; &quot;1739&quot; &quot;1743&quot; &quot;1749&quot; &quot;1851&quot; &quot;1852&quot; &quot;1854&quot;
+## [31] &quot;1855&quot; &quot;1858&quot; &quot;1861&quot; &quot;1863&quot; &quot;1872&quot; &quot;1877&quot; &quot;1883&quot; &quot;1887&quot; &quot;1889&quot; &quot;1890&quot;
+## [41] &quot;1897&quot; &quot;1898&quot; &quot;1902&quot; &quot;1906&quot; &quot;1907&quot; &quot;1911&quot; &quot;1913&quot; &quot;1916&quot; &quot;1917&quot; &quot;1919&quot;
+## [51] &quot;1922&quot;
+## 
+## $`6`
+##  [1] &quot;1551&quot; &quot;1552&quot; &quot;1555&quot; &quot;1558&quot; &quot;1560&quot; &quot;1562&quot; &quot;1564&quot; &quot;1567&quot; &quot;1570&quot; &quot;1572&quot;
+## [11] &quot;1574&quot; &quot;1579&quot; &quot;1580&quot; &quot;1594&quot; &quot;1685&quot; &quot;1700&quot; &quot;1707&quot; &quot;1709&quot; &quot;1712&quot; &quot;1714&quot;
+## [21] &quot;1719&quot; &quot;1720&quot; &quot;1722&quot; &quot;1723&quot; &quot;1727&quot; &quot;1731&quot; &quot;1735&quot; &quot;1737&quot; &quot;1738&quot; &quot;1741&quot;
+## [31] &quot;1744&quot; &quot;1746&quot; &quot;1748&quot; &quot;1763&quot; &quot;1780&quot; &quot;1782&quot; &quot;1795&quot; &quot;1800&quot; &quot;1801&quot; &quot;1809&quot;
+## [41] &quot;1820&quot; &quot;1822&quot; &quot;1833&quot; &quot;1838&quot; &quot;1843&quot; &quot;1859&quot; &quot;1909&quot;</code></pre>
+<pre class="r"><code>#2. Plotting the Betweenness Centrality network with the community detection
 
+set.seed(1001) # To duplicate the computer process and create exactly the same network repetitively you should set the seed.
+plot(lc, Stucont, edge.color = &#39;black&#39;,vertex.label.cex =0.5, 
+     vertex.color=pal[as.numeric(as.factor(vertex_attr(Stucont, &quot;Class&quot;)))],
+     vertex.size = sqrt(Stucont_bw)/3, edge.width=sqrt(E(Stucont)$weight/800),
+     layout = layout.fruchterman.reingold)</code></pre>
+<p><img src="/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<p>So far, we walked through the whole process of network analysis and visualization. Although this analysis is descriptive, we could learn a lot about the school’s student dynamics only with this small information. Also, it provided information on the latent community structure that was not visible before the analysis.</p>
+<p>The students’ physical contact data set is rare because it has a privacy issue to measure the contact information. Thus, this analysis provides us such a precious insight into the students’ physical network in school.</p>
+</div>
+</div>
 
     </div>
 
@@ -660,6 +942,8 @@
 <div class="article-tags">
   
   <a class="badge badge-light" href="/tag/network-analysis/">Network analysis</a>
+  
+  <a class="badge badge-light" href="/tag/r/">R</a>
   
 </div>
 
@@ -676,7 +960,7 @@
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/post/aspb/network/&amp;text=Student%20contact%20network%20at%20school:%20Spread%20of%20virus" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/post/aspb/network/&amp;text=Student%20contact%20network%20at%20school:%20Spread%20of%20the%20virus" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -689,7 +973,7 @@
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/post/aspb/network/&amp;t=Student%20contact%20network%20at%20school:%20Spread%20of%20virus" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/post/aspb/network/&amp;t=Student%20contact%20network%20at%20school:%20Spread%20of%20the%20virus" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -702,7 +986,7 @@
       
       
       <li>
-        <a href="mailto:?subject=Student%20contact%20network%20at%20school:%20Spread%20of%20virus&amp;body=/post/aspb/network/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=Student%20contact%20network%20at%20school:%20Spread%20of%20the%20virus&amp;body=/post/aspb/network/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -715,7 +999,7 @@
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/post/aspb/network/&amp;title=Student%20contact%20network%20at%20school:%20Spread%20of%20virus" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/post/aspb/network/&amp;title=Student%20contact%20network%20at%20school:%20Spread%20of%20the%20virus" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -728,7 +1012,7 @@
       
       
       <li>
-        <a href="whatsapp://send?text=Student%20contact%20network%20at%20school:%20Spread%20of%20virus%20/post/aspb/network/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=Student%20contact%20network%20at%20school:%20Spread%20of%20the%20virus%20/post/aspb/network/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -741,7 +1025,7 @@
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/post/aspb/network/&amp;title=Student%20contact%20network%20at%20school:%20Spread%20of%20virus" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/post/aspb/network/&amp;title=Student%20contact%20network%20at%20school:%20Spread%20of%20the%20virus" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>
@@ -774,7 +1058,7 @@
   <div class="media author-card content-widget-hr">
     
       
-      <a href="/"><img class="avatar mr-3 avatar-circle" src="/author/byoung-gyu-gong-ph.d/avatar_hu6de68e7271f080a869c4110404aa234e_2681_270x270_fill_q90_lanczos_center.jpg" alt="Byoung-gyu Gong, Ph.D"></a>
+      <a href="/"><img class="avatar mr-3 avatar-circle" src="/author/byoung-gyu-gong-ph.d/avatar_hue342886b1da1bd78bf45fee20d9967a6_2225250_270x270_fill_q90_lanczos_center.jpg" alt="Byoung-gyu Gong, Ph.D"></a>
     
 
     <div class="media-body">

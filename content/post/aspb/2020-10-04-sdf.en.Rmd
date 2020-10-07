@@ -1,10 +1,10 @@
 ---
-title: 'Student contact network at school: Spread of virus'
+title: 'Student contact network at school: Spread of the virus'
 author: admin
 date: '2020-10-04'
 slug: Network
 categories: []
-tags: [Network analysis]
+tags: [Network analysis, R]
 subtitle: ''
 summary: ''
 authors: []
@@ -16,3 +16,196 @@ image:
   preview_only: no
 projects: []
 ---
+# Pandemic and School Reopening Issue
+With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children's learning opportunity. Despite that, the reopening school can be very costly as children can transmit the virus to their families and communities. Now that there is significant uncertainty on the impact of school reopening, we see that many countries are still under discussion on this issue. Disappointingly, we do not know much about how the school affects the children's virus infection.  
+
+&nbsp;
+
+# Purpose of the Analysis
+Given this situation, in this post, I will analyze children's physical contact network at school to see how much contact happens among children. The contact network indicators at school can be a basic knowledge we can reorganize our school space, time, and activity to adjust to the post-pandemic world.  
+&nbsp;
+
+# Data Source
+For the network analysis, I prepared two data sets from the study of *Gemnetto, Barrat, & Cattuto (2014) titled Mitigation of infectious disease at school: Targeted class closure vs school closure*, which studied the infection network at the primary school. You can also find the data of this study from [Sociopatterns](http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/). It is the open-source network data platform readily available for any studies and researches. The students' contact network data provides a fundamental sense to design and implement a plan for contact tracing and social distance at each school level. 
+
+The authors collected this contact network data using a wearable device that records contact whenever students get closer over a certain threshold. The data was collected from an elementary school in France. 
+
+# Analysis
+
+For the analysis, I will use igraph package in R program. Using this package, I will calculate centrality scores to detect the central node in the school network and network structure indicators, such as network density and homophily score. Also, I will visualize the network to show you the birds-eye view of the school network.
+
+## **Data pre-processing**
+
+First, install the required packages and open the library.
+```{r eval=FALSE}
+install.packages(c("igraph","readr","tidyr","RColorBrewer"))
+```
+```{r include=FALSE}
+library(igraph)
+library (readr)
+```
+
+
+Then, you can download the data file directly from my github repository through the following code. (If there is an error message, you should try it multiple times until you can get access to it.)
+```{r include=FALSE}
+#1. Read data from the Github repository csv files
+urlfile1="https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/primaryschool.csv"
+urlfile2="https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/metadata_primaryschool.csv"
+D<-read_csv(url(urlfile1))
+D_meta<-read_csv(url(urlfile2))
+```
+
+Now, let's look into the data set. The first dataset names as "D" is an edge list indicating contact between the students. It is represented like 1234-4424, which means one contact between the student 1234 and 4424.
+```{r}
+head(D, 5)
+```
+
+The data set "D_meta" includes node information with students ID, class, and gender information. 
+```{r}
+head(D_meta, 5)
+```
+Then, I just created "frequency" column in the edgelist, "D" to give an edge attribute for each edges with their contact frequency, and deleted all edges having 0 contact.
+```{r}
+#2. Manage dataset
+B<-as.data.frame(table(D)) # Create an edge weight column named "Freq"
+B1<-subset(B,Freq>0) # Delete all the edges having weight equal to 0
+head(B1, 5)
+```
+
+Then, we can now create an igraph object. igraph object is different from the data frame and requires totally different grammar from the code handling general data frame. igraph is specially designed to handle large-sized complex network data with high speed. The igraph object, "Stucont" includes edgelist, nodelist, and their attributes.
+```{r}
+#3. Create an igraph object from the dataframes
+Stucont<-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
+E(Stucont)$weight<-E(Stucont)$Freq # Assigning edge attribute to each edge
+Stucont
+```
+## **Exploring basic network features**
+
+gsize shows us the number of edges, and gorder shows the number of nodes
+```{r}
+gsize(Stucont)
+gorder(Stucont)
+```
+V means the vertex (node), so with this function you can see the nodelist.
+```{r}
+#2. Nodelist
+V(Stucont)
+```
+
+E means the edge.
+```{r}
+#3. Edgelist
+E(Stucont)
+```
+Each node have attributes such as ID, class, and gender. There are missing values so we will change "unknown" into NA.
+```{r}
+#4. Attributes
+V(Stucont)$Gender
+V(Stucont)$Gender[V(Stucont)$Gender=='Unknown'] <- NA
+```
+The adjacency matrix is the most important indication of the network. However, igraph does not store the network data in the adjacency matrix format. Still, you can represent the network in the matrix format as below. We can know that the contact network is a symmetric and undirected network from the adjacency matrix, which means there is no arrow on edges.
+```{r}
+#5. Adjacency matrix
+Stucont[c(1:10),c(1:10)]
+```
+## **Measuring centrality**
+
+Centrality is the most important indicator of the network. The centrality measure shows which node has the highest contact frequency in the network. To understand more about the centrality measure, please visit [my lecture page on the Youtube channel](https://youtu.be/o5-o1EPSWZg). I will not explain the details of each centrality measure in this post.
+
+I identified the nodes recording the highest score in each of the centrality measures and found that student 1551 shows the highest centrality in the degree and betweenness centrality measure. 
+```{r}
+#1. Degree centrality
+Stucont_deg<-degree(Stucont,mode=c("All"))
+V(Stucont)$degree<-Stucont_deg
+which.max(Stucont_deg)
+```
+
+```{r}
+#2. Eigenvector centrality
+Stucont_eig <- evcent(Stucont)$vector
+V(Stucont)$Eigen<-Stucont_eig
+which.max(Stucont_eig)
+```
+
+```{r}
+#3. Betweenness centrality
+Stucont_bw<-betweenness(Stucont, directed = FALSE)
+V(Stucont)$betweenness<-Stucont_bw
+which.max(Stucont_bw)
+```
+
+## **Measuring network structure**
+
+Each network has its unique structural features. 
+
+First, network density indicates how much densely the nodes are connected in the network. Also, if you'd like to know more about the network theory, please watch my lecture on Youtube.
+
+Here I compared the network density between the school and the class level. It shows that the school level density is 0.28 while the class level density is 0.98. Thus, there is a considerable density gap between the school and the class.
+```{r}
+#1. Network Density
+edge_density(Stucont) # Global density
+A1<-induced_subgraph(Stucont, V(Stucont)[Class=="1A"], impl=c("auto")) # Subgraphing into each class
+edge_density(A1) # Class level density
+```
+We can also calculate the assortativity score, which means mingling together with the nodes having a similar attribute. For instance, we can expect that the same class students or having the same gender may have more frequent contact. The assortativity score of the class is 0.23.
+```{r}
+#2. Assortativity
+values <- as.numeric(factor(V(Stucont)$Class))
+assortativity_nominal(Stucont, types=values)
+```
+
+But, we do not know how big enough or small to assess the level of assortativity. We can then create a random network, which has the same probability of having an edge between every node and comparing it. The histogram indicates that the school network data is such an abnormal case having a high assortativity score according to the random network's probability distribution. 
+```{r}
+#2.1. Calculate the observed assortativity
+observed.assortativity <- assortativity_nominal(Stucont, types=values)
+results <- vector('list', 1000)
+for(i in 1:1000){results[[i]] <- assortativity_nominal(Stucont, sample(values))}
+#2.2.  Plot the distribution of assortativity values and add a red vertical line at the original observed value
+hist(unlist(results), xlim = c(0,0.4))
+abline(v = observed.assortativity,col = "red", lty = 3, lwd=2) 
+```
+
+## **Network Visualization**
+
+The final step is the network visualization. The beauty of network analysis is that we can visually confirm the features we indicated by the numbers above. Also, the visual mapping of the network is instrumental in communicating with the audiences with data. Here, I set the size of each node with a value of degree centrality. Each different color indicates different classes. 
+```{r}
+#1. Plotting a network with the degree centrality
+set.seed(1001)
+library(RColorBrewer) # This is the color library
+pal<-brewer.pal(length(unique(V(Stucont)$Class)), "Set3") # Vertex color assigned per each class number
+plot(Stucont,edge.color = 'black',vertex.label.cex =0.5, 
+     vertex.color=pal[as.numeric(as.factor(vertex_attr(Stucont, "Class")))],
+     vertex.size = sqrt(Stucont_deg)/2, edge.width=sqrt(E(Stucont)$weight/800),
+     layout = layout.fruchterman.reingold)
+```
+
+## **Community Detection**
+Based on the networking pattern of the node, we can cluster them into several groups. We can intuitively think that the nodes will be clustered based on their affiliation with the classes. However, the result is counter-intuitive. We have ten classes in the school dataset, but the number of detected communities (cluster) is 6, which means that this school is composed of 6 different sub-network groups. 
+
+```{r}
+#1. Louvain clustering
+lc <- cluster_louvain(Stucont) # Create a cluster based on the Louvain method
+communities(lc) # You can check which vertices belongs to which clusters.
+
+#2. Plotting the Betweenness Centrality network with the community detection
+
+set.seed(1001) # To duplicate the computer process and create exactly the same network repetitively you should set the seed.
+plot(lc, Stucont, edge.color = 'black',vertex.label.cex =0.5, 
+     vertex.color=pal[as.numeric(as.factor(vertex_attr(Stucont, "Class")))],
+     vertex.size = sqrt(Stucont_bw)/3, edge.width=sqrt(E(Stucont)$weight/800),
+     layout = layout.fruchterman.reingold)
+```
+
+
+So far, we walked through the whole process of network analysis and visualization. Although this analysis is descriptive, we could learn a lot about the school's student dynamics only with this small information. Also, it provided information on the latent community structure that was not visible before the analysis. 
+
+The students' physical contact data set is rare because it has a privacy issue to measure the contact information. Thus, this analysis provides us such a precious insight into the students' physical network in school. 
+
+
+
+
+
+
+
+
+  
