@@ -5,10 +5,10 @@ lastmod: "2018-09-09T00:00:00Z"
 linktitle: Online Workshop
 menu:
   example:
-    name: Overview
+    name:
     weight:
 summary:
-title: Introduction to Network Analysis and Visualization
+title: Overview
 toc: true
 type: docs
 weight: 1
