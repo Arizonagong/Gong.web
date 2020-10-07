@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Overview | Byoung-gyu Gong</title>
+    <title>Introduction to Network Analysis and Visualization.Theory and Concept | Byoung-gyu Gong</title>
     <link>/courses/example/</link>
       <atom:link href="/courses/example/index.xml" rel="self" type="application/rss+xml" />
-    <description>Overview</description>
+    <description>Introduction to Network Analysis and Visualization.Theory and Concept</description>
     <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 09 Sep 2018 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
-      <title>Overview</title>
+      <title>Introduction to Network Analysis and Visualization.Theory and Concept</title>
       <link>/courses/example/</link>
     </image>
     
     <item>
       <title>Introduction</title>
-      <link>/courses/example/introduction/</link>
-      <pubDate>Wed, 07 Oct 2020 00:00:00 +0000</pubDate>
-      <guid>/courses/example/introduction/</guid>
+      <link>/courses/example/2020-10-07-introduction/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/courses/example/2020-10-07-introduction/</guid>
       <description></description>
     </item>
     

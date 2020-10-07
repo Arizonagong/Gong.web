@@ -8,6 +8,10 @@
   </url>
   
   <url>
+    <loc>/courses/example/2020-10-07-introduction/</loc>
+  </url>
+  
+  <url>
     <loc>/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
   </url>
@@ -20,16 +24,6 @@
   <url>
     <loc>/talk/</loc>
     <lastmod>2030-06-01T13:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/courses/</loc>
-    <lastmod>2020-10-07T16:15:52-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/courses/example/introduction/</loc>
-    <lastmod>2020-10-07T16:15:52-07:00</lastmod>
   </url>
   
   <url>
@@ -160,6 +154,11 @@
   <url>
     <loc>/slides/example/</loc>
     <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/courses/</loc>
+    <lastmod>2018-09-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
