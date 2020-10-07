@@ -13,11 +13,15 @@
     </image>
     
     <item>
-      <title>Introduction</title>
+      <title>Lecture 1. Theory and Concept</title>
       <link>/courses/example/2020-10-07-introduction/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 05 May 2019 00:00:00 +0100</pubDate>
       <guid>/courses/example/2020-10-07-introduction/</guid>
-      <description></description>
+      <description>&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/o5-o1EPSWZg&#34; frameborder=&#34;0&#34; allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&#34; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Arizonagong/vCIES2020_Network-Analysis&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Lecture data sources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
     </item>
     
     <item>
