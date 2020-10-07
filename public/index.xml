@@ -13,13 +13,42 @@
     </image>
     
     <item>
-      <title>Lecture 1. Theory and Concept</title>
+      <title>Network analysis with igraph and Gephi</title>
+      <link>/courses/example/2020-10-07-network-analysis-with-igraph-and-gephi/</link>
+      <pubDate>Sun, 05 May 2019 00:00:00 +0100</pubDate>
+      <guid>/courses/example/2020-10-07-network-analysis-with-igraph-and-gephi/</guid>
+      <description>&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/aw--_pR-WhA&#34; frameborder=&#34;0&#34; allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&#34; allowfullscreen&gt;&lt;/iframe&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Type&lt;/strong&gt;: Online workshop&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Event&lt;/strong&gt;: Annual Conference of Comparative and International Education Society(CIES),&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Time&lt;/strong&gt;: May, 2020&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Webpage&lt;/strong&gt;: &lt;a href=&#34;https://github.com/Arizonagong/vCIES2020_Network-Analysis&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Lecture data sources&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Purpose of workshop&lt;/strong&gt;:The participants are required to install free software packages such as R &amp;amp; R Studio and Gephi and bring their laptop. After this lecture particiapnts will be able to:
+&lt;ul&gt;
+&lt;li&gt;Use network analysis and visualization software tools such as R Studio and Gephi&lt;/li&gt;
+&lt;li&gt;Understand the basics of network theory and application to the various education studies&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Network. Theory and Concept</title>
       <link>/courses/example/2020-10-07-introduction/</link>
       <pubDate>Sun, 05 May 2019 00:00:00 +0100</pubDate>
       <guid>/courses/example/2020-10-07-introduction/</guid>
       <description>&lt;iframe width=&#34;560&#34; height=&#34;315&#34; src=&#34;https://www.youtube.com/embed/o5-o1EPSWZg&#34; frameborder=&#34;0&#34; allow=&#34;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&#34; allowfullscreen&gt;&lt;/iframe&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/Arizonagong/vCIES2020_Network-Analysis&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Lecture data sources&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Type&lt;/strong&gt;: Online workshop lecture&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Event&lt;/strong&gt;: Annual Conference of Comparative and International Education Society(CIES),&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Time&lt;/strong&gt;: May, 2020&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Webpage&lt;/strong&gt;: &lt;a href=&#34;https://github.com/Arizonagong/vCIES2020_Network-Analysis&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Lecture data sources&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Purpose of workshop&lt;/strong&gt;: The network analysis is one of the critical quantitative methods exploring the relationship and connections of various kinds. In particular, the network analysis is appealing because it provides a bird&amp;rsquo;s eye view to the audiences with its visualization of the highly sophisticated network structures. Its usage in the field of comparative and international education studies is expected to ever grow with the increase in the available data.In this background, this workshop is designed to introduce basic theory and practical method of network analysis and network data visualization. This workshop targets audiences who want to familiarize themselves with the network analysis and visualization method. There is no prerequisite for the participants, and this workshop will provide basic level knowledge and skills for the beginners of network analysis. After this lecture, participants will be able to
+&lt;ul&gt;
+&lt;li&gt;Understand how the data can be collected, archived, and structured for the network analysis&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
