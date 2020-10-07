@@ -21,6 +21,7 @@
 
 
 &lt;p&gt;By Byoung-gyu Gong&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
 &lt;div id=&#34;pandemic-and-school-reopening-issue&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Pandemic and School Reopening Issue&lt;/h2&gt;
 &lt;p&gt;With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children’s learning opportunity. Despite that, the reopening school can be very costly as children can transmit the virus to their families and communities. Now that there is significant uncertainty on the impact of school reopening, we see that many countries are still under discussion on this issue. Disappointingly, we do not know much about how the school affects the children’s virus infection.&lt;/p&gt;
@@ -98,9 +99,9 @@ head(B1, 5)&lt;/code&gt;&lt;/pre&gt;
 Stucont&amp;lt;-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
 E(Stucont)$weight&amp;lt;-E(Stucont)$Freq # Assigning edge attribute to each edge
 Stucont&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH 04c2f43 UNW- 242 8317 -- 
+&lt;pre&gt;&lt;code&gt;## IGRAPH 0a4ebbb UNW- 242 8317 -- 
 ## + attr: name (v/c), Class (v/c), Gender (v/c), Freq (e/n), weight (e/n)
-## + edges from 04c2f43 (vertex names):
+## + edges from 0a4ebbb (vertex names):
 ##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
 ##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
 ## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
@@ -121,7 +122,7 @@ Stucont&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;V means the vertex (node), so with this function you can see the nodelist.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Nodelist
 V(Stucont)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## + 242/242 vertices, named, from 04c2f43:
+&lt;pre&gt;&lt;code&gt;## + 242/242 vertices, named, from 0a4ebbb:
 ##   [1] 1426 1427 1428 1429 1430 1431 1434 1435 1437 1439 1441 1443 1451 1452 1453
 ##  [16] 1457 1458 1459 1461 1465 1468 1471 1475 1477 1479 1480 1482 1483 1486 1489
 ##  [31] 1493 1495 1498 1500 1501 1502 1503 1504 1511 1516 1519 1520 1521 1522 1524
@@ -136,7 +137,7 @@ V(Stucont)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;E means the edge.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#3. Edgelist
 E(Stucont)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## + 8317/8317 edges from 04c2f43 (vertex names):
+&lt;pre&gt;&lt;code&gt;## + 8317/8317 edges from 0a4ebbb (vertex names):
 ##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
 ##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
 ## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
