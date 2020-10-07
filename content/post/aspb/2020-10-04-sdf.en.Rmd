@@ -3,7 +3,9 @@ title: 'Student contact network at school: Spread of the virus'
 author: admin
 date: '2020-10-04'
 slug: Network
-categories: R, Network Analysis
+categories: 
+- R 
+- Network Analysis
 tags:
 - Network analysis
 - Network density

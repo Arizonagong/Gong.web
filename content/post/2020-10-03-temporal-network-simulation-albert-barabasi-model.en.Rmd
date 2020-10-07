@@ -3,7 +3,9 @@ title: 'Temporal network simulation: Albert-Barabasi model'
 author: "Byoung-gyu Gong"
 date: '2020-10-03'
 output: pdf_document
-categories: R
+categories: 
+- R
+- Network analysis
 tags:
 - Network analysis
 - Network simulation

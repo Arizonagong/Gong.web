@@ -619,7 +619,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/r-network-analysis/">R, Network Analysis</a></span>
+    <i class="fas fa-folder mr-1"></i><a href="/category/r/">R</a>, <a href="/category/network-analysis/">Network analysis</a></span>
   
 
 </div>
@@ -727,9 +727,9 @@ head(B1, 5)</code></pre>
 Stucont&lt;-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
 E(Stucont)$weight&lt;-E(Stucont)$Freq # Assigning edge attribute to each edge
 Stucont</code></pre>
-<pre><code>## IGRAPH a57c99b UNW- 242 8317 -- 
+<pre><code>## IGRAPH ab9f4ab UNW- 242 8317 -- 
 ## + attr: name (v/c), Class (v/c), Gender (v/c), Freq (e/n), weight (e/n)
-## + edges from a57c99b (vertex names):
+## + edges from ab9f4ab (vertex names):
 ##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
 ##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
 ## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
@@ -750,7 +750,7 @@ Stucont</code></pre>
 <p>V means the vertex (node), so with this function you can see the nodelist.</p>
 <pre class="r"><code>#2. Nodelist
 V(Stucont)</code></pre>
-<pre><code>## + 242/242 vertices, named, from a57c99b:
+<pre><code>## + 242/242 vertices, named, from ab9f4ab:
 ##   [1] 1426 1427 1428 1429 1430 1431 1434 1435 1437 1439 1441 1443 1451 1452 1453
 ##  [16] 1457 1458 1459 1461 1465 1468 1471 1475 1477 1479 1480 1482 1483 1486 1489
 ##  [31] 1493 1495 1498 1500 1501 1502 1503 1504 1511 1516 1519 1520 1521 1522 1524
@@ -765,7 +765,7 @@ V(Stucont)</code></pre>
 <p>E means the edge.</p>
 <pre class="r"><code>#3. Edgelist
 E(Stucont)</code></pre>
-<pre><code>## + 8317/8317 edges from a57c99b (vertex names):
+<pre><code>## + 8317/8317 edges from ab9f4ab (vertex names):
 ##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
 ##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
 ## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434

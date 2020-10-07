@@ -68,6 +68,11 @@
   </url>
   
   <url>
+    <loc>/category/network-analysis/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tag/network-density/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
@@ -78,7 +83,7 @@
   </url>
   
   <url>
-    <loc>/category/r-network-analysis/</loc>
+    <loc>/category/r/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
@@ -99,11 +104,6 @@
   
   <url>
     <loc>/tag/network-simulation/</loc>
-    <lastmod>2020-10-03T22:21:31-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/r/</loc>
     <lastmod>2020-10-03T22:21:31-07:00</lastmod>
   </url>
   

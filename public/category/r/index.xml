@@ -5,12 +5,324 @@
     <link>/category/r/</link>
       <atom:link href="/category/r/index.xml" rel="self" type="application/rss+xml" />
     <description>R</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 03 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 04 Oct 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>R</title>
       <link>/category/r/</link>
     </image>
+    
+    <item>
+      <title>Student contact network at school: Spread of the virus</title>
+      <link>/post/aspb/network/</link>
+      <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>/post/aspb/network/</guid>
+      <description>
+
+
+&lt;div id=&#34;pandemic-and-school-reopening-issue&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Pandemic and School Reopening Issue&lt;/h2&gt;
+&lt;p&gt;With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children’s learning opportunity. Despite that, the reopening school can be very costly as children can transmit the virus to their families and communities. Now that there is significant uncertainty on the impact of school reopening, we see that many countries are still under discussion on this issue. Disappointingly, we do not know much about how the school affects the children’s virus infection.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;purpose-of-the-analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Purpose of the Analysis&lt;/h2&gt;
+&lt;p&gt;Given this situation, in this post, I will analyze children’s physical contact network at school to see how much contact happens among children. The contact network indicators at school can be a basic knowledge we can reorganize our school space, time, and activity to adjust to the post-pandemic world.&lt;br /&gt;
+ &lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data-source&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data Source&lt;/h2&gt;
+&lt;p&gt;For the network analysis, I prepared two data sets from the study of &lt;em&gt;Gemnetto, Barrat, &amp;amp; Cattuto (2014) titled Mitigation of infectious disease at school: Targeted class closure vs school closure&lt;/em&gt;, which studied the infection network at the primary school. You can also find the data of this study from &lt;a href=&#34;http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/&#34;&gt;Sociopatterns&lt;/a&gt;. It is the open-source network data platform readily available for any studies and researches. The students’ contact network data provides a fundamental sense to design and implement a plan for contact tracing and social distance at each school level.&lt;/p&gt;
+&lt;p&gt;The authors collected this contact network data using a wearable device that records contact whenever students get closer over a certain threshold. The data was collected from an elementary school in France.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Analysis&lt;/h2&gt;
+&lt;p&gt;For the analysis, I will use igraph package in R program. Using this package, I will calculate centrality scores to detect the central node in the school network and network structure indicators, such as network density and homophily score. Also, I will visualize the network to show you the birds-eye view of the school network.&lt;/p&gt;
+&lt;div id=&#34;data-pre-processing&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;Data pre-processing&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;First, install the required packages and open the library.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(c(&amp;quot;igraph&amp;quot;,&amp;quot;readr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;RColorBrewer&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, you can download the data file directly from my github repository through the following code. (If there is an error message, you should try it multiple times until you can get access to it.)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Read data from the Github repository csv files
+urlfile1=&amp;quot;https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/primaryschool.csv&amp;quot;
+urlfile2=&amp;quot;https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/metadata_primaryschool.csv&amp;quot;
+D&amp;lt;-read_csv(url(urlfile1))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## ── Column specification ─────────────────────────────────────────────────────
+## cols(
+##   Source = col_double(),
+##   Target = col_double()
+## )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;D_meta&amp;lt;-read_csv(url(urlfile2))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## ── Column specification ─────────────────────────────────────────────────────
+## cols(
+##   ID = col_double(),
+##   Class = col_character(),
+##   Gender = col_character()
+## )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, let’s look into the data set. The first dataset names as “D” is an edge list indicating contact between the students. It is represented like 1234-4424, which means one contact between the student 1234 and 4424.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(D, 5)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 5 x 2
+##   Source Target
+##    &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;
+## 1   1558   1567
+## 2   1560   1570
+## 3   1567   1574
+## 4   1632   1818
+## 5   1632   1866&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The data set “D_meta” includes node information with students ID, class, and gender information.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(D_meta, 5)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 5 x 3
+##      ID Class Gender
+##   &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; 
+## 1  1426 5B    M     
+## 2  1427 5B    F     
+## 3  1428 5B    M     
+## 4  1429 5B    F     
+## 5  1430 5B    M&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, I just created “frequency” column in the edgelist, “D” to give an edge attribute for each edges with their contact frequency, and deleted all edges having 0 contact.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Manage dataset
+B&amp;lt;-as.data.frame(table(D)) # Create an edge weight column named &amp;quot;Freq&amp;quot;
+B1&amp;lt;-subset(B,Freq&amp;gt;0) # Delete all the edges having weight equal to 0
+head(B1, 5)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     Source Target Freq
+## 1     1426   1427   27
+## 240   1426   1428   45
+## 241   1427   1428    4
+## 479   1426   1429   75
+## 480   1427   1429  100&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, we can now create an igraph object. igraph object is different from the data frame and requires totally different grammar from the code handling general data frame. igraph is specially designed to handle large-sized complex network data with high speed. The igraph object, “Stucont” includes edgelist, nodelist, and their attributes.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#3. Create an igraph object from the dataframes
+Stucont&amp;lt;-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
+E(Stucont)$weight&amp;lt;-E(Stucont)$Freq # Assigning edge attribute to each edge
+Stucont&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## IGRAPH ab9f4ab UNW- 242 8317 -- 
+## + attr: name (v/c), Class (v/c), Gender (v/c), Freq (e/n), weight (e/n)
+## + edges from ab9f4ab (vertex names):
+##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
+##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
+## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
+## [19] 1429--1434 1430--1434 1431--1434 1426--1435 1427--1435 1428--1435
+## [25] 1429--1435 1430--1435 1431--1435 1434--1435 1426--1437 1427--1437
+## [31] 1428--1437 1429--1437 1430--1437 1431--1437 1434--1437 1435--1437
+## [37] 1426--1439 1427--1439 1428--1439 1429--1439 1430--1439 1431--1439
+## [43] 1434--1439 1435--1439 1437--1439 1426--1441 1427--1441 1428--1441
+## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;exploring-basic-network-features&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;Exploring basic network features&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;gsize shows us the number of edges, and gorder shows the number of nodes&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gsize(Stucont)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 8317&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gorder(Stucont)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 242&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;V means the vertex (node), so with this function you can see the nodelist.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Nodelist
+V(Stucont)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## + 242/242 vertices, named, from ab9f4ab:
+##   [1] 1426 1427 1428 1429 1430 1431 1434 1435 1437 1439 1441 1443 1451 1452 1453
+##  [16] 1457 1458 1459 1461 1465 1468 1471 1475 1477 1479 1480 1482 1483 1486 1489
+##  [31] 1493 1495 1498 1500 1501 1502 1503 1504 1511 1516 1519 1520 1521 1522 1524
+##  [46] 1525 1528 1532 1533 1538 1539 1545 1546 1548 1549 1551 1552 1555 1558 1560
+##  [61] 1562 1563 1564 1567 1570 1572 1574 1578 1579 1580 1585 1592 1594 1601 1603
+##  [76] 1604 1606 1609 1613 1616 1617 1618 1625 1628 1630 1632 1637 1641 1643 1647
+##  [91] 1648 1649 1650 1653 1656 1661 1663 1664 1665 1666 1668 1670 1673 1674 1675
+## [106] 1680 1681 1682 1684 1685 1687 1688 1695 1696 1697 1698 1700 1702 1704 1705
+## [121] 1706 1707 1708 1709 1710 1711 1712 1713 1714 1715 1718 1719 1720 1722 1723
+## [136] 1727 1730 1731 1732 1735 1737 1738 1739 1741 1743 1744 1745 1746 1748 1749
+## + ... omitted several vertices&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;E means the edge.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#3. Edgelist
+E(Stucont)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## + 8317/8317 edges from ab9f4ab (vertex names):
+##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
+##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
+## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
+## [19] 1429--1434 1430--1434 1431--1434 1426--1435 1427--1435 1428--1435
+## [25] 1429--1435 1430--1435 1431--1435 1434--1435 1426--1437 1427--1437
+## [31] 1428--1437 1429--1437 1430--1437 1431--1437 1434--1437 1435--1437
+## [37] 1426--1439 1427--1439 1428--1439 1429--1439 1430--1439 1431--1439
+## [43] 1434--1439 1435--1439 1437--1439 1426--1441 1427--1441 1428--1441
+## [49] 1429--1441 1431--1441 1434--1441 1435--1441 1437--1441 1439--1441
+## [55] 1426--1443 1427--1443 1428--1443 1429--1443 1430--1443 1431--1443
+## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Each node have attributes such as ID, class, and gender. There are missing values so we will change “unknown” into NA.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#4. Attributes
+V(Stucont)$Gender&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   [1] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+##   [8] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+##  [15] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+##  [22] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
+##  [29] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
+##  [36] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+##  [43] &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
+##  [50] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
+##  [57] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+##  [64] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
+##  [71] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+##  [78] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
+##  [85] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
+##  [92] &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+##  [99] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+## [106] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+## [113] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+## [120] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
+## [127] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+## [134] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
+## [141] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot;
+## [148] &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot;
+## [155] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
+## [162] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;Unknown&amp;quot;
+## [169] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+## [176] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot;
+## [183] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+## [190] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot;
+## [197] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
+## [204] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+## [211] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+## [218] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+## [225] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
+## [232] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
+## [239] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;V(Stucont)$Gender[V(Stucont)$Gender==&amp;#39;Unknown&amp;#39;] &amp;lt;- NA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The adjacency matrix is the most important indication of the network. However, igraph does not store the network data in the adjacency matrix format. Still, you can represent the network in the matrix format as below. We can know that the contact network is a symmetric and undirected network from the adjacency matrix, which means there is no arrow on edges.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#5. Adjacency matrix
+Stucont[c(1:10),c(1:10)]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 10 x 10 sparse Matrix of class &amp;quot;dgCMatrix&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    [[ suppressing 10 column names &amp;#39;1426&amp;#39;, &amp;#39;1427&amp;#39;, &amp;#39;1428&amp;#39; ... ]]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                                     
+## 1426  .  27 45  75 19 43  8 12 23 27
+## 1427 27   .  4 100  4 63 20  5 44 13
+## 1428 45   4  .   9  4 16  2  4 19 14
+## 1429 75 100  9   .  9 75 11  5 62 36
+## 1430 19   4  4   9  . 15  4  7  4  3
+## 1431 43  63 16  75 15  . 43 16 42 41
+## 1434  8  20  2  11  4 43  .  3  8  8
+## 1435 12   5  4   5  7 16  3  .  6 11
+## 1437 23  44 19  62  4 42  8  6  . 29
+## 1439 27  13 14  36  3 41  8 11 29  .&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;measuring-centrality&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;Measuring centrality&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Centrality is the most important indicator of the network. The centrality measure shows which node has the highest contact frequency in the network. To understand more about the centrality measure, please visit &lt;a href=&#34;https://youtu.be/o5-o1EPSWZg&#34;&gt;my lecture page on the Youtube channel&lt;/a&gt;. I will not explain the details of each centrality measure in this post.&lt;/p&gt;
+&lt;p&gt;I identified the nodes recording the highest score in each of the centrality measures and found that student 1551 shows the highest centrality in the degree and betweenness centrality measure.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Degree centrality
+Stucont_deg&amp;lt;-degree(Stucont,mode=c(&amp;quot;All&amp;quot;))
+V(Stucont)$degree&amp;lt;-Stucont_deg
+which.max(Stucont_deg)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 1551 
+##   56&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Eigenvector centrality
+Stucont_eig &amp;lt;- evcent(Stucont)$vector
+V(Stucont)$Eigen&amp;lt;-Stucont_eig
+which.max(Stucont_eig)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 1665 
+##   99&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#3. Betweenness centrality
+Stucont_bw&amp;lt;-betweenness(Stucont, directed = FALSE)
+V(Stucont)$betweenness&amp;lt;-Stucont_bw
+which.max(Stucont_bw)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 1551 
+##   56&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;measuring-network-structure&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;Measuring network structure&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Each network has its unique structural features.&lt;/p&gt;
+&lt;p&gt;First, network density indicates how much densely the nodes are connected in the network. Also, if you’d like to know more about the network theory, please watch my lecture on Youtube.&lt;/p&gt;
+&lt;p&gt;Here I compared the network density between the school and the class level. It shows that the school level density is 0.28 while the class level density is 0.98. Thus, there is a considerable density gap between the school and the class.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Network Density
+edge_density(Stucont) # Global density&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.2852097&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;A1&amp;lt;-induced_subgraph(Stucont, V(Stucont)[Class==&amp;quot;1A&amp;quot;], impl=c(&amp;quot;auto&amp;quot;)) # Subgraphing into each class
+edge_density(A1) # Class level density&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.9841897&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can also calculate the assortativity score, which means mingling together with the nodes having a similar attribute. For instance, we can expect that the same class students or having the same gender may have more frequent contact. The assortativity score of the class is 0.23.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Assortativity
+values &amp;lt;- as.numeric(factor(V(Stucont)$Class))
+assortativity_nominal(Stucont, types=values)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.2337739&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But, we do not know how big enough or small to assess the level of assortativity. We can then create a random network, which has the same probability of having an edge between every node and comparing it. The histogram indicates that the school network data is such an abnormal case having a high assortativity score according to the random network’s probability distribution.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2.1. Calculate the observed assortativity
+observed.assortativity &amp;lt;- assortativity_nominal(Stucont, types=values)
+results &amp;lt;- vector(&amp;#39;list&amp;#39;, 1000)
+for(i in 1:1000){results[[i]] &amp;lt;- assortativity_nominal(Stucont, sample(values))}
+#2.2.  Plot the distribution of assortativity values and add a red vertical line at the original observed value
+hist(unlist(results), xlim = c(0,0.4))
+abline(v = observed.assortativity,col = &amp;quot;red&amp;quot;, lty = 3, lwd=2) &lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;network-visualization&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;Network Visualization&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;The final step is the network visualization. The beauty of network analysis is that we can visually confirm the features we indicated by the numbers above. Also, the visual mapping of the network is instrumental in communicating with the audiences with data. Here, I set the size of each node with a value of degree centrality. Each different color indicates different classes.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Plotting a network with the degree centrality
+set.seed(1001)
+library(RColorBrewer) # This is the color library
+pal&amp;lt;-brewer.pal(length(unique(V(Stucont)$Class)), &amp;quot;Set3&amp;quot;) # Vertex color assigned per each class number
+plot(Stucont,edge.color = &amp;#39;black&amp;#39;,vertex.label.cex =0.5, 
+     vertex.color=pal[as.numeric(as.factor(vertex_attr(Stucont, &amp;quot;Class&amp;quot;)))],
+     vertex.size = sqrt(Stucont_deg)/2, edge.width=sqrt(E(Stucont)$weight/800),
+     layout = layout.fruchterman.reingold)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-19-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;community-detection&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;Community Detection&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;Based on the networking pattern of the node, we can cluster them into several groups. We can intuitively think that the nodes will be clustered based on their affiliation with the classes. However, the result is counter-intuitive. We have ten classes in the school dataset, but the number of detected communities (cluster) is 6, which means that this school is composed of 6 different sub-network groups.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Louvain clustering
+lc &amp;lt;- cluster_louvain(Stucont) # Create a cluster based on the Louvain method
+communities(lc) # You can check which vertices belongs to which clusters.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $`1`
+##  [1] &amp;quot;1426&amp;quot; &amp;quot;1427&amp;quot; &amp;quot;1428&amp;quot; &amp;quot;1429&amp;quot; &amp;quot;1430&amp;quot; &amp;quot;1431&amp;quot; &amp;quot;1434&amp;quot; &amp;quot;1435&amp;quot; &amp;quot;1437&amp;quot; &amp;quot;1439&amp;quot;
+## [11] &amp;quot;1441&amp;quot; &amp;quot;1443&amp;quot; &amp;quot;1451&amp;quot; &amp;quot;1452&amp;quot; &amp;quot;1453&amp;quot; &amp;quot;1457&amp;quot; &amp;quot;1458&amp;quot; &amp;quot;1459&amp;quot; &amp;quot;1461&amp;quot; &amp;quot;1465&amp;quot;
+## [21] &amp;quot;1468&amp;quot; &amp;quot;1471&amp;quot; &amp;quot;1475&amp;quot; &amp;quot;1477&amp;quot; &amp;quot;1479&amp;quot; &amp;quot;1480&amp;quot; &amp;quot;1482&amp;quot; &amp;quot;1483&amp;quot; &amp;quot;1486&amp;quot; &amp;quot;1489&amp;quot;
+## [31] &amp;quot;1493&amp;quot; &amp;quot;1495&amp;quot; &amp;quot;1498&amp;quot; &amp;quot;1501&amp;quot; &amp;quot;1502&amp;quot; &amp;quot;1511&amp;quot; &amp;quot;1516&amp;quot; &amp;quot;1520&amp;quot; &amp;quot;1522&amp;quot; &amp;quot;1563&amp;quot;
+## [41] &amp;quot;1578&amp;quot; &amp;quot;1585&amp;quot; &amp;quot;1592&amp;quot; &amp;quot;1637&amp;quot; &amp;quot;1668&amp;quot; &amp;quot;1750&amp;quot; &amp;quot;1751&amp;quot; &amp;quot;1824&amp;quot; &amp;quot;1885&amp;quot;
+## 
+## $`2`
+##  [1] &amp;quot;1656&amp;quot; &amp;quot;1661&amp;quot; &amp;quot;1663&amp;quot; &amp;quot;1664&amp;quot; &amp;quot;1665&amp;quot; &amp;quot;1666&amp;quot; &amp;quot;1670&amp;quot; &amp;quot;1673&amp;quot; &amp;quot;1674&amp;quot; &amp;quot;1675&amp;quot;
+## [11] &amp;quot;1680&amp;quot; &amp;quot;1681&amp;quot; &amp;quot;1682&amp;quot; &amp;quot;1684&amp;quot; &amp;quot;1687&amp;quot; &amp;quot;1688&amp;quot; &amp;quot;1695&amp;quot; &amp;quot;1696&amp;quot; &amp;quot;1697&amp;quot; &amp;quot;1698&amp;quot;
+## [21] &amp;quot;1745&amp;quot; &amp;quot;1765&amp;quot; &amp;quot;1779&amp;quot; &amp;quot;1908&amp;quot; &amp;quot;1912&amp;quot; &amp;quot;1920&amp;quot;
+## 
+## $`3`
+##  [1] &amp;quot;1711&amp;quot; &amp;quot;1752&amp;quot; &amp;quot;1753&amp;quot; &amp;quot;1757&amp;quot; &amp;quot;1759&amp;quot; &amp;quot;1760&amp;quot; &amp;quot;1761&amp;quot; &amp;quot;1764&amp;quot; &amp;quot;1766&amp;quot; &amp;quot;1767&amp;quot;
+## [11] &amp;quot;1768&amp;quot; &amp;quot;1770&amp;quot; &amp;quot;1772&amp;quot; &amp;quot;1774&amp;quot; &amp;quot;1775&amp;quot; &amp;quot;1778&amp;quot; &amp;quot;1783&amp;quot; &amp;quot;1787&amp;quot; &amp;quot;1789&amp;quot; &amp;quot;1790&amp;quot;
+## [21] &amp;quot;1792&amp;quot; &amp;quot;1796&amp;quot; &amp;quot;1798&amp;quot; &amp;quot;1799&amp;quot;
+## 
+## $`4`
+##  [1] &amp;quot;1500&amp;quot; &amp;quot;1503&amp;quot; &amp;quot;1504&amp;quot; &amp;quot;1519&amp;quot; &amp;quot;1521&amp;quot; &amp;quot;1524&amp;quot; &amp;quot;1525&amp;quot; &amp;quot;1528&amp;quot; &amp;quot;1532&amp;quot; &amp;quot;1533&amp;quot;
+## [11] &amp;quot;1538&amp;quot; &amp;quot;1539&amp;quot; &amp;quot;1545&amp;quot; &amp;quot;1546&amp;quot; &amp;quot;1548&amp;quot; &amp;quot;1549&amp;quot; &amp;quot;1601&amp;quot; &amp;quot;1618&amp;quot; &amp;quot;1630&amp;quot; &amp;quot;1632&amp;quot;
+## [21] &amp;quot;1653&amp;quot; &amp;quot;1705&amp;quot; &amp;quot;1730&amp;quot; &amp;quot;1797&amp;quot; &amp;quot;1802&amp;quot; &amp;quot;1803&amp;quot; &amp;quot;1805&amp;quot; &amp;quot;1807&amp;quot; &amp;quot;1815&amp;quot; &amp;quot;1818&amp;quot;
+## [31] &amp;quot;1819&amp;quot; &amp;quot;1821&amp;quot; &amp;quot;1831&amp;quot; &amp;quot;1835&amp;quot; &amp;quot;1836&amp;quot; &amp;quot;1837&amp;quot; &amp;quot;1847&amp;quot; &amp;quot;1857&amp;quot; &amp;quot;1865&amp;quot; &amp;quot;1866&amp;quot;
+## [41] &amp;quot;1880&amp;quot; &amp;quot;1888&amp;quot; &amp;quot;1892&amp;quot; &amp;quot;1895&amp;quot; &amp;quot;1910&amp;quot;
+## 
+## $`5`
+##  [1] &amp;quot;1603&amp;quot; &amp;quot;1604&amp;quot; &amp;quot;1606&amp;quot; &amp;quot;1609&amp;quot; &amp;quot;1613&amp;quot; &amp;quot;1616&amp;quot; &amp;quot;1617&amp;quot; &amp;quot;1625&amp;quot; &amp;quot;1628&amp;quot; &amp;quot;1641&amp;quot;
+## [11] &amp;quot;1643&amp;quot; &amp;quot;1647&amp;quot; &amp;quot;1648&amp;quot; &amp;quot;1649&amp;quot; &amp;quot;1650&amp;quot; &amp;quot;1702&amp;quot; &amp;quot;1704&amp;quot; &amp;quot;1706&amp;quot; &amp;quot;1708&amp;quot; &amp;quot;1710&amp;quot;
+## [21] &amp;quot;1713&amp;quot; &amp;quot;1715&amp;quot; &amp;quot;1718&amp;quot; &amp;quot;1732&amp;quot; &amp;quot;1739&amp;quot; &amp;quot;1743&amp;quot; &amp;quot;1749&amp;quot; &amp;quot;1851&amp;quot; &amp;quot;1852&amp;quot; &amp;quot;1854&amp;quot;
+## [31] &amp;quot;1855&amp;quot; &amp;quot;1858&amp;quot; &amp;quot;1861&amp;quot; &amp;quot;1863&amp;quot; &amp;quot;1872&amp;quot; &amp;quot;1877&amp;quot; &amp;quot;1883&amp;quot; &amp;quot;1887&amp;quot; &amp;quot;1889&amp;quot; &amp;quot;1890&amp;quot;
+## [41] &amp;quot;1897&amp;quot; &amp;quot;1898&amp;quot; &amp;quot;1902&amp;quot; &amp;quot;1906&amp;quot; &amp;quot;1907&amp;quot; &amp;quot;1911&amp;quot; &amp;quot;1913&amp;quot; &amp;quot;1916&amp;quot; &amp;quot;1917&amp;quot; &amp;quot;1919&amp;quot;
+## [51] &amp;quot;1922&amp;quot;
+## 
+## $`6`
+##  [1] &amp;quot;1551&amp;quot; &amp;quot;1552&amp;quot; &amp;quot;1555&amp;quot; &amp;quot;1558&amp;quot; &amp;quot;1560&amp;quot; &amp;quot;1562&amp;quot; &amp;quot;1564&amp;quot; &amp;quot;1567&amp;quot; &amp;quot;1570&amp;quot; &amp;quot;1572&amp;quot;
+## [11] &amp;quot;1574&amp;quot; &amp;quot;1579&amp;quot; &amp;quot;1580&amp;quot; &amp;quot;1594&amp;quot; &amp;quot;1685&amp;quot; &amp;quot;1700&amp;quot; &amp;quot;1707&amp;quot; &amp;quot;1709&amp;quot; &amp;quot;1712&amp;quot; &amp;quot;1714&amp;quot;
+## [21] &amp;quot;1719&amp;quot; &amp;quot;1720&amp;quot; &amp;quot;1722&amp;quot; &amp;quot;1723&amp;quot; &amp;quot;1727&amp;quot; &amp;quot;1731&amp;quot; &amp;quot;1735&amp;quot; &amp;quot;1737&amp;quot; &amp;quot;1738&amp;quot; &amp;quot;1741&amp;quot;
+## [31] &amp;quot;1744&amp;quot; &amp;quot;1746&amp;quot; &amp;quot;1748&amp;quot; &amp;quot;1763&amp;quot; &amp;quot;1780&amp;quot; &amp;quot;1782&amp;quot; &amp;quot;1795&amp;quot; &amp;quot;1800&amp;quot; &amp;quot;1801&amp;quot; &amp;quot;1809&amp;quot;
+## [41] &amp;quot;1820&amp;quot; &amp;quot;1822&amp;quot; &amp;quot;1833&amp;quot; &amp;quot;1838&amp;quot; &amp;quot;1843&amp;quot; &amp;quot;1859&amp;quot; &amp;quot;1909&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Plotting the Betweenness Centrality network with the community detection
+
+set.seed(1001) # To duplicate the computer process and create exactly the same network repetitively you should set the seed.
+plot(lc, Stucont, edge.color = &amp;#39;black&amp;#39;,vertex.label.cex =0.5, 
+     vertex.color=pal[as.numeric(as.factor(vertex_attr(Stucont, &amp;quot;Class&amp;quot;)))],
+     vertex.size = sqrt(Stucont_bw)/3, edge.width=sqrt(E(Stucont)$weight/800),
+     layout = layout.fruchterman.reingold)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-20-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;So far, we walked through the whole process of network analysis and visualization. Although this analysis is descriptive, we could learn a lot about the school’s student dynamics only with this small information. Also, it provided information on the latent community structure that was not visible before the analysis.&lt;/p&gt;
+&lt;p&gt;The students’ physical contact data set is rare because it has a privacy issue to measure the contact information. Thus, this analysis provides us such a precious insight into the students’ physical network in school.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Temporal network simulation: Albert-Barabasi model</title>
@@ -35,17 +347,17 @@
 &lt;p&gt;We can create the Albert-Barabasi network data set using “sample_pa” function in igraph package. 100 means the number of vertices to create, power=3 is the ‘a’ in the above formula, and m is the number of edges to add for each time step.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;A&amp;lt;-sample_pa(100, power=3, m=2, directed=FALSE, algorithm = &amp;quot;psumtree&amp;quot;)
 A&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH 98023ff U--- 100 197 -- Barabasi graph
+&lt;pre&gt;&lt;code&gt;## IGRAPH 7394702 U--- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c)
-## + edges from 98023ff:
-##  [1] 1-- 2 1-- 3 2-- 3 1-- 4 3-- 4 2-- 5 1-- 5 1-- 6 4-- 6 1-- 7 6-- 7 1-- 8
-## [13] 4-- 8 1-- 9 4-- 9 3--10 2--10 3--11 1--11 1--12 3--12 1--13 6--13 1--14
-## [25] 2--14 1--15 3--15 1--16 4--16 1--17 3--17 1--18 3--18 1--19 4--19 1--20
-## [37] 3--20 1--21 3--21 1--22 4--22 1--23 4--23 1--24 3--24 1--25 3--25 1--26
-## [49] 3--26 1--27 3--27 1--28 3--28 1--29 3--29 1--30 2--30 1--31 3--31 1--32
-## [61] 3--32 1--33 3--33 1--34 3--34 1--35 4--35 1--36 3--36 1--37 3--37 1--38
-## [73] 4--38 1--39 3--39 1--40 3--40 1--41 3--41 1--42 3--42 1--43 3--43 1--44
+## + edges from 7394702:
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  2-- 4  2-- 5  1-- 5  1-- 6  3-- 6  2-- 7
+## [11]  6-- 7  3-- 8  6-- 8  1-- 9  3-- 9  1--10  6--10  3--11  6--11  6--12
+## [21]  3--12  6--13  3--13  3--14  1--14  1--15  3--15  6--16  1--16  3--17
+## [31]  6--17  1--18  3--18  1--19  6--19  3--20  6--20  1--21  6--21 16--22
+## [41]  1--22  1--23  6--23  3--24  6--24  6--25  1--25  6--26  1--26  6--27
+## [51]  3--27  6--28 13--28  1--29  3--29  6--30  3--30  6--31  1--31  1--32
+## [61]  3--32  3--33  1--33  1--34  3--34  3--35  6--35  1--36  6--36  1--37
 ## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The above network data object does not include any information on the time step as an edge attribute (we need information on when the given edge will be added to generate the network). So, we need to create a time step information and merge it to the network data object A.&lt;/p&gt;
 &lt;p&gt;T is the vector of the time step. The reason why the same number repeats twice is that we modeled the network to add 2 edges per each time step.&lt;/p&gt;
@@ -64,17 +376,17 @@ T&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;E(A)$time&amp;lt;-T
 V(A)$name&amp;lt;-V(A)
 A&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH 98023ff UN-- 100 197 -- Barabasi graph
+&lt;pre&gt;&lt;code&gt;## IGRAPH 7394702 UN-- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c), name (v/n), time (e/n)
-## + edges from 98023ff (vertex names):
-##  [1] 1-- 2 1-- 3 2-- 3 1-- 4 3-- 4 2-- 5 1-- 5 1-- 6 4-- 6 1-- 7 6-- 7 1-- 8
-## [13] 4-- 8 1-- 9 4-- 9 3--10 2--10 3--11 1--11 1--12 3--12 1--13 6--13 1--14
-## [25] 2--14 1--15 3--15 1--16 4--16 1--17 3--17 1--18 3--18 1--19 4--19 1--20
-## [37] 3--20 1--21 3--21 1--22 4--22 1--23 4--23 1--24 3--24 1--25 3--25 1--26
-## [49] 3--26 1--27 3--27 1--28 3--28 1--29 3--29 1--30 2--30 1--31 3--31 1--32
-## [61] 3--32 1--33 3--33 1--34 3--34 1--35 4--35 1--36 3--36 1--37 3--37 1--38
-## [73] 4--38 1--39 3--39 1--40 3--40 1--41 3--41 1--42 3--42 1--43 3--43 1--44
+## + edges from 7394702 (vertex names):
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  2-- 4  2-- 5  1-- 5  1-- 6  3-- 6  2-- 7
+## [11]  6-- 7  3-- 8  6-- 8  1-- 9  3-- 9  1--10  6--10  3--11  6--11  6--12
+## [21]  3--12  6--13  3--13  3--14  1--14  1--15  3--15  6--16  1--16  3--17
+## [31]  6--17  1--18  3--18  1--19  6--19  3--20  6--20  1--21  6--21 16--22
+## [41]  1--22  1--23  6--23  3--24  6--24  6--25  1--25  6--26  1--26  6--27
+## [51]  3--27  6--28 13--28  1--29  3--29  6--30  3--30  6--31  1--31  1--32
+## [61]  3--32  3--33  1--33  1--34  3--34  3--35  6--35  1--36  6--36  1--37
 ## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The following script was directly copied from the blog of &lt;a href=&#34;http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/&#34;&gt;Dr. Esteban Moro&lt;/a&gt;. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#this version of the script has been tested on igraph 1.0.1

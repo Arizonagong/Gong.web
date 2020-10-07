@@ -97,9 +97,9 @@ head(B1, 5)&lt;/code&gt;&lt;/pre&gt;
 Stucont&amp;lt;-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
 E(Stucont)$weight&amp;lt;-E(Stucont)$Freq # Assigning edge attribute to each edge
 Stucont&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH a57c99b UNW- 242 8317 -- 
+&lt;pre&gt;&lt;code&gt;## IGRAPH ab9f4ab UNW- 242 8317 -- 
 ## + attr: name (v/c), Class (v/c), Gender (v/c), Freq (e/n), weight (e/n)
-## + edges from a57c99b (vertex names):
+## + edges from ab9f4ab (vertex names):
 ##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
 ##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
 ## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
@@ -120,7 +120,7 @@ Stucont&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;V means the vertex (node), so with this function you can see the nodelist.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Nodelist
 V(Stucont)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## + 242/242 vertices, named, from a57c99b:
+&lt;pre&gt;&lt;code&gt;## + 242/242 vertices, named, from ab9f4ab:
 ##   [1] 1426 1427 1428 1429 1430 1431 1434 1435 1437 1439 1441 1443 1451 1452 1453
 ##  [16] 1457 1458 1459 1461 1465 1468 1471 1475 1477 1479 1480 1482 1483 1486 1489
 ##  [31] 1493 1495 1498 1500 1501 1502 1503 1504 1511 1516 1519 1520 1521 1522 1524
@@ -135,7 +135,7 @@ V(Stucont)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;E means the edge.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#3. Edgelist
 E(Stucont)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## + 8317/8317 edges from a57c99b (vertex names):
+&lt;pre&gt;&lt;code&gt;## + 8317/8317 edges from ab9f4ab (vertex names):
 ##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
 ##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
 ## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
@@ -347,17 +347,17 @@ plot(lc, Stucont, edge.color = &amp;#39;black&amp;#39;,vertex.label.cex =0.5,
 &lt;p&gt;We can create the Albert-Barabasi network data set using “sample_pa” function in igraph package. 100 means the number of vertices to create, power=3 is the ‘a’ in the above formula, and m is the number of edges to add for each time step.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;A&amp;lt;-sample_pa(100, power=3, m=2, directed=FALSE, algorithm = &amp;quot;psumtree&amp;quot;)
 A&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH 98023ff U--- 100 197 -- Barabasi graph
+&lt;pre&gt;&lt;code&gt;## IGRAPH 7394702 U--- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c)
-## + edges from 98023ff:
-##  [1] 1-- 2 1-- 3 2-- 3 1-- 4 3-- 4 2-- 5 1-- 5 1-- 6 4-- 6 1-- 7 6-- 7 1-- 8
-## [13] 4-- 8 1-- 9 4-- 9 3--10 2--10 3--11 1--11 1--12 3--12 1--13 6--13 1--14
-## [25] 2--14 1--15 3--15 1--16 4--16 1--17 3--17 1--18 3--18 1--19 4--19 1--20
-## [37] 3--20 1--21 3--21 1--22 4--22 1--23 4--23 1--24 3--24 1--25 3--25 1--26
-## [49] 3--26 1--27 3--27 1--28 3--28 1--29 3--29 1--30 2--30 1--31 3--31 1--32
-## [61] 3--32 1--33 3--33 1--34 3--34 1--35 4--35 1--36 3--36 1--37 3--37 1--38
-## [73] 4--38 1--39 3--39 1--40 3--40 1--41 3--41 1--42 3--42 1--43 3--43 1--44
+## + edges from 7394702:
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  2-- 4  2-- 5  1-- 5  1-- 6  3-- 6  2-- 7
+## [11]  6-- 7  3-- 8  6-- 8  1-- 9  3-- 9  1--10  6--10  3--11  6--11  6--12
+## [21]  3--12  6--13  3--13  3--14  1--14  1--15  3--15  6--16  1--16  3--17
+## [31]  6--17  1--18  3--18  1--19  6--19  3--20  6--20  1--21  6--21 16--22
+## [41]  1--22  1--23  6--23  3--24  6--24  6--25  1--25  6--26  1--26  6--27
+## [51]  3--27  6--28 13--28  1--29  3--29  6--30  3--30  6--31  1--31  1--32
+## [61]  3--32  3--33  1--33  1--34  3--34  3--35  6--35  1--36  6--36  1--37
 ## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The above network data object does not include any information on the time step as an edge attribute (we need information on when the given edge will be added to generate the network). So, we need to create a time step information and merge it to the network data object A.&lt;/p&gt;
 &lt;p&gt;T is the vector of the time step. The reason why the same number repeats twice is that we modeled the network to add 2 edges per each time step.&lt;/p&gt;
@@ -376,17 +376,17 @@ T&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;E(A)$time&amp;lt;-T
 V(A)$name&amp;lt;-V(A)
 A&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH 98023ff UN-- 100 197 -- Barabasi graph
+&lt;pre&gt;&lt;code&gt;## IGRAPH 7394702 UN-- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c), name (v/n), time (e/n)
-## + edges from 98023ff (vertex names):
-##  [1] 1-- 2 1-- 3 2-- 3 1-- 4 3-- 4 2-- 5 1-- 5 1-- 6 4-- 6 1-- 7 6-- 7 1-- 8
-## [13] 4-- 8 1-- 9 4-- 9 3--10 2--10 3--11 1--11 1--12 3--12 1--13 6--13 1--14
-## [25] 2--14 1--15 3--15 1--16 4--16 1--17 3--17 1--18 3--18 1--19 4--19 1--20
-## [37] 3--20 1--21 3--21 1--22 4--22 1--23 4--23 1--24 3--24 1--25 3--25 1--26
-## [49] 3--26 1--27 3--27 1--28 3--28 1--29 3--29 1--30 2--30 1--31 3--31 1--32
-## [61] 3--32 1--33 3--33 1--34 3--34 1--35 4--35 1--36 3--36 1--37 3--37 1--38
-## [73] 4--38 1--39 3--39 1--40 3--40 1--41 3--41 1--42 3--42 1--43 3--43 1--44
+## + edges from 7394702 (vertex names):
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  2-- 4  2-- 5  1-- 5  1-- 6  3-- 6  2-- 7
+## [11]  6-- 7  3-- 8  6-- 8  1-- 9  3-- 9  1--10  6--10  3--11  6--11  6--12
+## [21]  3--12  6--13  3--13  3--14  1--14  1--15  3--15  6--16  1--16  3--17
+## [31]  6--17  1--18  3--18  1--19  6--19  3--20  6--20  1--21  6--21 16--22
+## [41]  1--22  1--23  6--23  3--24  6--24  6--25  1--25  6--26  1--26  6--27
+## [51]  3--27  6--28 13--28  1--29  3--29  6--30  3--30  6--31  1--31  1--32
+## [61]  3--32  3--33  1--33  1--34  3--34  3--35  6--35  1--36  6--36  1--37
 ## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The following script was directly copied from the blog of &lt;a href=&#34;http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/&#34;&gt;Dr. Esteban Moro&lt;/a&gt;. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#this version of the script has been tested on igraph 1.0.1

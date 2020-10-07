@@ -3,7 +3,9 @@ title: 'Temporal network simulation: Albert-Barabasi model'
 author: "Byoung-gyu Gong"
 date: '2020-10-03'
 output: pdf_document
-categories: R
+categories: 
+- R
+- Network analysis
 tags:
 - Network analysis
 - Network simulation
@@ -40,17 +42,17 @@ slug: temporal-network-simulation-albert-barabasi-model
 <p>We can create the Albert-Barabasi network data set using “sample_pa” function in igraph package. 100 means the number of vertices to create, power=3 is the ‘a’ in the above formula, and m is the number of edges to add for each time step.</p>
 <pre class="r"><code>A&lt;-sample_pa(100, power=3, m=2, directed=FALSE, algorithm = &quot;psumtree&quot;)
 A</code></pre>
-<pre><code>## IGRAPH 98023ff U--- 100 197 -- Barabasi graph
+<pre><code>## IGRAPH 7394702 U--- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c)
-## + edges from 98023ff:
-##  [1] 1-- 2 1-- 3 2-- 3 1-- 4 3-- 4 2-- 5 1-- 5 1-- 6 4-- 6 1-- 7 6-- 7 1-- 8
-## [13] 4-- 8 1-- 9 4-- 9 3--10 2--10 3--11 1--11 1--12 3--12 1--13 6--13 1--14
-## [25] 2--14 1--15 3--15 1--16 4--16 1--17 3--17 1--18 3--18 1--19 4--19 1--20
-## [37] 3--20 1--21 3--21 1--22 4--22 1--23 4--23 1--24 3--24 1--25 3--25 1--26
-## [49] 3--26 1--27 3--27 1--28 3--28 1--29 3--29 1--30 2--30 1--31 3--31 1--32
-## [61] 3--32 1--33 3--33 1--34 3--34 1--35 4--35 1--36 3--36 1--37 3--37 1--38
-## [73] 4--38 1--39 3--39 1--40 3--40 1--41 3--41 1--42 3--42 1--43 3--43 1--44
+## + edges from 7394702:
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  2-- 4  2-- 5  1-- 5  1-- 6  3-- 6  2-- 7
+## [11]  6-- 7  3-- 8  6-- 8  1-- 9  3-- 9  1--10  6--10  3--11  6--11  6--12
+## [21]  3--12  6--13  3--13  3--14  1--14  1--15  3--15  6--16  1--16  3--17
+## [31]  6--17  1--18  3--18  1--19  6--19  3--20  6--20  1--21  6--21 16--22
+## [41]  1--22  1--23  6--23  3--24  6--24  6--25  1--25  6--26  1--26  6--27
+## [51]  3--27  6--28 13--28  1--29  3--29  6--30  3--30  6--31  1--31  1--32
+## [61]  3--32  3--33  1--33  1--34  3--34  3--35  6--35  1--36  6--36  1--37
 ## + ... omitted several edges</code></pre>
 <p>The above network data object does not include any information on the time step as an edge attribute (we need information on when the given edge will be added to generate the network). So, we need to create a time step information and merge it to the network data object A.</p>
 <p>T is the vector of the time step. The reason why the same number repeats twice is that we modeled the network to add 2 edges per each time step.</p>
@@ -69,17 +71,17 @@ T</code></pre>
 <pre class="r"><code>E(A)$time&lt;-T
 V(A)$name&lt;-V(A)
 A</code></pre>
-<pre><code>## IGRAPH 98023ff UN-- 100 197 -- Barabasi graph
+<pre><code>## IGRAPH 7394702 UN-- 100 197 -- Barabasi graph
 ## + attr: name (g/c), power (g/n), m (g/n), zero.appeal (g/n), algorithm
 ## | (g/c), name (v/n), time (e/n)
-## + edges from 98023ff (vertex names):
-##  [1] 1-- 2 1-- 3 2-- 3 1-- 4 3-- 4 2-- 5 1-- 5 1-- 6 4-- 6 1-- 7 6-- 7 1-- 8
-## [13] 4-- 8 1-- 9 4-- 9 3--10 2--10 3--11 1--11 1--12 3--12 1--13 6--13 1--14
-## [25] 2--14 1--15 3--15 1--16 4--16 1--17 3--17 1--18 3--18 1--19 4--19 1--20
-## [37] 3--20 1--21 3--21 1--22 4--22 1--23 4--23 1--24 3--24 1--25 3--25 1--26
-## [49] 3--26 1--27 3--27 1--28 3--28 1--29 3--29 1--30 2--30 1--31 3--31 1--32
-## [61] 3--32 1--33 3--33 1--34 3--34 1--35 4--35 1--36 3--36 1--37 3--37 1--38
-## [73] 4--38 1--39 3--39 1--40 3--40 1--41 3--41 1--42 3--42 1--43 3--43 1--44
+## + edges from 7394702 (vertex names):
+##  [1]  1-- 2  1-- 3  2-- 3  3-- 4  2-- 4  2-- 5  1-- 5  1-- 6  3-- 6  2-- 7
+## [11]  6-- 7  3-- 8  6-- 8  1-- 9  3-- 9  1--10  6--10  3--11  6--11  6--12
+## [21]  3--12  6--13  3--13  3--14  1--14  1--15  3--15  6--16  1--16  3--17
+## [31]  6--17  1--18  3--18  1--19  6--19  3--20  6--20  1--21  6--21 16--22
+## [41]  1--22  1--23  6--23  3--24  6--24  6--25  1--25  6--26  1--26  6--27
+## [51]  3--27  6--28 13--28  1--29  3--29  6--30  3--30  6--31  1--31  1--32
+## [61]  3--32  3--33  1--33  1--34  3--34  3--35  6--35  1--36  6--36  1--37
 ## + ... omitted several edges</code></pre>
 <p>The following script was directly copied from the blog of <a href="http://estebanmoro.org/post/2015-12-21-temporal-networks-with-r-and-igraph-updated/">Dr. Esteban Moro</a>. You should set the right directory before implementing the below chunk of codes as it creates 100 pages of image in the directory folder.</p>
 <pre class="r"><code>#this version of the script has been tested on igraph 1.0.1
