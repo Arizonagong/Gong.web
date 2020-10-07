@@ -16,25 +16,25 @@ image:
   preview_only: no
 projects: []
 ---
-# Pandemic and School Reopening Issue
+## Pandemic and School Reopening Issue
 With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children's learning opportunity. Despite that, the reopening school can be very costly as children can transmit the virus to their families and communities. Now that there is significant uncertainty on the impact of school reopening, we see that many countries are still under discussion on this issue. Disappointingly, we do not know much about how the school affects the children's virus infection.  
 
 &nbsp;
 
-# Purpose of the Analysis
+## Purpose of the Analysis
 Given this situation, in this post, I will analyze children's physical contact network at school to see how much contact happens among children. The contact network indicators at school can be a basic knowledge we can reorganize our school space, time, and activity to adjust to the post-pandemic world.  
 &nbsp;
 
-# Data Source
+## Data Source
 For the network analysis, I prepared two data sets from the study of *Gemnetto, Barrat, & Cattuto (2014) titled Mitigation of infectious disease at school: Targeted class closure vs school closure*, which studied the infection network at the primary school. You can also find the data of this study from [Sociopatterns](http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/). It is the open-source network data platform readily available for any studies and researches. The students' contact network data provides a fundamental sense to design and implement a plan for contact tracing and social distance at each school level. 
 
 The authors collected this contact network data using a wearable device that records contact whenever students get closer over a certain threshold. The data was collected from an elementary school in France. 
 
-# Analysis
+## Analysis
 
 For the analysis, I will use igraph package in R program. Using this package, I will calculate centrality scores to detect the central node in the school network and network structure indicators, such as network density and homophily score. Also, I will visualize the network to show you the birds-eye view of the school network.
 
-## **Data pre-processing**
+### **Data pre-processing**
 
 First, install the required packages and open the library.
 ```{r eval=FALSE}
@@ -47,7 +47,7 @@ library (readr)
 
 
 Then, you can download the data file directly from my github repository through the following code. (If there is an error message, you should try it multiple times until you can get access to it.)
-```{r include=FALSE}
+```{r}
 #1. Read data from the Github repository csv files
 urlfile1="https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/primaryschool.csv"
 urlfile2="https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/metadata_primaryschool.csv"
@@ -79,7 +79,7 @@ Stucont<-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
 E(Stucont)$weight<-E(Stucont)$Freq # Assigning edge attribute to each edge
 Stucont
 ```
-## **Exploring basic network features**
+### **Exploring basic network features**
 
 gsize shows us the number of edges, and gorder shows the number of nodes
 ```{r}
@@ -108,7 +108,7 @@ The adjacency matrix is the most important indication of the network. However, i
 #5. Adjacency matrix
 Stucont[c(1:10),c(1:10)]
 ```
-## **Measuring centrality**
+### **Measuring centrality**
 
 Centrality is the most important indicator of the network. The centrality measure shows which node has the highest contact frequency in the network. To understand more about the centrality measure, please visit [my lecture page on the Youtube channel](https://youtu.be/o5-o1EPSWZg). I will not explain the details of each centrality measure in this post.
 
@@ -134,7 +134,7 @@ V(Stucont)$betweenness<-Stucont_bw
 which.max(Stucont_bw)
 ```
 
-## **Measuring network structure**
+### **Measuring network structure**
 
 Each network has its unique structural features. 
 
@@ -165,7 +165,7 @@ hist(unlist(results), xlim = c(0,0.4))
 abline(v = observed.assortativity,col = "red", lty = 3, lwd=2) 
 ```
 
-## **Network Visualization**
+### **Network Visualization**
 
 The final step is the network visualization. The beauty of network analysis is that we can visually confirm the features we indicated by the numbers above. Also, the visual mapping of the network is instrumental in communicating with the audiences with data. Here, I set the size of each node with a value of degree centrality. Each different color indicates different classes. 
 ```{r}
@@ -179,7 +179,7 @@ plot(Stucont,edge.color = 'black',vertex.label.cex =0.5,
      layout = layout.fruchterman.reingold)
 ```
 
-## **Community Detection**
+### **Community Detection**
 Based on the networking pattern of the node, we can cluster them into several groups. We can intuitively think that the nodes will be clustered based on their affiliation with the classes. However, the result is counter-intuitive. We have ten classes in the school dataset, but the number of detected communities (cluster) is 6, which means that this school is composed of 6 different sub-network groups. 
 
 ```{r}

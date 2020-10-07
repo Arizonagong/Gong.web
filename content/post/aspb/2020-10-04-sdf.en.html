@@ -19,29 +19,47 @@ projects: []
 
 
 
-<div id="pandemic-and-school-reopening-issue" class="section level1">
-<h1>Pandemic and School Reopening Issue</h1>
+<div id="pandemic-and-school-reopening-issue" class="section level2">
+<h2>Pandemic and School Reopening Issue</h2>
 <p>With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children’s learning opportunity. Despite that, the reopening school can be very costly as children can transmit the virus to their families and communities. Now that there is significant uncertainty on the impact of school reopening, we see that many countries are still under discussion on this issue. Disappointingly, we do not know much about how the school affects the children’s virus infection.</p>
 <p> </p>
 </div>
-<div id="purpose-of-the-analysis" class="section level1">
-<h1>Purpose of the Analysis</h1>
+<div id="purpose-of-the-analysis" class="section level2">
+<h2>Purpose of the Analysis</h2>
 <p>Given this situation, in this post, I will analyze children’s physical contact network at school to see how much contact happens among children. The contact network indicators at school can be a basic knowledge we can reorganize our school space, time, and activity to adjust to the post-pandemic world.<br />
  </p>
 </div>
-<div id="data-source" class="section level1">
-<h1>Data Source</h1>
+<div id="data-source" class="section level2">
+<h2>Data Source</h2>
 <p>For the network analysis, I prepared two data sets from the study of <em>Gemnetto, Barrat, &amp; Cattuto (2014) titled Mitigation of infectious disease at school: Targeted class closure vs school closure</em>, which studied the infection network at the primary school. You can also find the data of this study from <a href="http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/">Sociopatterns</a>. It is the open-source network data platform readily available for any studies and researches. The students’ contact network data provides a fundamental sense to design and implement a plan for contact tracing and social distance at each school level.</p>
 <p>The authors collected this contact network data using a wearable device that records contact whenever students get closer over a certain threshold. The data was collected from an elementary school in France.</p>
 </div>
-<div id="analysis" class="section level1">
-<h1>Analysis</h1>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
 <p>For the analysis, I will use igraph package in R program. Using this package, I will calculate centrality scores to detect the central node in the school network and network structure indicators, such as network density and homophily score. Also, I will visualize the network to show you the birds-eye view of the school network.</p>
-<div id="data-pre-processing" class="section level2">
-<h2><strong>Data pre-processing</strong></h2>
+<div id="data-pre-processing" class="section level3">
+<h3><strong>Data pre-processing</strong></h3>
 <p>First, install the required packages and open the library.</p>
 <pre class="r"><code>install.packages(c(&quot;igraph&quot;,&quot;readr&quot;,&quot;tidyr&quot;,&quot;RColorBrewer&quot;))</code></pre>
 <p>Then, you can download the data file directly from my github repository through the following code. (If there is an error message, you should try it multiple times until you can get access to it.)</p>
+<pre class="r"><code>#1. Read data from the Github repository csv files
+urlfile1=&quot;https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/primaryschool.csv&quot;
+urlfile2=&quot;https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/metadata_primaryschool.csv&quot;
+D&lt;-read_csv(url(urlfile1))</code></pre>
+<pre><code>## 
+## ── Column specification ─────────────────────────────────────────────────────
+## cols(
+##   Source = col_double(),
+##   Target = col_double()
+## )</code></pre>
+<pre class="r"><code>D_meta&lt;-read_csv(url(urlfile2))</code></pre>
+<pre><code>## 
+## ── Column specification ─────────────────────────────────────────────────────
+## cols(
+##   ID = col_double(),
+##   Class = col_character(),
+##   Gender = col_character()
+## )</code></pre>
 <p>Now, let’s look into the data set. The first dataset names as “D” is an edge list indicating contact between the students. It is represented like 1234-4424, which means one contact between the student 1234 and 4424.</p>
 <pre class="r"><code>head(D, 5)</code></pre>
 <pre><code>## # A tibble: 5 x 2
@@ -78,9 +96,9 @@ head(B1, 5)</code></pre>
 Stucont&lt;-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
 E(Stucont)$weight&lt;-E(Stucont)$Freq # Assigning edge attribute to each edge
 Stucont</code></pre>
-<pre><code>## IGRAPH fe006d7 UNW- 242 8317 -- 
+<pre><code>## IGRAPH f832240 UNW- 242 8317 -- 
 ## + attr: name (v/c), Class (v/c), Gender (v/c), Freq (e/n), weight (e/n)
-## + edges from fe006d7 (vertex names):
+## + edges from f832240 (vertex names):
 ##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
 ##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
 ## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
@@ -91,8 +109,8 @@ Stucont</code></pre>
 ## [43] 1434--1439 1435--1439 1437--1439 1426--1441 1427--1441 1428--1441
 ## + ... omitted several edges</code></pre>
 </div>
-<div id="exploring-basic-network-features" class="section level2">
-<h2><strong>Exploring basic network features</strong></h2>
+<div id="exploring-basic-network-features" class="section level3">
+<h3><strong>Exploring basic network features</strong></h3>
 <p>gsize shows us the number of edges, and gorder shows the number of nodes</p>
 <pre class="r"><code>gsize(Stucont)</code></pre>
 <pre><code>## [1] 8317</code></pre>
@@ -101,7 +119,7 @@ Stucont</code></pre>
 <p>V means the vertex (node), so with this function you can see the nodelist.</p>
 <pre class="r"><code>#2. Nodelist
 V(Stucont)</code></pre>
-<pre><code>## + 242/242 vertices, named, from fe006d7:
+<pre><code>## + 242/242 vertices, named, from f832240:
 ##   [1] 1426 1427 1428 1429 1430 1431 1434 1435 1437 1439 1441 1443 1451 1452 1453
 ##  [16] 1457 1458 1459 1461 1465 1468 1471 1475 1477 1479 1480 1482 1483 1486 1489
 ##  [31] 1493 1495 1498 1500 1501 1502 1503 1504 1511 1516 1519 1520 1521 1522 1524
@@ -116,7 +134,7 @@ V(Stucont)</code></pre>
 <p>E means the edge.</p>
 <pre class="r"><code>#3. Edgelist
 E(Stucont)</code></pre>
-<pre><code>## + 8317/8317 edges from fe006d7 (vertex names):
+<pre><code>## + 8317/8317 edges from f832240 (vertex names):
 ##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
 ##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
 ## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
@@ -184,8 +202,8 @@ Stucont[c(1:10),c(1:10)]</code></pre>
 ## 1437 23  44 19  62  4 42  8  6  . 29
 ## 1439 27  13 14  36  3 41  8 11 29  .</code></pre>
 </div>
-<div id="measuring-centrality" class="section level2">
-<h2><strong>Measuring centrality</strong></h2>
+<div id="measuring-centrality" class="section level3">
+<h3><strong>Measuring centrality</strong></h3>
 <p>Centrality is the most important indicator of the network. The centrality measure shows which node has the highest contact frequency in the network. To understand more about the centrality measure, please visit <a href="https://youtu.be/o5-o1EPSWZg">my lecture page on the Youtube channel</a>. I will not explain the details of each centrality measure in this post.</p>
 <p>I identified the nodes recording the highest score in each of the centrality measures and found that student 1551 shows the highest centrality in the degree and betweenness centrality measure.</p>
 <pre class="r"><code>#1. Degree centrality
@@ -207,8 +225,8 @@ which.max(Stucont_bw)</code></pre>
 <pre><code>## 1551 
 ##   56</code></pre>
 </div>
-<div id="measuring-network-structure" class="section level2">
-<h2><strong>Measuring network structure</strong></h2>
+<div id="measuring-network-structure" class="section level3">
+<h3><strong>Measuring network structure</strong></h3>
 <p>Each network has its unique structural features.</p>
 <p>First, network density indicates how much densely the nodes are connected in the network. Also, if you’d like to know more about the network theory, please watch my lecture on Youtube.</p>
 <p>Here I compared the network density between the school and the class level. It shows that the school level density is 0.28 while the class level density is 0.98. Thus, there is a considerable density gap between the school and the class.</p>
@@ -233,8 +251,8 @@ hist(unlist(results), xlim = c(0,0.4))
 abline(v = observed.assortativity,col = &quot;red&quot;, lty = 3, lwd=2) </code></pre>
 <p><img src="/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
-<div id="network-visualization" class="section level2">
-<h2><strong>Network Visualization</strong></h2>
+<div id="network-visualization" class="section level3">
+<h3><strong>Network Visualization</strong></h3>
 <p>The final step is the network visualization. The beauty of network analysis is that we can visually confirm the features we indicated by the numbers above. Also, the visual mapping of the network is instrumental in communicating with the audiences with data. Here, I set the size of each node with a value of degree centrality. Each different color indicates different classes.</p>
 <pre class="r"><code>#1. Plotting a network with the degree centrality
 set.seed(1001)
@@ -246,8 +264,8 @@ plot(Stucont,edge.color = &#39;black&#39;,vertex.label.cex =0.5,
      layout = layout.fruchterman.reingold)</code></pre>
 <p><img src="/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
-<div id="community-detection" class="section level2">
-<h2><strong>Community Detection</strong></h2>
+<div id="community-detection" class="section level3">
+<h3><strong>Community Detection</strong></h3>
 <p>Based on the networking pattern of the node, we can cluster them into several groups. We can intuitively think that the nodes will be clustered based on their affiliation with the classes. However, the result is counter-intuitive. We have ten classes in the school dataset, but the number of detected communities (cluster) is 6, which means that this school is composed of 6 different sub-network groups.</p>
 <pre class="r"><code>#1. Louvain clustering
 lc &lt;- cluster_louvain(Stucont) # Create a cluster based on the Louvain method
