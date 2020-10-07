@@ -13,26 +13,6 @@
     </image>
     
     <item>
-      <title>Overview</title>
-      <link>/courses/2020-10-06-introduction-to-network-analysis/</link>
-      <pubDate>Sun, 09 Sep 2018 00:00:00 +0000</pubDate>
-      <guid>/courses/2020-10-06-introduction-to-network-analysis/</guid>
-      <description>&lt;h2 id=&#34;past-lectures&#34;&gt;&lt;strong&gt;Past Lectures&lt;/strong&gt;&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;Introduction to Network Analysis and Visualization
-&lt;ul&gt;
-&lt;li&gt;Comparative and International Education Society, Annual Conference.&lt;/li&gt;
-&lt;li&gt;Online lecture.&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://youtu.be/o5-o1EPSWZg&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Lecture video1&lt;/a&gt;: Network Analysis: Theory and Concept&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://youtu.be/aw--_pR-WhA&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Lecture video2&lt;/a&gt;: Network Analysis: Practice using igraph and Gephi&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/Arizonagong/vCIES2020_Network-Analysis&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Lecture data sources&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
       <title>Example Talk</title>
       <link>/talk/example/</link>
       <pubDate>Sat, 01 Jun 2030 13:00:00 +0000</pubDate>
@@ -50,6 +30,14 @@
 &lt;/ul&gt;
 &lt;p&gt;Further talk details can easily be added to this page using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>Introduction</title>
+      <link>/courses/example/introduction/</link>
+      <pubDate>Wed, 07 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>/courses/example/introduction/</guid>
+      <description></description>
     </item>
     
     <item>
