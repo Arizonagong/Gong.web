@@ -5,8 +5,8 @@ lastmod: "2018-09-09T00:00:00Z"
 linktitle: Online Workshop
 menu:
   example:
-    name:
-    weight:
+    name: Overview
+    weight: 1
 summary:
 title: Overview
 toc: true
