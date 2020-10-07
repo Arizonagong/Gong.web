@@ -42,7 +42,7 @@ social:
   icon_pack: fab
   link: https://www.linkedin.com/in/byoung-gyu-gong-b52a30199/
 superuser: true
-title: Byoung-gyu Gong, Ph.D
+title: Byoung-gyu Gong
 user_groups: 
 - Principal Investigators
 ---
