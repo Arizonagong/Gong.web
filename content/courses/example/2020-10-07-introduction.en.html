@@ -1,5 +1,5 @@
 ---
-title: Network concept and theory
+title: Network Concept and Theory
 linktitle: Network concept and theory
 toc: true
 type: docs
