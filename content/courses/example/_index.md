@@ -5,7 +5,7 @@ lastmod: "2018-09-09T00:00:00Z"
 linktitle: Lecture lists
 menu:
   example: 
-    name: Overview
+    name: Lecture lists
     weight: 1
 summary:
 title: Lecture lists
@@ -14,5 +14,10 @@ type: docs
 weight: 1
 ---
 
-#Online workshop: **Introduction to Network Analysis and Visualization**
+# Course lectures
+
+
+# Online workshops
+
+**1. Introduction to Network Analysis and Visualization**
 
