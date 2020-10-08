@@ -1,6 +1,6 @@
 ---
 title: Network Data Analysis and Visualization
-linktitle: Network Analysis
+linktitle: 2.Network Analysis
 toc: true
 type: docs
 date: "2019-05-05T00:00:00+01:00"

@@ -1,6 +1,6 @@
 ---
 title: Network Concept and Theory
-linktitle: Network Concept and Theory
+linktitle: 1.Network Concept and Theory
 toc: true
 type: docs
 date: "2019-05-05T00:00:00+01:00"
