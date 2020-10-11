@@ -1,5 +1,5 @@
 ---
-title: why PISA is difficult to analyze
+title: Why is PISA Difficult to Analyze
 author: Byoung-gyu Gong
 date: '2020-10-10'
 slug: why-is-the-pisa-data-hard-to-analyze
@@ -30,26 +30,24 @@ By Byoung-gyu Gong
 
 &nbsp;
 
-# What is ILSA and PISA
+## **1. What is ILSA and PISA**
 
 International large-scale assessment (ILSA) is conducted regularly by the international organizations to measure and compare educational performance and status of many different countries. Among many others, Programme for International Student Assessment (PISA) by OECD is the most well-known ILSA testing member and non-member partner country's 15-year-old students every two years. It measures students' reading, math, and science using computer-based instrument. It also surveys to collect more detailed background information of each student, teacher, and school. The PISA 2006 collected these massive size of data from 398,750 students. Thus, it can be said that the PISA is the most comprehensive large sized international students assessment data set available now. 
 
 &nbsp;
 
-# Why is it difficult to analyze PISA data?
+##**2. Why is it difficult to analyze PISA data**
 
 In spite of insightful knowledge we can gain from this large international students' data set, PISA is not easily accessible to most of the researchers to analyze it. That is not because the access to the data is limited but rather because the data is complexly structured requesting sophisticated data pre-processing. Even Jerrim, Lopez-Agudo, Marcenaro-Gutierrez, and Shure (2017) said "in spite of their acquired relevance, there are few studies which really account for the complex survey and test designs that they present and follow the technical procedures suggested by their developers" (p.1). I will illustrate what caution needed to analyze the data set and provides R solution in this post using data set of PISA 2006.
 
 &nbsp;
 
-## Two-staged sampling
+###   **2.1. Two-staged sampling**
 
 The sampling design of the PISA is the reason why the analysis procedure is so complicated. The PISA does not use random sampling and instead follows two staged sampling: firstly sample schools and then sample students in the participating schools. This makes the sampling errors of population estimates increase. It conflicts with most of the computer softwares designed to assume random sampling for statistical analysis, and requests more sophisticated analysis procedure. Once the assumption of random sampling is violated, the student data can be dependent on each other because they may share common school characteristics.  
-
 &nbsp;
 
 To avoid such bias, PISA made some complementary measures.
-
 &nbsp;
 
 Once you look at the data table imported from the PISA 2006, you would see a number of strange variable names such as PV1-5 for each reading, math, and science domains. Also, there are a number of variables having names like W_FSTR1-80. If you just naively wanted to calculate students' mean or correlation coefficient with a fixed point score, you would be embarrased to find these strange variables. 
@@ -60,25 +58,25 @@ library(ggplot2)
 ```
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
+# This is just file path in my personal computer so you need to set
+# your own directory to retrieve data for the analysis
 load("/Users/bgong/Documents/Rprograms/PISA/PISA2006/pisa2006.RData")
-head(pisa2006)
+head(pisa2006,3)
 ```
+
 Then, what are these variables in the PISA table?
 
 &nbsp;
 
-## Sampling Weight
+###   **2.2. Sampling Weight**
 
 To make each sampled student from each school represent entire population of each country, we need to give a weight to each student variables. The random sample secures equal probability of each sampled student, but two-stage sampling needs to adjust the probability with complicated calculation of the weight. Weight is an inverse of probability to be selected as sample. For instance, we selected 10 students out of total 100 students, then the probability to be selected is 0.1 and weight is 10. 
-
 &nbsp;
 
 In PISA each a probability of each school to be selected is proportional to its size, which is called PPS sampling method. Then, the schools with larger size has a higher probability of selection, but the students in the larger schools have proportionally less within-school probability of selection. Also, the sum of students' weight for each country is the total number of the students' population assumed for the study. 
-
 &nbsp;
 
 There are two options to apply students' weight for the PISA analysis, applying final weight, and replicated weight, but in this post, I don't tackle with the replicated weight because it is more related to the estimation of standard error but not for other estimates.
-
 &nbsp;
 
 Let me show you an example here with R code. W_FSTUWT is the final students' weight. You can see that students in the same school has approximately the same school weights with a little variation. School number 00001 has weights around 98, and 00002 has it at about 89.
@@ -91,14 +89,12 @@ B<-WEIGHT %>% filter(SCHOOLID=="2") %>% slice(1:3)
 C<-WEIGHT %>% filter(SCHOOLID=="3") %>% slice(1:3)
 rbind(A,B,C)
 ```
-
 &nbsp;
 
 The summation of the students' weight is equal to the population, total population of 15-years-old students in Argentina. It is 523,047.
 ```{r echo=FALSE}
 WEIGHT %>% filter(CNT=="ARG") %>% group_by(CNT) %>% summarize(sum=sum(W_FSTUWT))
 ```
-
 &nbsp;
 
 Also, we can compare difference in variable means between raw scores and weighted scores. Comparing with the graph 'B' with the graph 'A', we can recognize that the graph 'B' is more slighted deviated from the regression line although for most of the countries the difference is negligible.
@@ -120,13 +116,11 @@ ggarrange(Non_weight, Weight_non_weight,
           labels = c("A", "B"),
           ncol = 2, nrow = 1)
 ```
-
 &nbsp;
 
-## Plausible Value(PV) 
+###   **2.3. Plausible Value(PV)**
 
 PV is called plausible value and each domain has five PVs. For instance, math has PV1MATH - PV5MATH and science has PV1SCIE - PV5SCIE. The PVs are introduced here to adjust measurement error that can be caused by (1) the concept to be measured is not clear, (2) students physical and psychological condition affected on the moment of testing, and (3) the testing environment on a day of testing. Thus, if we have five different plausible values distributed in the certain range of raw score, we can avoid point estimate of the students' competency which has high risk of measurement error as mentioned above. This means that we interpret students' competency as a probability distribution among the plausible values not as a fixed point. In addition to this rational, the PV was adopted in a practical and efficiency stand point. In PISA tests, students do not take all the test items as it is time consuming and each student take different set of test, while the test items missing in each students are treated as missing value. This creates five different set of literally plausible score value of the students.
-
 &nbsp;
 
 I created two columns of mean data to compare between weighted PV means and weighted means of each country. However, as we can see from the below table, there is not much significant difference between weighted PV mean and just weighted mean with the final weight. The OECD also admitted that PV value does not bring significant impact to reduce bias in estimate (OECD, 2009)
@@ -138,9 +132,8 @@ SCIE<-pisa2006 %>% group_by(CNT) %>% summarise(Mean=(weighted.mean(PV4SCIE,W_FST
 Merge<-inner_join(PVSCIE, SCIE, by="CNT")
 head(Merge,15)
 ```
-
 &nbsp;
 
-### References
+### **References**
 Jerrim, J., Lopez-Agudo, L. A., Marcenaro-Gutierrez, O. D., & Shure, N. (2017, June). To weight or not to weight?: the case of PISA data. In Proceedings of the XXVI Meeting of the Economics of Education Association, Murcia, Spain (pp. 29-30).
 OECD (2009). PISA 2006 Technical Report. OECD Publishing.
