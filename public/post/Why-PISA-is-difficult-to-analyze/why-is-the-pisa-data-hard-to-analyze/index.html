@@ -35,7 +35,7 @@
     
   
   <meta name="description" content="By Byoung-gyu Gong
-  1. What is ILSA and PISA International large-scale assessment (ILSA) is conducted regularly by the international organizations to measure and compare educational performance and status of many different countries.">
+  1. What is ILSA and PISA International large-scale assessment (ILSA) is conducted regularly by international organizations to measure and compare many different countries’ educational performance and status.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/">
@@ -280,7 +280,7 @@
   <meta property="og:url" content="/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/">
   <meta property="og:title" content="Why is PISA Difficult to Analyze (Lesson.One) | Byoung-gyu Gong">
   <meta property="og:description" content="By Byoung-gyu Gong
-  1. What is ILSA and PISA International large-scale assessment (ILSA) is conducted regularly by the international organizations to measure and compare educational performance and status of many different countries."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
+  1. What is ILSA and PISA International large-scale assessment (ILSA) is conducted regularly by international organizations to measure and compare many different countries’ educational performance and status."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
   
     
@@ -330,7 +330,7 @@
       "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
     }
   },
-  "description": "By Byoung-gyu Gong\n  1. What is ILSA and PISA International large-scale assessment (ILSA) is conducted regularly by the international organizations to measure and compare educational performance and status of many different countries."
+  "description": "By Byoung-gyu Gong\n  1. What is ILSA and PISA International large-scale assessment (ILSA) is conducted regularly by international organizations to measure and compare many different countries’ educational performance and status."
 }
 </script>
 
@@ -718,20 +718,23 @@
 <p> </p>
 <div id="what-is-ilsa-and-pisa" class="section level2">
 <h2><strong>1. What is ILSA and PISA</strong></h2>
-<p>International large-scale assessment (ILSA) is conducted regularly by the international organizations to measure and compare educational performance and status of many different countries. Among many others, Programme for International Student Assessment (PISA) by OECD is the most well-known ILSA testing member and non-member partner country’s 15-year-old students every two years. It measures students’ reading, math, and science using computer-based instrument. It also surveys to collect more detailed background information of each student, teacher, and school. The PISA 2006 collected these massive size of data from 398,750 students. Thus, it can be said that the PISA is the most comprehensive large sized international students assessment data set available now.</p>
+<p>International large-scale assessment (ILSA) is conducted regularly by international organizations to measure and compare many different countries’ educational performance and status. The Programme for International Student Assessment (PISA) by OECD is the most well-known ILSA testing member and non-member partner country’s 15-year-old students every two years. It measures students’ reading, math, and science using a computer-based instrument. It also surveys to collect more detailed background information of each student, teacher, and school. The PISA 2006 collected this massive size of data from 398,750 students. Thus, it can be said that the PISA is the most comprehensive large-sized international student assessment data set available now.</p>
 <p> </p>
 </div>
 <div id="why-is-it-difficult-to-analyze-pisa-data" class="section level2">
 <h2><strong>2. Why is it difficult to analyze PISA data</strong></h2>
-<p>In spite of insightful knowledge we can gain from this large international students’ data set, PISA is not easily accessible to most of the researchers to analyze it. That is not because the access to the data is limited but rather because the data is complexly structured requesting sophisticated data pre-processing. Even Jerrim, Lopez-Agudo, Marcenaro-Gutierrez, and Shure (2017) said “in spite of their acquired relevance, there are few studies which really account for the complex survey and test designs that they present and follow the technical procedures suggested by their developers” (p.1). I will illustrate what caution needed to analyze the data set and provides R solution in this post using data set of PISA 2006.</p>
-<p> </p>
+<p>Despite the insightful knowledge we can gain from this large international students’ data set, PISA is not easily accessible to most of the researchers to analyze it. That is not because the data access is limited but because it is complexly structured, requesting sophisticated data pre-processing. Even Jerrim, Lopez-Agudo, Marcenaro-Gutierrez, and Shure (2017) said, “in spite of their acquired relevance, there are few studies which really account for the complex survey and test designs that they present and follow the technical procedures suggested by their developers” (p.1). I will illustrate what caution is needed to analyze the data set and provides R solution in this post using a data set of PISA 2006. </p>
 <div id="two-staged-sampling" class="section level3">
 <h3><strong>2.1. Two-staged sampling</strong></h3>
-<p>The sampling design of the PISA is the reason why the analysis procedure is so complicated. The PISA does not use random sampling and instead follows two staged sampling: firstly sample schools and then sample students in the participating schools. This makes the sampling errors of population estimates increase. It conflicts with most of the computer softwares designed to assume random sampling for statistical analysis, and requests more sophisticated analysis procedure. Once the assumption of random sampling is violated, the student data can be dependent on each other because they may share common school characteristics.<br />
+<p>The sampling design of the PISA is the reason why the analysis procedure is so complicated. The PISA does not use random sampling and instead follows two-staged sampling: sample schools and then sample students in the participating schools. It makes the sampling errors of population estimates increase. It conflicts with most computer software designed to assume random sampling for statistical analysis and requests more sophisticated analysis procedures. Once the assumption of random sampling is violated, the student data can depend on each other because they may share common school characteristics.<br />
  </p>
 <p>To avoid such bias, PISA made some complementary measures.
  </p>
-<p>Once you look at the data table imported from the PISA 2006, you would see a number of strange variable names such as PV1-5 for each reading, math, and science domains. Also, there are a number of variables having names like W_FSTR1-80. If you just naively wanted to calculate students’ mean or correlation coefficient with a fixed point score, you would be embarrased to find these strange variables.</p>
+<p>Once you look at the data table imported from the PISA 2006, you would see some strange variable names such as PV1-5 for each reading, math, and science domains. Also, there are some variables having names like W_FSTR1-80. If you just naively wanted to calculate students’ mean or correlation coefficient with a fixed point score, you would be embarrassed to find these unknown variables.</p>
+<pre class="r"><code># Use the following packages for the analysis
+library(intsvy)
+library(dplyr)
+library(ggplot2)</code></pre>
 <pre class="r"><code>head(pisa2006,1)</code></pre>
 <pre><code>##   X CNT SCHOOLID STIDSTD  PV1MATH  PV2MATH  PV3MATH  PV4MATH  PV5MATH  PV1READ
 ## 1 1 ARG        1       1 305.1799 305.9589 264.6752 320.7587 301.2852 357.0519
@@ -770,13 +773,13 @@
 </div>
 <div id="sampling-weight" class="section level3">
 <h3><strong>2.2. Sampling Weight</strong></h3>
-<p>To make each sampled student from each school represent entire population of each country, we need to give a weight to each student variables. The random sample secures equal probability of each sampled student, but two-stage sampling needs to adjust the probability with complicated calculation of the weight. Weight is an inverse of probability to be selected as sample. For instance, we selected 10 students out of total 100 students, then the probability to be selected is 0.1 and weight is 10.
+<p>To make each sampled student from each school represent each country’s entire population, we need to give a weight to each student variables. The random sample secures each sampled student’s equal probability, but two-stage sampling needs to adjust the probability with a complicated calculation of the weight. Weight is an inverse of probability to be selected as a sample. For instance, we selected ten students out of 100 students, then the probability to be selected is 0.1, and the weight is 10.
  </p>
-<p>In PISA each a probability of each school to be selected is proportional to its size, which is called PPS sampling method. Then, the schools with larger size has a higher probability of selection, but the students in the larger schools have proportionally less within-school probability of selection. Also, the sum of students’ weight for each country is the total number of the students’ population assumed for the study.
+<p>In PISA, each school’s probability to be selected is proportional to its size, which is called PPS sampling method. The schools with larger sizes have a higher probability of selection, but the larger schools have a proportionally less within-school probability of selection. The sum of students’ weight for each country is the total number of the students’ population assumed for the study.
  </p>
-<p>There are two options to apply students’ weight for the PISA analysis, applying final weight, and replicated weight, but in this post, I don’t tackle with the replicated weight because it is more related to the estimation of standard error but not for other estimates.
+<p>There are two options to apply students’ weight for the PISA analysis, applying final weight, and replicated weight, but in this post, I do not tackle the replicated weight because it is more related to the estimation of standard error for other estimates.
  </p>
-<p>Let me show you an example here with R code. W_FSTUWT is the final students’ weight. You can see that students in the same school has approximately the same school weights with a little variation. School number 00001 has weights around 98, and 00002 has it at about 89.</p>
+<p>Let me show you an example here with R code. W_FSTUWT is the final students’ weight. You can see that students in the same school have approximately the same school weights with a little variation. School number 00001 has weights around 98, and 00002 has it at about 89.</p>
 <pre class="r"><code># Select Argentina students&#39; weight information.
 WEIGHT&lt;-pisa2006 %&gt;% select(CNT, SCHOOLID, W_FSTUWT) %&gt;% filter(CNT==&quot;ARG&quot;)
 # Create a dataframe that can compare Argentina students in three different schools
@@ -795,7 +798,7 @@ rbind(A,B,C)</code></pre>
 ## 8 ARG        3 117.0837
 ## 9 ARG        3 117.0837</code></pre>
 <p> 
-The summation of the students’ weight is equal to the population, total population of 15-years-old students in Argentina. It is 523,047.</p>
+The summation of the students’ weight is equal to the population total population of 15-years-old students in Argentina. It is 523,047.</p>
 <pre class="r"><code>WEIGHT %&gt;% filter(CNT==&quot;ARG&quot;) %&gt;% group_by(CNT) %&gt;% summarize(sum=sum(W_FSTUWT))</code></pre>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 1 x 2
@@ -803,7 +806,7 @@ The summation of the students’ weight is equal to the population, total popula
 ##   &lt;chr&gt;   &lt;dbl&gt;
 ## 1 ARG   523048.</code></pre>
 <p> </p>
-<p>Also, we can compare difference in variable means between raw scores and weighted scores. Comparing with the graph ‘B’ with the graph ‘A’, we can recognize that the graph ‘B’ is more slighted deviated from the regression line although for most of the countries the difference is negligible.</p>
+<p>Also, we can compare the difference in variable means between raw scores and weighted scores. Comparing with the graph ‘B’ with the graph ‘A,’ we can recognize that the graph ‘B’ is more slightly deviated from the regression line, although the difference is negligible for most countries.</p>
 <pre class="r"><code># ESCS is the socio-economic status (SES) index
 # Create weighted mean score (W_MEAN) and non-weighted means score of ESCS
 # Calculate national mean
@@ -822,14 +825,17 @@ ggarrange(Non_weight, Weight_non_weight,
           ncol = 2, nrow = 1)</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
 ## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/post/Why-PISA-is-difficult-to-analyze/2020-10-10-why-is-the-pisa-data-hard-to-analyze.en_files/figure-html/unnamed-chunk-6-1.png" width="672" />
- </p>
+<p><img src="/post/Why-PISA-is-difficult-to-analyze/2020-10-10-why-is-the-pisa-data-hard-to-analyze.en_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="plausible-valuepv" class="section level3">
 <h3><strong>2.3. Plausible Value(PV)</strong></h3>
-<p>PV is called plausible value and each domain has five PVs. For instance, math has PV1MATH - PV5MATH and science has PV1SCIE - PV5SCIE. The PVs are introduced here to adjust measurement error that can be caused by (1) the concept to be measured is not clear, (2) students physical and psychological condition affected on the moment of testing, and (3) the testing environment on a day of testing. Thus, if we have five different plausible values distributed in the certain range of raw score, we can avoid point estimate of the students’ competency which has high risk of measurement error as mentioned above. This means that we interpret students’ competency as a probability distribution among the plausible values not as a fixed point. In addition to this rational, the PV was adopted in a practical and efficiency stand point. In PISA tests, students do not take all the test items as it is time consuming and each student take different set of test, while the test items missing in each students are treated as missing value. This creates five different set of literally plausible score value of the students.
+<p>PV is called plausible value, and each domain has five PVs. For instance, math has PV1MATH - PV5MATH, and science has PV1SCIE - PV5SCIE. The PVs are introduced here to adjust measurement error that can be caused by
+- the concept to be measured is not clear,
+- students physical and psychological condition affected at the moment of testing, and
+- the testing environment on a day of testing.
+Thus, if we have five different plausible values distributed in a certain range of raw scores, we can avoid point estimate of the students’ competency, which has a high risk of measurement error as mentioned above. It means that we interpret students’ competency as a probability distribution among the plausible values, not as a fixed point. In addition to this rational, the PV was adopted in a practical and efficient standpoint. In PISA tests, students do not take all the test items as it is time-consuming, and each student takes different sets of tests, while the test items missing in each student are treated as a missing value. It creates five different sets of literally plausible score values of the students.
  </p>
-<p>I created two columns of mean data to compare between weighted PV means and weighted means of each country. However, as we can see from the below table, there is not much significant difference between weighted PV mean and just weighted mean with the final weight. The OECD also admitted that PV value does not bring significant impact to reduce bias in estimate (OECD, 2009)</p>
+<p>I created two columns of mean data to compare weighted PV means and weighted means of each country. However, as we can see from the below table, there is no significant difference between the weighted PV mean and just the weighted mean with the final weight. The OECD also admitted that PV value does not bring significant impact to reduce bias in the estimate (OECD, 2009)</p>
 <pre class="r"><code># Create a dataframe with weighted PV means (weighted by final weight)
 PVSCIE&lt;-pisa.mean.pv(pvlabel=&quot;SCIE&quot;, by=&quot;CNT&quot;, data=pisa2006)
 # Create a dataframe with weighted means (weighted by final weight)
@@ -1105,15 +1111,6 @@ head(Merge,15)</code></pre>
 
 
   
-  
-  <div class="article-widget content-widget-hr">
-    <h3>Related</h3>
-    <ul>
-      
-      <li><a href="/post/educational-knowledge-and-policy-scape/educational-knowledge-and-policy-scape/">Educational Knowledge and Policy Scape</a></li>
-      
-    </ul>
-  </div>
   
 
 
