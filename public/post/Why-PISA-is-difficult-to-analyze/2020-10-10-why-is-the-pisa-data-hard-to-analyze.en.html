@@ -1,28 +1,3 @@
----
-title: Why is PISA Difficult to Analyze (Lesson.One)
-author: Byoung-gyu Gong
-date: '2020-10-10'
-slug: why-is-the-pisa-data-hard-to-analyze
-categories:
-  - Educational data analytics
-  - International large-scale assessment
-  - Multilevel analysis
-tags:
-  - PISA
-  - R
-  - intsvy
-subtitle: ''
-summary: ''
-authors: []
-lastmod: '2020-10-10T11:22:28-07:00'
-featured: no
-image:
-  caption: ''
-  focal_point: ''
-  preview_only: no
-projects: []
----
-
 
 
 <p>By Byoung-gyu Gong</p>
@@ -45,7 +20,6 @@ projects: []
 To avoid such bias, PISA made some complementary measures.
  </p>
 <p>Once you look at the data table imported from the PISA 2006, you would see a number of strange variable names such as PV1-5 for each reading, math, and science domains. Also, there are a number of variables having names like W_FSTR1-80. If you just naively wanted to calculate students’ mean or correlation coefficient with a fixed point score, you would be embarrased to find these strange variables.</p>
-<pre class="r"><code>head(pisa2006,1)</code></pre>
 <pre><code>##   X CNT SCHOOLID STIDSTD  PV1MATH  PV2MATH  PV3MATH  PV4MATH  PV5MATH  PV1READ
 ## 1 1 ARG        1       1 305.1799 305.9589 264.6752 320.7587 301.2852 357.0519
 ##    PV2READ  PV3READ  PV4READ  PV5READ  PV1SCIE  PV2SCIE  PV3SCIE  PV4SCIE
@@ -117,25 +91,9 @@ The summation of the students’ weight is equal to the population, total popula
 ## 1 ARG   523048.</code></pre>
 <p> </p>
 <p>Also, we can compare difference in variable means between raw scores and weighted scores. Comparing with the graph ‘B’ with the graph ‘A’, we can recognize that the graph ‘B’ is more slighted deviated from the regression line although for most of the countries the difference is negligible.</p>
-<pre class="r"><code># ESCS is the socio-economic status (SES) index
-# Create weighted mean score (W_MEAN) and non-weighted means score of ESCS
-# Calculate national mean
-PV1SCIE&lt;-pisa2006 %&gt;% select(CNT, PV1SCIE, W_FSTUWT) %&gt;% group_by(CNT) %&gt;%  mutate(W_MEAN=weighted.mean(PV1SCIE,W_FSTUWT, na.rm=TRUE), MEAN=mean(PV1SCIE, na.rm=TRUE)) %&gt;% ungroup() %&gt;% select(CNT, W_MEAN, MEAN) %&gt;% unique()
-
-# Create a scatter plot to compare the discrepancy between 
-library(ggplot2)
-library(ggpubr)
-# Create a scatter plot with raw score means (unweighted mean)
-Non_weight&lt;-ggplot(PV1SCIE, aes(x=MEAN, y=MEAN)) + geom_point() + geom_text(data=PV1SCIE, aes(label=CNT), position=position_jitter(width=0.1,height=0.1), size=3) + geom_smooth(method=lm, se=TRUE)+stat_cor(method = &quot;pearson&quot;)
-# Create a scatter plot with unweighted mean and weighted mean
-Weight_non_weight&lt;-ggplot(PV1SCIE, aes(x=MEAN, y=W_MEAN)) + geom_point() + geom_text(data=PV1SCIE, aes(label=CNT), position=position_jitter(width=0.1,height=0.1), size=3) + geom_smooth(method=lm, se=TRUE)+stat_cor(method = &quot;pearson&quot;)
-# Compore these two
-ggarrange(Non_weight, Weight_non_weight, 
-          labels = c(&quot;A&quot;, &quot;B&quot;),
-          ncol = 2, nrow = 1)</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;
 ## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/post/Why-PISA-is-difficult-to-analyze/2020-10-10-why-is-the-pisa-data-hard-to-analyze.en_files/figure-html/unnamed-chunk-6-1.png" width="672" />
+<p><img src="2020-10-10-why-is-the-pisa-data-hard-to-analyze.en_files/figure-html/unnamed-chunk-5-1.png" width="672" />
  </p>
 </div>
 <div id="plausible-valuepv" class="section level3">
@@ -143,13 +101,7 @@ ggarrange(Non_weight, Weight_non_weight,
 <p>PV is called plausible value and each domain has five PVs. For instance, math has PV1MATH - PV5MATH and science has PV1SCIE - PV5SCIE. The PVs are introduced here to adjust measurement error that can be caused by (1) the concept to be measured is not clear, (2) students physical and psychological condition affected on the moment of testing, and (3) the testing environment on a day of testing. Thus, if we have five different plausible values distributed in the certain range of raw score, we can avoid point estimate of the students’ competency which has high risk of measurement error as mentioned above. This means that we interpret students’ competency as a probability distribution among the plausible values not as a fixed point. In addition to this rational, the PV was adopted in a practical and efficiency stand point. In PISA tests, students do not take all the test items as it is time consuming and each student take different set of test, while the test items missing in each students are treated as missing value. This creates five different set of literally plausible score value of the students.
  </p>
 <p>I created two columns of mean data to compare between weighted PV means and weighted means of each country. However, as we can see from the below table, there is not much significant difference between weighted PV mean and just weighted mean with the final weight. The OECD also admitted that PV value does not bring significant impact to reduce bias in estimate (OECD, 2009)</p>
-<pre class="r"><code># Create a dataframe with weighted PV means (weighted by final weight)
-PVSCIE&lt;-pisa.mean.pv(pvlabel=&quot;SCIE&quot;, by=&quot;CNT&quot;, data=pisa2006)
-# Create a dataframe with weighted means (weighted by final weight)
-SCIE&lt;-pisa2006 %&gt;% group_by(CNT) %&gt;% summarise(Mean=(weighted.mean(PV4SCIE,W_FSTUWT, na.rm=TRUE))) %&gt;% mutate(Mean=round(Mean, 2))</code></pre>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<pre class="r"><code>Merge&lt;-left_join(PVSCIE, SCIE, by=&quot;CNT&quot;) %&gt;% select(CNT, Freq, Mean.x, Mean.y) %&gt;% rename(PVmean=&quot;Mean.x&quot;, Rawmean=&quot;Mean.y&quot;)
-head(Merge,15)</code></pre>
 <pre><code>##    CNT  Freq PVmean Rawmean
 ## 1  ARG  4339 391.24  391.33
 ## 2  AUS 14170 526.88  526.90
