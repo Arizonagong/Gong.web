@@ -278,7 +278,7 @@
   
   <meta property="og:site_name" content="Byoung-gyu Gong">
   <meta property="og:url" content="/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/">
-  <meta property="og:title" content="Why is PISA Difficult to Analyze (Lesson.One) | Byoung-gyu Gong">
+  <meta property="og:title" content="Why is PISA Difficult to Analyze | Byoung-gyu Gong">
   <meta property="og:description" content="By Byoung-gyu Gong
   1. What is ILSA and PISA International large-scale assessment (ILSA) is conducted regularly by international organizations to measure and compare many different countries’ educational performance and status."><meta property="og:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png">
   <meta property="twitter:image" content="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png"><meta property="og:locale" content="en-us">
@@ -312,7 +312,7 @@
     "@type": "WebPage",
     "@id": "/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/"
   },
-  "headline": "Why is PISA Difficult to Analyze (Lesson.One)",
+  "headline": "Why is PISA Difficult to Analyze",
   
   "datePublished": "2020-10-10T00:00:00Z",
   "dateModified": "2020-10-10T11:22:28-07:00",
@@ -348,7 +348,7 @@
 
 
 
-  <title>Why is PISA Difficult to Analyze (Lesson.One) | Byoung-gyu Gong</title>
+  <title>Why is PISA Difficult to Analyze | Byoung-gyu Gong</title>
 
 </head>
 
@@ -639,7 +639,7 @@
   
   
 <div class="article-container pt-3">
-  <h1>Why is PISA Difficult to Analyze (Lesson.One)</h1>
+  <h1>Why is PISA Difficult to Analyze</h1>
 
   
 
@@ -806,9 +806,8 @@ The summation of the students’ weight is equal to the population total populat
 ##   &lt;chr&gt;   &lt;dbl&gt;
 ## 1 ARG   523048.</code></pre>
 <p> </p>
-<p>Also, we can compare the difference in variable means between raw scores and weighted scores. Comparing with the graph ‘B’ with the graph ‘A,’ we can recognize that the graph ‘B’ is more slightly deviated from the regression line, although the difference is negligible for most countries.</p>
-<pre class="r"><code># ESCS is the socio-economic status (SES) index
-# Create weighted mean score (W_MEAN) and non-weighted means score of ESCS
+<p>Also, we can compare the difference in variable means between raw scores and weighted scores. Comparing with the graph ‘B’ with the graph ‘A,’ we can recognize that the graph ‘B’ is more slightly deviated from the regression line, although the difference is negligible for most countries. Some of the countries in specific variables, the bias to the estimate can be significantly large so we should apply the final student weight for the analysis all the time.</p>
+<pre class="r"><code># Create weighted mean score (W_MEAN) and non-weighted means score of PV1SCIE (science score)
 # Calculate national mean
 PV1SCIE&lt;-pisa2006 %&gt;% select(CNT, PV1SCIE, W_FSTUWT) %&gt;% group_by(CNT) %&gt;%  mutate(W_MEAN=weighted.mean(PV1SCIE,W_FSTUWT, na.rm=TRUE), MEAN=mean(PV1SCIE, na.rm=TRUE)) %&gt;% ungroup() %&gt;% select(CNT, W_MEAN, MEAN) %&gt;% unique()
 
@@ -861,6 +860,11 @@ head(Merge,15)</code></pre>
 ## 15 ESP 19604 488.42  487.51</code></pre>
 <p> </p>
 </div>
+</div>
+<div id="conclusion" class="section level2">
+<h2><strong>3. Conclusion</strong></h2>
+<p>As we examined so far, the students’ final weight is a significant factor to reduce bias in estimation. Although PV value has less impact to the estimation and OECD also admit it, but still it should be best to follow the PISA instruction.</p>
+<p>In this post, I only explored the estimates at each country level. However, it is very different for the case of cross-national analysis, setting each country as a unit of analysis. For instance, the weight that should be applied to each student should be adjusted. PISA also provides instruction on how to adjust the weight though there is still controversy over it. I will post this topic later on.</p>
 <div id="references" class="section level3">
 <h3><strong>References</strong></h3>
 <p>Jerrim, J., Lopez-Agudo, L. A., Marcenaro-Gutierrez, O. D., &amp; Shure, N. (2017, June). To weight or not to weight?: the case of PISA data. In Proceedings of the XXVI Meeting of the Economics of Education Association, Murcia, Spain (pp. 29-30).</p>
@@ -900,7 +904,7 @@ head(Merge,15)</code></pre>
       
       
       <li>
-        <a href="https://twitter.com/intent/tweet?url=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/&amp;text=Why%20is%20PISA%20Difficult%20to%20Analyze%20%28Lesson.One%29" target="_blank" rel="noopener" class="share-btn-twitter">
+        <a href="https://twitter.com/intent/tweet?url=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/&amp;text=Why%20is%20PISA%20Difficult%20to%20Analyze" target="_blank" rel="noopener" class="share-btn-twitter">
           <i class="fab fa-twitter"></i>
         </a>
       </li>
@@ -913,7 +917,7 @@ head(Merge,15)</code></pre>
       
       
       <li>
-        <a href="https://www.facebook.com/sharer.php?u=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/&amp;t=Why%20is%20PISA%20Difficult%20to%20Analyze%20%28Lesson.One%29" target="_blank" rel="noopener" class="share-btn-facebook">
+        <a href="https://www.facebook.com/sharer.php?u=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/&amp;t=Why%20is%20PISA%20Difficult%20to%20Analyze" target="_blank" rel="noopener" class="share-btn-facebook">
           <i class="fab fa-facebook"></i>
         </a>
       </li>
@@ -926,7 +930,7 @@ head(Merge,15)</code></pre>
       
       
       <li>
-        <a href="mailto:?subject=Why%20is%20PISA%20Difficult%20to%20Analyze%20%28Lesson.One%29&amp;body=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/" target="_blank" rel="noopener" class="share-btn-email">
+        <a href="mailto:?subject=Why%20is%20PISA%20Difficult%20to%20Analyze&amp;body=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/" target="_blank" rel="noopener" class="share-btn-email">
           <i class="fas fa-envelope"></i>
         </a>
       </li>
@@ -939,7 +943,7 @@ head(Merge,15)</code></pre>
       
       
       <li>
-        <a href="https://www.linkedin.com/shareArticle?url=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/&amp;title=Why%20is%20PISA%20Difficult%20to%20Analyze%20%28Lesson.One%29" target="_blank" rel="noopener" class="share-btn-linkedin">
+        <a href="https://www.linkedin.com/shareArticle?url=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/&amp;title=Why%20is%20PISA%20Difficult%20to%20Analyze" target="_blank" rel="noopener" class="share-btn-linkedin">
           <i class="fab fa-linkedin-in"></i>
         </a>
       </li>
@@ -952,7 +956,7 @@ head(Merge,15)</code></pre>
       
       
       <li>
-        <a href="whatsapp://send?text=Why%20is%20PISA%20Difficult%20to%20Analyze%20%28Lesson.One%29%20/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+        <a href="whatsapp://send?text=Why%20is%20PISA%20Difficult%20to%20Analyze%20/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/" target="_blank" rel="noopener" class="share-btn-whatsapp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </li>
@@ -965,7 +969,7 @@ head(Merge,15)</code></pre>
       
       
       <li>
-        <a href="https://service.weibo.com/share/share.php?url=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/&amp;title=Why%20is%20PISA%20Difficult%20to%20Analyze%20%28Lesson.One%29" target="_blank" rel="noopener" class="share-btn-weibo">
+        <a href="https://service.weibo.com/share/share.php?url=/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/&amp;title=Why%20is%20PISA%20Difficult%20to%20Analyze" target="_blank" rel="noopener" class="share-btn-weibo">
           <i class="fab fa-weibo"></i>
         </a>
       </li>

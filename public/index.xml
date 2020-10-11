@@ -74,7 +74,7 @@
     </item>
     
     <item>
-      <title>Why is PISA Difficult to Analyze (Lesson.One)</title>
+      <title>Why is PISA Difficult to Analyze</title>
       <link>/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/</link>
       <pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate>
       <guid>/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/</guid>
@@ -175,9 +175,8 @@ The summation of the students’ weight is equal to the population total populat
 ##   &amp;lt;chr&amp;gt;   &amp;lt;dbl&amp;gt;
 ## 1 ARG   523048.&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt; &lt;/p&gt;
-&lt;p&gt;Also, we can compare the difference in variable means between raw scores and weighted scores. Comparing with the graph ‘B’ with the graph ‘A,’ we can recognize that the graph ‘B’ is more slightly deviated from the regression line, although the difference is negligible for most countries.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# ESCS is the socio-economic status (SES) index
-# Create weighted mean score (W_MEAN) and non-weighted means score of ESCS
+&lt;p&gt;Also, we can compare the difference in variable means between raw scores and weighted scores. Comparing with the graph ‘B’ with the graph ‘A,’ we can recognize that the graph ‘B’ is more slightly deviated from the regression line, although the difference is negligible for most countries. Some of the countries in specific variables, the bias to the estimate can be significantly large so we should apply the final student weight for the analysis all the time.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Create weighted mean score (W_MEAN) and non-weighted means score of PV1SCIE (science score)
 # Calculate national mean
 PV1SCIE&amp;lt;-pisa2006 %&amp;gt;% select(CNT, PV1SCIE, W_FSTUWT) %&amp;gt;% group_by(CNT) %&amp;gt;%  mutate(W_MEAN=weighted.mean(PV1SCIE,W_FSTUWT, na.rm=TRUE), MEAN=mean(PV1SCIE, na.rm=TRUE)) %&amp;gt;% ungroup() %&amp;gt;% select(CNT, W_MEAN, MEAN) %&amp;gt;% unique()
 
@@ -230,6 +229,11 @@ head(Merge,15)&lt;/code&gt;&lt;/pre&gt;
 ## 15 ESP 19604 488.42  487.51&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt; &lt;/p&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;conclusion&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;strong&gt;3. Conclusion&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;As we examined so far, the students’ final weight is a significant factor to reduce bias in estimation. Although PV value has less impact to the estimation and OECD also admit it, but still it should be best to follow the PISA instruction.&lt;/p&gt;
+&lt;p&gt;In this post, I only explored the estimates at each country level. However, it is very different for the case of cross-national analysis, setting each country as a unit of analysis. For instance, the weight that should be applied to each student should be adjusted. PISA also provides instruction on how to adjust the weight though there is still controversy over it. I will post this topic later on.&lt;/p&gt;
 &lt;div id=&#34;references&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/h3&gt;
 &lt;p&gt;Jerrim, J., Lopez-Agudo, L. A., Marcenaro-Gutierrez, O. D., &amp;amp; Shure, N. (2017, June). To weight or not to weight?: the case of PISA data. In Proceedings of the XXVI Meeting of the Economics of Education Association, Murcia, Spain (pp. 29-30).&lt;/p&gt;
