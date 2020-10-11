@@ -41,8 +41,8 @@ projects: []
 <div id="two-staged-sampling" class="section level3">
 <h3><strong>2.1. Two-staged sampling</strong></h3>
 <p>The sampling design of the PISA is the reason why the analysis procedure is so complicated. The PISA does not use random sampling and instead follows two staged sampling: firstly sample schools and then sample students in the participating schools. This makes the sampling errors of population estimates increase. It conflicts with most of the computer softwares designed to assume random sampling for statistical analysis, and requests more sophisticated analysis procedure. Once the assumption of random sampling is violated, the student data can be dependent on each other because they may share common school characteristics.<br />
- 
-To avoid such bias, PISA made some complementary measures.
+ </p>
+<p>To avoid such bias, PISA made some complementary measures.
  </p>
 <p>Once you look at the data table imported from the PISA 2006, you would see a number of strange variable names such as PV1-5 for each reading, math, and science domains. Also, there are a number of variables having names like W_FSTR1-80. If you just naively wanted to calculate students’ mean or correlation coefficient with a fixed point score, you would be embarrased to find these strange variables.</p>
 <pre class="r"><code>head(pisa2006,1)</code></pre>
