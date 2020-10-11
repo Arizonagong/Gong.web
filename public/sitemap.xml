@@ -33,17 +33,92 @@
   </url>
   
   <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/educational-data-analytics/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/international-large-scale-assessment/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/intsvy/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/multilevel-analysis/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/pisa/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/r/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/</loc>
+    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/bibliometrix/</loc>
+    <lastmod>2020-10-09T14:20:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/educational-knowledge-and-policy-scape/educational-knowledge-and-policy-scape/</loc>
+    <lastmod>2020-10-09T14:20:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/scientometrix/</loc>
+    <lastmod>2020-10-09T14:20:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/semantic-analysis/</loc>
+    <lastmod>2020-10-09T14:20:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/textual-analysis/</loc>
+    <lastmod>2020-10-09T14:20:13-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/topic-modeling/</loc>
+    <lastmod>2020-10-09T14:20:13-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tag/assortativity/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
   <url>
     <loc>/tag/betweenness-centrality/</loc>
-    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
@@ -78,22 +153,12 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/category/r/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
   <url>
     <loc>/post/aspb/network/</loc>
-    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   

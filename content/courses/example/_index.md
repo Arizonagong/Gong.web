@@ -2,10 +2,10 @@
 date: "2018-09-09T00:00:00Z"
 draft: false
 lastmod: "2018-09-09T00:00:00Z"
-linktitle: 1-Lecture lists
+linktitle: Lecture lists
 menu:
   example: 
-    name: 1-Lecture lists
+    name: Lecture lists
     weight: 1
 summary:
 title: Lecture lists

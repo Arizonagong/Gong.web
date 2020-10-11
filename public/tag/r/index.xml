@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R | Byoung-gyu Gong Ph.D</title>
+    <title>R | Byoung-gyu Gong</title>
     <link>/tag/r/</link>
       <atom:link href="/tag/r/index.xml" rel="self" type="application/rss+xml" />
     <description>R</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 04 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 10 Oct 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>R</title>
@@ -13,312 +13,211 @@
     </image>
     
     <item>
-      <title>Student contact network at school: Spread of the virus</title>
-      <link>/post/aspb/network/</link>
-      <pubDate>Sun, 04 Oct 2020 00:00:00 +0000</pubDate>
-      <guid>/post/aspb/network/</guid>
+      <title>why PISA is difficult to analyze</title>
+      <link>/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/</link>
+      <pubDate>Sat, 10 Oct 2020 00:00:00 +0000</pubDate>
+      <guid>/post/why-pisa-is-difficult-to-analyze/why-is-the-pisa-data-hard-to-analyze/</guid>
       <description>
 
 
-&lt;div id=&#34;pandemic-and-school-reopening-issue&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Pandemic and School Reopening Issue&lt;/h2&gt;
-&lt;p&gt;With an outbreak of the COVID-19 pandemic, there is increasing attention to the school closer issue. Many countries implemented a strict lock-down to slow down the spread of the virus, but this came at the expense of losing our children’s learning opportunity. Despite that, the reopening school can be very costly as children can transmit the virus to their families and communities. Now that there is significant uncertainty on the impact of school reopening, we see that many countries are still under discussion on this issue. Disappointingly, we do not know much about how the school affects the children’s virus infection.&lt;/p&gt;
+&lt;p&gt;By Byoung-gyu Gong&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Why-PISA-is-difficult-to-analyze/featured.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;div id=&#34;what-is-ilsa-and-pisa&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;What is ILSA and PISA&lt;/h1&gt;
+&lt;p&gt;International large-scale assessment (ILSA) is conducted regularly by the international organizations to measure and compare educational performance and status of many different countries. Among many others, Programme for International Student Assessment (PISA) by OECD is the most well-known ILSA testing member and non-member partner country’s 15-year-old students every two years. It measures students’ reading, math, and science using computer-based instrument. It also surveys to collect more detailed background information of each student, teacher, and school. The PISA 2006 collected these massive size of data from 398,750 students. Thus, it can be said that the PISA is the most comprehensive large sized international students assessment data set available now.&lt;/p&gt;
 &lt;p&gt; &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;purpose-of-the-analysis&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Purpose of the Analysis&lt;/h2&gt;
-&lt;p&gt;Given this situation, in this post, I will analyze children’s physical contact network at school to see how much contact happens among children. The contact network indicators at school can be a basic knowledge we can reorganize our school space, time, and activity to adjust to the post-pandemic world.&lt;br /&gt;
- &lt;/p&gt;
+&lt;div id=&#34;why-is-it-difficult-to-analyze-pisa-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Why is it difficult to analyze PISA data?&lt;/h1&gt;
+&lt;p&gt;In spite of insightful knowledge we can gain from this large international students’ data set, PISA is not easily accessible to most of the researchers to analyze it. That is not because the access to the data is limited but rather because the data is complexly structured requesting sophisticated data pre-processing. Even Jerrim, Lopez-Agudo, Marcenaro-Gutierrez, and Shure (2017) said “in spite of their acquired relevance, there are few studies which really account for the complex survey and test designs that they present and follow the technical procedures suggested by their developers” (p.1). I will illustrate what caution needed to analyze the data set and provides R solution in this post using data set of PISA 2006.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;div id=&#34;two-staged-sampling&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Two-staged sampling&lt;/h2&gt;
+&lt;p&gt;The sampling design of the PISA is the reason why the analysis procedure is so complicated. The PISA does not use random sampling and instead follows two staged sampling: firstly sample schools and then sample students in the participating schools. This makes the sampling errors of population estimates increase. It conflicts with most of the computer softwares designed to assume random sampling for statistical analysis, and requests more sophisticated analysis procedure. Once the assumption of random sampling is violated, the student data can be dependent on each other because they may share common school characteristics.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;To avoid such bias, PISA made some complementary measures.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;Once you look at the data table imported from the PISA 2006, you would see a number of strange variable names such as PV1-5 for each reading, math, and science domains. Also, there are a number of variables having names like W_FSTR1-80. If you just naively wanted to calculate students’ mean or correlation coefficient with a fixed point score, you would be embarrased to find these strange variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;load(&amp;quot;/Users/bgong/Documents/Rprograms/PISA/PISA2006/pisa2006.RData&amp;quot;)
+head(pisa2006)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   X CNT SCHOOLID STIDSTD  PV1MATH  PV2MATH  PV3MATH  PV4MATH  PV5MATH  PV1READ
+## 1 1 ARG        1       1 305.1799 305.9589 264.6752 320.7587 301.2852 357.0519
+## 2 2 ARG        1       2 399.9766 248.0838 391.4083 372.7138 482.5440 359.3936
+## 3 3 ARG        1       3 366.3265 353.8635 417.7364 321.1482 349.1899 383.9220
+## 4 4 ARG        1       4 480.8303 496.4091 384.2421 502.6406 386.5789 506.6419
+## 5 5 ARG        1       5 317.2535 300.1168 370.2212 410.7260 343.7373 364.5576
+## 6 6 ARG        1       6 421.7090 448.9718 386.6568 398.3409 429.4984 426.8338
+##    PV2READ  PV3READ  PV4READ  PV5READ  PV1SCIE  PV2SCIE  PV3SCIE  PV4SCIE
+## 1 312.1348 281.6554 316.9474 316.1453 395.3131 411.1652 445.6667 351.4869
+## 2 339.5323 422.1555 422.1555 384.8162 400.2552 329.3872 421.7021 439.4191
+## 3 426.4328 408.7868 399.9638 378.3073 313.7217 318.3840 325.8438 274.5578
+## 4 472.9540 446.4850 499.4230 464.1310 460.1201 518.8659 535.6504 518.8659
+## 5 432.0862 354.2297 436.0585 363.7631 263.3681 324.9114 303.4645 378.9948
+## 6 456.5112 377.9063 349.0310 411.5941 395.4996 420.6764 298.5223 297.5899
+##    PV5SCIE  PV1INTR  PV2INTR  PV3INTR  PV4INTR  PV5INTR  PV1SUPP  PV2SUPP
+## 1 356.1492 539.9939 480.1177 497.9912 370.1956 506.0343 339.0228 395.3084
+## 2 437.5542 584.5883 594.4188 550.6287 603.3555 638.2089 622.4036 528.2114
+## 3 355.6830 561.9784 631.6850 578.0645 612.9179 579.8519 450.6751 528.7857
+## 4 488.0943 460.0994 587.0013 505.6768 556.6163 509.2515 378.3078 425.4040
+## 5 296.9371 517.2946 541.4238 521.7630 529.8060 503.8895 398.9842 444.9316
+## 6 389.9048 669.6662 694.6892 630.3445 639.2813 633.0256 544.9822 562.2125
+##    PV3SUPP  PV4SUPP  PV5SUPP   PV1EPS   PV2EPS   PV3EPS   PV4EPS   PV5EPS
+## 1 412.5387 313.7517 322.9412 393.4482 384.1234 354.2843 430.7471 417.6925
+## 2 509.8324 640.7826 577.6049 389.0656 445.9465 431.0269 392.7955 405.8501
+## 3 417.3632 509.2581 521.8936 226.0691 317.4516 247.5160 298.8021 309.0593
+## 4 388.6460 440.3369 285.2643 516.0685 437.7407 470.3773 510.4736 474.1072
+## 5 479.3922 500.0686 497.7712 226.0691 257.7732 214.8794 230.7315 224.2042
+## 6 437.0057 519.7111 553.0230 366.5929 261.2234 394.5672 340.4837 345.1460
+##     PV1ISI   PV2ISI   PV3ISI   PV4ISI   PV5ISI   PV1USE   PV2USE   PV3USE
+## 1 334.7023 304.8632 323.5126 399.9755 386.9209 401.8404 383.1910 385.0559
+## 2 403.9851 469.2583 439.4191 426.3645 478.5830 384.4032 423.5671 422.6346
+## 3 286.6799 355.6830 323.9789 343.5608 329.5737 289.4774 417.2263 320.2490
+## 4 497.4190 459.1876 508.6087 519.7984 433.0783 584.1391 515.1360 512.3386
+## 5 353.8180 373.4000 303.4645 393.9144 337.0335 300.6670 323.0464 259.6382
+## 6 334.8888 229.5193 348.8759 338.6187 309.7120 374.0527 245.3713 401.0945
+##     PV4USE   PV5USE W_FSTUWT W_FSTR1  W_FSTR2 W_FSTR3  W_FSTR4 W_FSTR5  W_FSTR6
+## 1 436.3420 469.9110  98.8278 52.1041 139.9112 52.1041 139.9112 52.1041 139.9112
+## 2 390.9305 430.0944  91.7075 45.8538 137.5613 45.8538 137.5613 45.8538 137.5613
+## 3 375.2649 364.0753  98.8278 52.1041 139.9112 52.1041 139.9112 52.1041 139.9112
+## 4 584.1391 505.8113  98.8278 52.1041 139.9112 52.1041 139.9112 52.1041 139.9112
+## 5 268.9629 268.0305  91.7075 45.8538 137.5613 45.8538 137.5613 45.8538 137.5613
+## 6 357.2682 349.8084  98.8278 52.1041 139.9112 52.1041 139.9112 52.1041 139.9112
+##   W_FSTR7 W_FSTR8 W_FSTR9 W_FSTR10 W_FSTR11 W_FSTR12 W_FSTR13 W_FSTR14 W_FSTR15
+## 1 52.1041 52.1041 52.1041  52.1041 139.9112 139.9112  52.1041 139.9112 139.9112
+## 2 45.8538 45.8538 45.8538  45.8538 137.5613 137.5613  45.8538 137.5613 137.5613
+## 3 52.1041 52.1041 52.1041  52.1041 139.9112 139.9112  52.1041 139.9112 139.9112
+## 4 52.1041 52.1041 52.1041  52.1041 139.9112 139.9112  52.1041 139.9112 139.9112
+## 5 45.8538 45.8538 45.8538  45.8538 137.5613 137.5613  45.8538 137.5613 137.5613
+## 6 52.1041 52.1041 52.1041  52.1041 139.9112 139.9112  52.1041 139.9112 139.9112
+##   W_FSTR16 W_FSTR17 W_FSTR18 W_FSTR19 W_FSTR20 W_FSTR21 W_FSTR22 W_FSTR23
+## 1  52.1041  52.1041 139.9112 139.9112 139.9112  52.1041 139.9112  52.1041
+## 2  45.8538  45.8538 137.5613 137.5613 137.5613  45.8538 137.5613  45.8538
+## 3  52.1041  52.1041 139.9112 139.9112 139.9112  52.1041 139.9112  52.1041
+## 4  52.1041  52.1041 139.9112 139.9112 139.9112  52.1041 139.9112  52.1041
+## 5  45.8538  45.8538 137.5613 137.5613 137.5613  45.8538 137.5613  45.8538
+## 6  52.1041  52.1041 139.9112 139.9112 139.9112  52.1041 139.9112  52.1041
+##   W_FSTR24 W_FSTR25 W_FSTR26 W_FSTR27 W_FSTR28 W_FSTR29 W_FSTR30 W_FSTR31
+## 1 139.9112  52.1041 139.9112  52.1041  52.1041  52.1041  52.1041 139.9112
+## 2 137.5613  45.8538 137.5613  45.8538  45.8538  45.8538  45.8538 137.5613
+## 3 139.9112  52.1041 139.9112  52.1041  52.1041  52.1041  52.1041 139.9112
+## 4 139.9112  52.1041 139.9112  52.1041  52.1041  52.1041  52.1041 139.9112
+## 5 137.5613  45.8538 137.5613  45.8538  45.8538  45.8538  45.8538 137.5613
+## 6 139.9112  52.1041 139.9112  52.1041  52.1041  52.1041  52.1041 139.9112
+##   W_FSTR32 W_FSTR33 W_FSTR34 W_FSTR35 W_FSTR36 W_FSTR37 W_FSTR38 W_FSTR39
+## 1 139.9112  52.1041 139.9112 139.9112  52.1041  52.1041 139.9112 139.9112
+## 2 137.5613  45.8538 137.5613 137.5613  45.8538  45.8538 137.5613 137.5613
+## 3 139.9112  52.1041 139.9112 139.9112  52.1041  52.1041 139.9112 139.9112
+## 4 139.9112  52.1041 139.9112 139.9112  52.1041  52.1041 139.9112 139.9112
+## 5 137.5613  45.8538 137.5613 137.5613  45.8538  45.8538 137.5613 137.5613
+## 6 139.9112  52.1041 139.9112 139.9112  52.1041  52.1041 139.9112 139.9112
+##   W_FSTR40 W_FSTR41 W_FSTR42 W_FSTR43 W_FSTR44 W_FSTR45 W_FSTR46 W_FSTR47
+## 1 139.9112  52.1041 139.9112  52.1041 139.9112  52.1041 139.9112  52.1041
+## 2 137.5613  45.8538 137.5613  45.8538 137.5613  45.8538 137.5613  45.8538
+## 3 139.9112  52.1041 139.9112  52.1041 139.9112  52.1041 139.9112  52.1041
+## 4 139.9112  52.1041 139.9112  52.1041 139.9112  52.1041 139.9112  52.1041
+## 5 137.5613  45.8538 137.5613  45.8538 137.5613  45.8538 137.5613  45.8538
+## 6 139.9112  52.1041 139.9112  52.1041 139.9112  52.1041 139.9112  52.1041
+##   W_FSTR48 W_FSTR49 W_FSTR50 W_FSTR51 W_FSTR52 W_FSTR53 W_FSTR54 W_FSTR55
+## 1  52.1041  52.1041  52.1041 139.9112 139.9112  52.1041 139.9112 139.9112
+## 2  45.8538  45.8538  45.8538 137.5613 137.5613  45.8538 137.5613 137.5613
+## 3  52.1041  52.1041  52.1041 139.9112 139.9112  52.1041 139.9112 139.9112
+## 4  52.1041  52.1041  52.1041 139.9112 139.9112  52.1041 139.9112 139.9112
+## 5  45.8538  45.8538  45.8538 137.5613 137.5613  45.8538 137.5613 137.5613
+## 6  52.1041  52.1041  52.1041 139.9112 139.9112  52.1041 139.9112 139.9112
+##   W_FSTR56 W_FSTR57 W_FSTR58 W_FSTR59 W_FSTR60 W_FSTR61 W_FSTR62 W_FSTR63
+## 1  52.1041  52.1041 139.9112 139.9112 139.9112  52.1041 139.9112  52.1041
+## 2  45.8538  45.8538 137.5613 137.5613 137.5613  45.8538 137.5613  45.8538
+## 3  52.1041  52.1041 139.9112 139.9112 139.9112  52.1041 139.9112  52.1041
+## 4  52.1041  52.1041 139.9112 139.9112 139.9112  52.1041 139.9112  52.1041
+## 5  45.8538  45.8538 137.5613 137.5613 137.5613  45.8538 137.5613  45.8538
+## 6  52.1041  52.1041 139.9112 139.9112 139.9112  52.1041 139.9112  52.1041
+##   W_FSTR64 W_FSTR65 W_FSTR66 W_FSTR67 W_FSTR68 W_FSTR69 W_FSTR70 W_FSTR71
+## 1 139.9112  52.1041 139.9112  52.1041  52.1041  52.1041  52.1041 139.9112
+## 2 137.5613  45.8538 137.5613  45.8538  45.8538  45.8538  45.8538 137.5613
+## 3 139.9112  52.1041 139.9112  52.1041  52.1041  52.1041  52.1041 139.9112
+## 4 139.9112  52.1041 139.9112  52.1041  52.1041  52.1041  52.1041 139.9112
+## 5 137.5613  45.8538 137.5613  45.8538  45.8538  45.8538  45.8538 137.5613
+## 6 139.9112  52.1041 139.9112  52.1041  52.1041  52.1041  52.1041 139.9112
+##   W_FSTR72 W_FSTR73 W_FSTR74 W_FSTR75 W_FSTR76 W_FSTR77 W_FSTR78 W_FSTR79
+## 1 139.9112  52.1041 139.9112 139.9112  52.1041  52.1041 139.9112 139.9112
+## 2 137.5613  45.8538 137.5613 137.5613  45.8538  45.8538 137.5613 137.5613
+## 3 139.9112  52.1041 139.9112 139.9112  52.1041  52.1041 139.9112 139.9112
+## 4 139.9112  52.1041 139.9112 139.9112  52.1041  52.1041 139.9112 139.9112
+## 5 137.5613  45.8538 137.5613 137.5613  45.8538  45.8538 137.5613 137.5613
+## 6 139.9112  52.1041 139.9112 139.9112  52.1041  52.1041 139.9112 139.9112
+##   W_FSTR80    ESCS
+## 1 139.9112 -2.0048
+## 2 137.5613  0.3843
+## 3 139.9112 -1.6900
+## 4 139.9112 -2.5527
+## 5 137.5613 -0.7216
+## 6 139.9112 -0.5918&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, what are these variables in the PISA table?&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;data-source&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Data Source&lt;/h2&gt;
-&lt;p&gt;For the network analysis, I prepared two data sets from the study of &lt;em&gt;Gemnetto, Barrat, &amp;amp; Cattuto (2014) titled Mitigation of infectious disease at school: Targeted class closure vs school closure&lt;/em&gt;, which studied the infection network at the primary school. You can also find the data of this study from &lt;a href=&#34;http://www.sociopatterns.org/datasets/primary-school-temporal-network-data/&#34;&gt;Sociopatterns&lt;/a&gt;. It is the open-source network data platform readily available for any studies and researches. The students’ contact network data provides a fundamental sense to design and implement a plan for contact tracing and social distance at each school level.&lt;/p&gt;
-&lt;p&gt;The authors collected this contact network data using a wearable device that records contact whenever students get closer over a certain threshold. The data was collected from an elementary school in France.&lt;/p&gt;
+&lt;div id=&#34;sampling-weight&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Sampling Weight&lt;/h2&gt;
+&lt;p&gt;To make each sampled student from each school represent entire population of each country, we need to give a weight to each student variables. The random sample secures equal probability of each sampled student, but two-stage sampling needs to adjust the probability with complicated calculation of the weight. Weight is an inverse of probability to be selected as sample. For instance, we selected 10 students out of total 100 students, then the probability to be selected is 0.1 and weight is 10.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;In PISA each a probability of each school to be selected is proportional to its size, which is called PPS sampling method. Then, the schools with larger size has a higher probability of selection, but the students in the larger schools have proportionally less within-school probability of selection. Also, the sum of students’ weight for each country is the total number of the students’ population assumed for the study.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;There are two options to apply students’ weight for the PISA analysis, applying final weight, and replicated weight, but in this post, I don’t tackle with the replicated weight because it is more related to the estimation of standard error but not for other estimates.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;Let me show you an example here with R code. W_FSTUWT is the final students’ weight. You can see that students in the same school has approximately the same school weights with a little variation. School number 00001 has weights around 98, and 00002 has it at about 89.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;##   CNT SCHOOLID W_FSTUWT
+## 1 ARG        1  98.8278
+## 2 ARG        1  91.7075
+## 3 ARG        1  98.8278
+## 4 ARG        2  89.3573
+## 5 ARG        2  89.6970
+## 6 ARG        2  89.6970
+## 7 ARG        3 112.7806
+## 8 ARG        3 117.0837
+## 9 ARG        3 117.0837&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;The summation of the students’ weight is equal to the population, total population of 15-years-old students in Argentina. It is 523,047.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` ungrouping output (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 2
+##   CNT       sum
+##   &amp;lt;chr&amp;gt;   &amp;lt;dbl&amp;gt;
+## 1 ARG   523048.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;Also, we can compare difference in variable means between raw scores and weighted scores. Comparing with the graph ‘B’ with the graph ‘A’, we can recognize that the graph ‘B’ is more slighted deviated from the regression line although for most of the countries the difference is negligible.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## `geom_smooth()` using formula &amp;#39;y ~ x&amp;#39;
+## `geom_smooth()` using formula &amp;#39;y ~ x&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Why-PISA-is-difficult-to-analyze/2020-10-10-why-is-the-pisa-data-hard-to-analyze.en_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;analysis&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Analysis&lt;/h2&gt;
-&lt;p&gt;For the analysis, I will use igraph package in R program. Using this package, I will calculate centrality scores to detect the central node in the school network and network structure indicators, such as network density and homophily score. Also, I will visualize the network to show you the birds-eye view of the school network.&lt;/p&gt;
-&lt;div id=&#34;data-pre-processing&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;&lt;strong&gt;Data pre-processing&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;First, install the required packages and open the library.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(c(&amp;quot;igraph&amp;quot;,&amp;quot;readr&amp;quot;,&amp;quot;tidyr&amp;quot;,&amp;quot;RColorBrewer&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then, you can download the data file directly from my github repository through the following code. (If there is an error message, you should try it multiple times until you can get access to it.)&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Read data from the Github repository csv files
-urlfile1=&amp;quot;https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/primaryschool.csv&amp;quot;
-urlfile2=&amp;quot;https://raw.githubusercontent.com/Arizonagong/vCIES2020_Network-Analysis/master/igraph/metadata_primaryschool.csv&amp;quot;
-D&amp;lt;-read_csv(url(urlfile1))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## ── Column specification ─────────────────────────────────────────────────────
-## cols(
-##   Source = col_double(),
-##   Target = col_double()
-## )&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;D_meta&amp;lt;-read_csv(url(urlfile2))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 
-## ── Column specification ─────────────────────────────────────────────────────
-## cols(
-##   ID = col_double(),
-##   Class = col_character(),
-##   Gender = col_character()
-## )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now, let’s look into the data set. The first dataset names as “D” is an edge list indicating contact between the students. It is represented like 1234-4424, which means one contact between the student 1234 and 4424.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(D, 5)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 5 x 2
-##   Source Target
-##    &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;
-## 1   1558   1567
-## 2   1560   1570
-## 3   1567   1574
-## 4   1632   1818
-## 5   1632   1866&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The data set “D_meta” includes node information with students ID, class, and gender information.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;head(D_meta, 5)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## # A tibble: 5 x 3
-##      ID Class Gender
-##   &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; 
-## 1  1426 5B    M     
-## 2  1427 5B    F     
-## 3  1428 5B    M     
-## 4  1429 5B    F     
-## 5  1430 5B    M&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then, I just created “frequency” column in the edgelist, “D” to give an edge attribute for each edges with their contact frequency, and deleted all edges having 0 contact.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Manage dataset
-B&amp;lt;-as.data.frame(table(D)) # Create an edge weight column named &amp;quot;Freq&amp;quot;
-B1&amp;lt;-subset(B,Freq&amp;gt;0) # Delete all the edges having weight equal to 0
-head(B1, 5)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##     Source Target Freq
-## 1     1426   1427   27
-## 240   1426   1428   45
-## 241   1427   1428    4
-## 479   1426   1429   75
-## 480   1427   1429  100&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Then, we can now create an igraph object. igraph object is different from the data frame and requires totally different grammar from the code handling general data frame. igraph is specially designed to handle large-sized complex network data with high speed. The igraph object, “Stucont” includes edgelist, nodelist, and their attributes.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#3. Create an igraph object from the dataframes
-Stucont&amp;lt;-graph_from_data_frame(B1, directed = FALSE, vertices = D_meta)
-E(Stucont)$weight&amp;lt;-E(Stucont)$Freq # Assigning edge attribute to each edge
-Stucont&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## IGRAPH f832240 UNW- 242 8317 -- 
-## + attr: name (v/c), Class (v/c), Gender (v/c), Freq (e/n), weight (e/n)
-## + edges from f832240 (vertex names):
-##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
-##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
-## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
-## [19] 1429--1434 1430--1434 1431--1434 1426--1435 1427--1435 1428--1435
-## [25] 1429--1435 1430--1435 1431--1435 1434--1435 1426--1437 1427--1437
-## [31] 1428--1437 1429--1437 1430--1437 1431--1437 1434--1437 1435--1437
-## [37] 1426--1439 1427--1439 1428--1439 1429--1439 1430--1439 1431--1439
-## [43] 1434--1439 1435--1439 1437--1439 1426--1441 1427--1441 1428--1441
-## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;plausible-valuepv&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Plausible Value(PV)&lt;/h2&gt;
+&lt;p&gt;PV is called plausible value and each domain has five PVs. For instance, math has PV1MATH - PV5MATH and science has PV1SCIE - PV5SCIE. The PVs are introduced here to adjust measurement error that can be caused by (1) the concept to be measured is not clear, (2) students physical and psychological condition affected on the moment of testing, and (3) the testing environment on a day of testing. Thus, if we have five different plausible values distributed in the certain range of raw score, we can avoid point estimate of the students’ competency which has high risk of measurement error as mentioned above. This means that we interpret students’ competency as a probability distribution among the plausible values not as a fixed point. In addition to this rational, the PV was adopted in a practical and efficiency stand point. In PISA tests, students do not take all the test items as it is time consuming and each student take different set of test, while the test items missing in each students are treated as missing value. This creates five different set of literally plausible score value of the students.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;p&gt;I created two columns of mean data to compare between weighted PV means and weighted means of each country. However, as we can see from the below table, there is not much significant difference between weighted PV mean and just weighted mean with the final weight. The OECD also admitted that PV value does not bring significant impact to reduce bias in estimate (OECD, 2009)&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` ungrouping output (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    CNT  Freq Mean.x s.e.     SD  s.e   Mean.y
+## 1  ARG  4339 391.24 6.08 101.24 2.65 391.3280
+## 2  AUS 14170 526.88 2.26 100.20 1.03 526.8997
+## 3  AUT  4927 510.84 3.92  97.86 2.42 510.9485
+## 4  AZE  5184 382.33 2.75  55.68 1.93 381.7840
+## 5  BEL  8857 510.36 2.48  99.68 2.02 510.6183
+## 6  BGR  4498 434.08 6.11 106.74 3.19 433.2734
+## 7  BRA  9295 390.33 2.79  89.28 1.95 389.4276
+## 8  CAN 22646 534.47 2.03  94.20 1.15 534.2831
+## 9  CHE 12192 511.52 3.16  99.33 1.66 511.7082
+## 10 CHL  5233 438.18 4.32  91.67 1.78 438.2598
+## 11 COL  4478 388.04 3.37  84.81 1.83 388.5959
+## 12 CZE  5932 512.86 3.48  98.45 2.03 512.6917
+## 13 DEU  4891 515.65 3.80  99.98 1.99 516.3167
+## 14 DNK  4532 495.89 3.11  93.13 1.42 495.0545
+## 15 ESP 19604 488.42 2.57  90.54 1.01 487.5142&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;References&lt;/h3&gt;
+&lt;p&gt;Jerrim, J., Lopez-Agudo, L. A., Marcenaro-Gutierrez, O. D., &amp;amp; Shure, N. (2017, June). To weight or not to weight?: the case of PISA data. In Proceedings of the XXVI Meeting of the Economics of Education Association, Murcia, Spain (pp. 29-30).
+OECD (2009). PISA 2006 Technical Report. OECD Publishing.&lt;/p&gt;
 &lt;/div&gt;
-&lt;div id=&#34;exploring-basic-network-features&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;&lt;strong&gt;Exploring basic network features&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;gsize shows us the number of edges, and gorder shows the number of nodes&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gsize(Stucont)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 8317&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gorder(Stucont)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 242&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;V means the vertex (node), so with this function you can see the nodelist.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Nodelist
-V(Stucont)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## + 242/242 vertices, named, from f832240:
-##   [1] 1426 1427 1428 1429 1430 1431 1434 1435 1437 1439 1441 1443 1451 1452 1453
-##  [16] 1457 1458 1459 1461 1465 1468 1471 1475 1477 1479 1480 1482 1483 1486 1489
-##  [31] 1493 1495 1498 1500 1501 1502 1503 1504 1511 1516 1519 1520 1521 1522 1524
-##  [46] 1525 1528 1532 1533 1538 1539 1545 1546 1548 1549 1551 1552 1555 1558 1560
-##  [61] 1562 1563 1564 1567 1570 1572 1574 1578 1579 1580 1585 1592 1594 1601 1603
-##  [76] 1604 1606 1609 1613 1616 1617 1618 1625 1628 1630 1632 1637 1641 1643 1647
-##  [91] 1648 1649 1650 1653 1656 1661 1663 1664 1665 1666 1668 1670 1673 1674 1675
-## [106] 1680 1681 1682 1684 1685 1687 1688 1695 1696 1697 1698 1700 1702 1704 1705
-## [121] 1706 1707 1708 1709 1710 1711 1712 1713 1714 1715 1718 1719 1720 1722 1723
-## [136] 1727 1730 1731 1732 1735 1737 1738 1739 1741 1743 1744 1745 1746 1748 1749
-## + ... omitted several vertices&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;E means the edge.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#3. Edgelist
-E(Stucont)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## + 8317/8317 edges from f832240 (vertex names):
-##  [1] 1426--1427 1426--1428 1427--1428 1426--1429 1427--1429 1428--1429
-##  [7] 1426--1430 1427--1430 1428--1430 1429--1430 1426--1431 1427--1431
-## [13] 1428--1431 1429--1431 1430--1431 1426--1434 1427--1434 1428--1434
-## [19] 1429--1434 1430--1434 1431--1434 1426--1435 1427--1435 1428--1435
-## [25] 1429--1435 1430--1435 1431--1435 1434--1435 1426--1437 1427--1437
-## [31] 1428--1437 1429--1437 1430--1437 1431--1437 1434--1437 1435--1437
-## [37] 1426--1439 1427--1439 1428--1439 1429--1439 1430--1439 1431--1439
-## [43] 1434--1439 1435--1439 1437--1439 1426--1441 1427--1441 1428--1441
-## [49] 1429--1441 1431--1441 1434--1441 1435--1441 1437--1441 1439--1441
-## [55] 1426--1443 1427--1443 1428--1443 1429--1443 1430--1443 1431--1443
-## + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Each node have attributes such as ID, class, and gender. There are missing values so we will change “unknown” into NA.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#4. Attributes
-V(Stucont)$Gender&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##   [1] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-##   [8] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-##  [15] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-##  [22] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
-##  [29] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
-##  [36] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-##  [43] &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
-##  [50] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
-##  [57] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-##  [64] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
-##  [71] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-##  [78] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
-##  [85] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
-##  [92] &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-##  [99] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-## [106] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-## [113] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-## [120] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
-## [127] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-## [134] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
-## [141] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot;
-## [148] &amp;quot;Unknown&amp;quot; &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot;
-## [155] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;      
-## [162] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;Unknown&amp;quot;
-## [169] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-## [176] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot;
-## [183] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-## [190] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot;
-## [197] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;      
-## [204] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;Unknown&amp;quot; &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-## [211] &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-## [218] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-## [225] &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;      
-## [232] &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;      
-## [239] &amp;quot;F&amp;quot;       &amp;quot;M&amp;quot;       &amp;quot;F&amp;quot;       &amp;quot;F&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;V(Stucont)$Gender[V(Stucont)$Gender==&amp;#39;Unknown&amp;#39;] &amp;lt;- NA&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The adjacency matrix is the most important indication of the network. However, igraph does not store the network data in the adjacency matrix format. Still, you can represent the network in the matrix format as below. We can know that the contact network is a symmetric and undirected network from the adjacency matrix, which means there is no arrow on edges.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#5. Adjacency matrix
-Stucont[c(1:10),c(1:10)]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 10 x 10 sparse Matrix of class &amp;quot;dgCMatrix&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##    [[ suppressing 10 column names &amp;#39;1426&amp;#39;, &amp;#39;1427&amp;#39;, &amp;#39;1428&amp;#39; ... ]]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##                                     
-## 1426  .  27 45  75 19 43  8 12 23 27
-## 1427 27   .  4 100  4 63 20  5 44 13
-## 1428 45   4  .   9  4 16  2  4 19 14
-## 1429 75 100  9   .  9 75 11  5 62 36
-## 1430 19   4  4   9  . 15  4  7  4  3
-## 1431 43  63 16  75 15  . 43 16 42 41
-## 1434  8  20  2  11  4 43  .  3  8  8
-## 1435 12   5  4   5  7 16  3  .  6 11
-## 1437 23  44 19  62  4 42  8  6  . 29
-## 1439 27  13 14  36  3 41  8 11 29  .&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;measuring-centrality&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;&lt;strong&gt;Measuring centrality&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Centrality is the most important indicator of the network. The centrality measure shows which node has the highest contact frequency in the network. To understand more about the centrality measure, please visit &lt;a href=&#34;https://youtu.be/o5-o1EPSWZg&#34;&gt;my lecture page on the Youtube channel&lt;/a&gt;. I will not explain the details of each centrality measure in this post.&lt;/p&gt;
-&lt;p&gt;I identified the nodes recording the highest score in each of the centrality measures and found that student 1551 shows the highest centrality in the degree and betweenness centrality measure.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Degree centrality
-Stucont_deg&amp;lt;-degree(Stucont,mode=c(&amp;quot;All&amp;quot;))
-V(Stucont)$degree&amp;lt;-Stucont_deg
-which.max(Stucont_deg)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 1551 
-##   56&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Eigenvector centrality
-Stucont_eig &amp;lt;- evcent(Stucont)$vector
-V(Stucont)$Eigen&amp;lt;-Stucont_eig
-which.max(Stucont_eig)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 1665 
-##   99&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#3. Betweenness centrality
-Stucont_bw&amp;lt;-betweenness(Stucont, directed = FALSE)
-V(Stucont)$betweenness&amp;lt;-Stucont_bw
-which.max(Stucont_bw)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 1551 
-##   56&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;measuring-network-structure&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;&lt;strong&gt;Measuring network structure&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Each network has its unique structural features.&lt;/p&gt;
-&lt;p&gt;First, network density indicates how much densely the nodes are connected in the network. Also, if you’d like to know more about the network theory, please watch my lecture on Youtube.&lt;/p&gt;
-&lt;p&gt;Here I compared the network density between the school and the class level. It shows that the school level density is 0.28 while the class level density is 0.98. Thus, there is a considerable density gap between the school and the class.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Network Density
-edge_density(Stucont) # Global density&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.2852097&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;A1&amp;lt;-induced_subgraph(Stucont, V(Stucont)[Class==&amp;quot;1A&amp;quot;], impl=c(&amp;quot;auto&amp;quot;)) # Subgraphing into each class
-edge_density(A1) # Class level density&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.9841897&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We can also calculate the assortativity score, which means mingling together with the nodes having a similar attribute. For instance, we can expect that the same class students or having the same gender may have more frequent contact. The assortativity score of the class is 0.23.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Assortativity
-values &amp;lt;- as.numeric(factor(V(Stucont)$Class))
-assortativity_nominal(Stucont, types=values)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.2337739&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;But, we do not know how big enough or small to assess the level of assortativity. We can then create a random network, which has the same probability of having an edge between every node and comparing it. The histogram indicates that the school network data is such an abnormal case having a high assortativity score according to the random network’s probability distribution.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2.1. Calculate the observed assortativity
-observed.assortativity &amp;lt;- assortativity_nominal(Stucont, types=values)
-results &amp;lt;- vector(&amp;#39;list&amp;#39;, 1000)
-for(i in 1:1000){results[[i]] &amp;lt;- assortativity_nominal(Stucont, sample(values))}
-#2.2.  Plot the distribution of assortativity values and add a red vertical line at the original observed value
-hist(unlist(results), xlim = c(0,0.4))
-abline(v = observed.assortativity,col = &amp;quot;red&amp;quot;, lty = 3, lwd=2) &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;network-visualization&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;&lt;strong&gt;Network Visualization&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;The final step is the network visualization. The beauty of network analysis is that we can visually confirm the features we indicated by the numbers above. Also, the visual mapping of the network is instrumental in communicating with the audiences with data. Here, I set the size of each node with a value of degree centrality. Each different color indicates different classes.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Plotting a network with the degree centrality
-set.seed(1001)
-library(RColorBrewer) # This is the color library
-pal&amp;lt;-brewer.pal(length(unique(V(Stucont)$Class)), &amp;quot;Set3&amp;quot;) # Vertex color assigned per each class number
-plot(Stucont,edge.color = &amp;#39;black&amp;#39;,vertex.label.cex =0.5, 
-     vertex.color=pal[as.numeric(as.factor(vertex_attr(Stucont, &amp;quot;Class&amp;quot;)))],
-     vertex.size = sqrt(Stucont_deg)/2, edge.width=sqrt(E(Stucont)$weight/800),
-     layout = layout.fruchterman.reingold)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-19-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;community-detection&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;&lt;strong&gt;Community Detection&lt;/strong&gt;&lt;/h3&gt;
-&lt;p&gt;Based on the networking pattern of the node, we can cluster them into several groups. We can intuitively think that the nodes will be clustered based on their affiliation with the classes. However, the result is counter-intuitive. We have ten classes in the school dataset, but the number of detected communities (cluster) is 6, which means that this school is composed of 6 different sub-network groups.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#1. Louvain clustering
-lc &amp;lt;- cluster_louvain(Stucont) # Create a cluster based on the Louvain method
-communities(lc) # You can check which vertices belongs to which clusters.&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## $`1`
-##  [1] &amp;quot;1426&amp;quot; &amp;quot;1427&amp;quot; &amp;quot;1428&amp;quot; &amp;quot;1429&amp;quot; &amp;quot;1430&amp;quot; &amp;quot;1431&amp;quot; &amp;quot;1434&amp;quot; &amp;quot;1435&amp;quot; &amp;quot;1437&amp;quot; &amp;quot;1439&amp;quot;
-## [11] &amp;quot;1441&amp;quot; &amp;quot;1443&amp;quot; &amp;quot;1451&amp;quot; &amp;quot;1452&amp;quot; &amp;quot;1453&amp;quot; &amp;quot;1457&amp;quot; &amp;quot;1458&amp;quot; &amp;quot;1459&amp;quot; &amp;quot;1461&amp;quot; &amp;quot;1465&amp;quot;
-## [21] &amp;quot;1468&amp;quot; &amp;quot;1471&amp;quot; &amp;quot;1475&amp;quot; &amp;quot;1477&amp;quot; &amp;quot;1479&amp;quot; &amp;quot;1480&amp;quot; &amp;quot;1482&amp;quot; &amp;quot;1483&amp;quot; &amp;quot;1486&amp;quot; &amp;quot;1489&amp;quot;
-## [31] &amp;quot;1493&amp;quot; &amp;quot;1495&amp;quot; &amp;quot;1498&amp;quot; &amp;quot;1501&amp;quot; &amp;quot;1502&amp;quot; &amp;quot;1511&amp;quot; &amp;quot;1516&amp;quot; &amp;quot;1520&amp;quot; &amp;quot;1522&amp;quot; &amp;quot;1563&amp;quot;
-## [41] &amp;quot;1578&amp;quot; &amp;quot;1585&amp;quot; &amp;quot;1592&amp;quot; &amp;quot;1637&amp;quot; &amp;quot;1668&amp;quot; &amp;quot;1750&amp;quot; &amp;quot;1751&amp;quot; &amp;quot;1824&amp;quot; &amp;quot;1885&amp;quot;
-## 
-## $`2`
-##  [1] &amp;quot;1656&amp;quot; &amp;quot;1661&amp;quot; &amp;quot;1663&amp;quot; &amp;quot;1664&amp;quot; &amp;quot;1665&amp;quot; &amp;quot;1666&amp;quot; &amp;quot;1670&amp;quot; &amp;quot;1673&amp;quot; &amp;quot;1674&amp;quot; &amp;quot;1675&amp;quot;
-## [11] &amp;quot;1680&amp;quot; &amp;quot;1681&amp;quot; &amp;quot;1682&amp;quot; &amp;quot;1684&amp;quot; &amp;quot;1687&amp;quot; &amp;quot;1688&amp;quot; &amp;quot;1695&amp;quot; &amp;quot;1696&amp;quot; &amp;quot;1697&amp;quot; &amp;quot;1698&amp;quot;
-## [21] &amp;quot;1745&amp;quot; &amp;quot;1765&amp;quot; &amp;quot;1779&amp;quot; &amp;quot;1908&amp;quot; &amp;quot;1912&amp;quot; &amp;quot;1920&amp;quot;
-## 
-## $`3`
-##  [1] &amp;quot;1711&amp;quot; &amp;quot;1752&amp;quot; &amp;quot;1753&amp;quot; &amp;quot;1757&amp;quot; &amp;quot;1759&amp;quot; &amp;quot;1760&amp;quot; &amp;quot;1761&amp;quot; &amp;quot;1764&amp;quot; &amp;quot;1766&amp;quot; &amp;quot;1767&amp;quot;
-## [11] &amp;quot;1768&amp;quot; &amp;quot;1770&amp;quot; &amp;quot;1772&amp;quot; &amp;quot;1774&amp;quot; &amp;quot;1775&amp;quot; &amp;quot;1778&amp;quot; &amp;quot;1783&amp;quot; &amp;quot;1787&amp;quot; &amp;quot;1789&amp;quot; &amp;quot;1790&amp;quot;
-## [21] &amp;quot;1792&amp;quot; &amp;quot;1796&amp;quot; &amp;quot;1798&amp;quot; &amp;quot;1799&amp;quot;
-## 
-## $`4`
-##  [1] &amp;quot;1500&amp;quot; &amp;quot;1503&amp;quot; &amp;quot;1504&amp;quot; &amp;quot;1519&amp;quot; &amp;quot;1521&amp;quot; &amp;quot;1524&amp;quot; &amp;quot;1525&amp;quot; &amp;quot;1528&amp;quot; &amp;quot;1532&amp;quot; &amp;quot;1533&amp;quot;
-## [11] &amp;quot;1538&amp;quot; &amp;quot;1539&amp;quot; &amp;quot;1545&amp;quot; &amp;quot;1546&amp;quot; &amp;quot;1548&amp;quot; &amp;quot;1549&amp;quot; &amp;quot;1601&amp;quot; &amp;quot;1618&amp;quot; &amp;quot;1630&amp;quot; &amp;quot;1632&amp;quot;
-## [21] &amp;quot;1653&amp;quot; &amp;quot;1705&amp;quot; &amp;quot;1730&amp;quot; &amp;quot;1797&amp;quot; &amp;quot;1802&amp;quot; &amp;quot;1803&amp;quot; &amp;quot;1805&amp;quot; &amp;quot;1807&amp;quot; &amp;quot;1815&amp;quot; &amp;quot;1818&amp;quot;
-## [31] &amp;quot;1819&amp;quot; &amp;quot;1821&amp;quot; &amp;quot;1831&amp;quot; &amp;quot;1835&amp;quot; &amp;quot;1836&amp;quot; &amp;quot;1837&amp;quot; &amp;quot;1847&amp;quot; &amp;quot;1857&amp;quot; &amp;quot;1865&amp;quot; &amp;quot;1866&amp;quot;
-## [41] &amp;quot;1880&amp;quot; &amp;quot;1888&amp;quot; &amp;quot;1892&amp;quot; &amp;quot;1895&amp;quot; &amp;quot;1910&amp;quot;
-## 
-## $`5`
-##  [1] &amp;quot;1603&amp;quot; &amp;quot;1604&amp;quot; &amp;quot;1606&amp;quot; &amp;quot;1609&amp;quot; &amp;quot;1613&amp;quot; &amp;quot;1616&amp;quot; &amp;quot;1617&amp;quot; &amp;quot;1625&amp;quot; &amp;quot;1628&amp;quot; &amp;quot;1641&amp;quot;
-## [11] &amp;quot;1643&amp;quot; &amp;quot;1647&amp;quot; &amp;quot;1648&amp;quot; &amp;quot;1649&amp;quot; &amp;quot;1650&amp;quot; &amp;quot;1702&amp;quot; &amp;quot;1704&amp;quot; &amp;quot;1706&amp;quot; &amp;quot;1708&amp;quot; &amp;quot;1710&amp;quot;
-## [21] &amp;quot;1713&amp;quot; &amp;quot;1715&amp;quot; &amp;quot;1718&amp;quot; &amp;quot;1732&amp;quot; &amp;quot;1739&amp;quot; &amp;quot;1743&amp;quot; &amp;quot;1749&amp;quot; &amp;quot;1851&amp;quot; &amp;quot;1852&amp;quot; &amp;quot;1854&amp;quot;
-## [31] &amp;quot;1855&amp;quot; &amp;quot;1858&amp;quot; &amp;quot;1861&amp;quot; &amp;quot;1863&amp;quot; &amp;quot;1872&amp;quot; &amp;quot;1877&amp;quot; &amp;quot;1883&amp;quot; &amp;quot;1887&amp;quot; &amp;quot;1889&amp;quot; &amp;quot;1890&amp;quot;
-## [41] &amp;quot;1897&amp;quot; &amp;quot;1898&amp;quot; &amp;quot;1902&amp;quot; &amp;quot;1906&amp;quot; &amp;quot;1907&amp;quot; &amp;quot;1911&amp;quot; &amp;quot;1913&amp;quot; &amp;quot;1916&amp;quot; &amp;quot;1917&amp;quot; &amp;quot;1919&amp;quot;
-## [51] &amp;quot;1922&amp;quot;
-## 
-## $`6`
-##  [1] &amp;quot;1551&amp;quot; &amp;quot;1552&amp;quot; &amp;quot;1555&amp;quot; &amp;quot;1558&amp;quot; &amp;quot;1560&amp;quot; &amp;quot;1562&amp;quot; &amp;quot;1564&amp;quot; &amp;quot;1567&amp;quot; &amp;quot;1570&amp;quot; &amp;quot;1572&amp;quot;
-## [11] &amp;quot;1574&amp;quot; &amp;quot;1579&amp;quot; &amp;quot;1580&amp;quot; &amp;quot;1594&amp;quot; &amp;quot;1685&amp;quot; &amp;quot;1700&amp;quot; &amp;quot;1707&amp;quot; &amp;quot;1709&amp;quot; &amp;quot;1712&amp;quot; &amp;quot;1714&amp;quot;
-## [21] &amp;quot;1719&amp;quot; &amp;quot;1720&amp;quot; &amp;quot;1722&amp;quot; &amp;quot;1723&amp;quot; &amp;quot;1727&amp;quot; &amp;quot;1731&amp;quot; &amp;quot;1735&amp;quot; &amp;quot;1737&amp;quot; &amp;quot;1738&amp;quot; &amp;quot;1741&amp;quot;
-## [31] &amp;quot;1744&amp;quot; &amp;quot;1746&amp;quot; &amp;quot;1748&amp;quot; &amp;quot;1763&amp;quot; &amp;quot;1780&amp;quot; &amp;quot;1782&amp;quot; &amp;quot;1795&amp;quot; &amp;quot;1800&amp;quot; &amp;quot;1801&amp;quot; &amp;quot;1809&amp;quot;
-## [41] &amp;quot;1820&amp;quot; &amp;quot;1822&amp;quot; &amp;quot;1833&amp;quot; &amp;quot;1838&amp;quot; &amp;quot;1843&amp;quot; &amp;quot;1859&amp;quot; &amp;quot;1909&amp;quot;&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#2. Plotting the Betweenness Centrality network with the community detection
-
-set.seed(1001) # To duplicate the computer process and create exactly the same network repetitively you should set the seed.
-plot(lc, Stucont, edge.color = &amp;#39;black&amp;#39;,vertex.label.cex =0.5, 
-     vertex.color=pal[as.numeric(as.factor(vertex_attr(Stucont, &amp;quot;Class&amp;quot;)))],
-     vertex.size = sqrt(Stucont_bw)/3, edge.width=sqrt(E(Stucont)$weight/800),
-     layout = layout.fruchterman.reingold)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/aspb/2020-10-04-sdf.en_files/figure-html/unnamed-chunk-20-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;So far, we walked through the whole process of network analysis and visualization. Although this analysis is descriptive, we could learn a lot about the school’s student dynamics only with this small information. Also, it provided information on the latent community structure that was not visible before the analysis.&lt;/p&gt;
-&lt;p&gt;The students’ physical contact data set is rare because it has a privacy issue to measure the contact information. Thus, this analysis provides us such a precious insight into the students’ physical network in school.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
