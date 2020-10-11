@@ -46,6 +46,7 @@ In spite of insightful knowledge we can gain from this large international stude
 
 The sampling design of the PISA is the reason why the analysis procedure is so complicated. The PISA does not use random sampling and instead follows two staged sampling: firstly sample schools and then sample students in the participating schools. This makes the sampling errors of population estimates increase. It conflicts with most of the computer softwares designed to assume random sampling for statistical analysis, and requests more sophisticated analysis procedure. Once the assumption of random sampling is violated, the student data can be dependent on each other because they may share common school characteristics.  
 &nbsp;
+
 To avoid such bias, PISA made some complementary measures.
 &nbsp;
 
@@ -136,4 +137,5 @@ head(Merge,15)
 
 ### **References**
 Jerrim, J., Lopez-Agudo, L. A., Marcenaro-Gutierrez, O. D., & Shure, N. (2017, June). To weight or not to weight?: the case of PISA data. In Proceedings of the XXVI Meeting of the Economics of Education Association, Murcia, Spain (pp. 29-30).
+
 OECD (2009). PISA 2006 Technical Report. OECD Publishing.
