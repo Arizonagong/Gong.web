@@ -777,7 +777,7 @@ library(ggplot2)</code></pre>
  </p>
 <p>In PISA, each school’s probability to be selected is proportional to its size, which is called PPS sampling method. The schools with larger sizes have a higher probability of selection, but the larger schools have a proportionally less within-school probability of selection. The sum of students’ weight for each country is the total number of the students’ population assumed for the study.
  </p>
-<p>There are two options to apply students’ weight for the PISA analysis, applying final weight, and replicated weight, but in this post, I do not tackle the replicated weight because it is more related to the estimation of standard error for other estimates.
+<p>There are two options to apply students’ weight for the PISA analysis, applying final weight(W_FSTUWT), and replicated weight(F_FSTR1-80), but in this post, I do not tackle the replicated weight because it is more related to the estimation of standard error, but not have an impact to the mean or correlation estimate.
  </p>
 <p>Let me show you an example here with R code. W_FSTUWT is the final students’ weight. You can see that students in the same school have approximately the same school weights with a little variation. School number 00001 has weights around 98, and 00002 has it at about 89.</p>
 <pre class="r"><code># Select Argentina students&#39; weight information.
