@@ -1,0 +1,23 @@
+---
+title: 'Analyzing Nested Data: Comparing Multiple Approaches'
+author: bgong
+date: '2020-12-10'
+slug: analyzing-nested-data-comparing-multiple-approaches
+categories:
+  - Hierchical linear model (HLM)
+  - Multilevel analysis
+  - R
+tags:
+  - lme4
+  - R
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2020-12-10T15:31:33-07:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
