@@ -5,12 +5,24 @@
     <link>/category/multilevel-analysis/</link>
       <atom:link href="/category/multilevel-analysis/index.xml" rel="self" type="application/rss+xml" />
     <description>Multilevel analysis</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 10 Oct 2020 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate>
     <image>
       <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
       <title>Multilevel analysis</title>
       <link>/category/multilevel-analysis/</link>
     </image>
+    
+    <item>
+      <title>Analyzing Nested Data: Comparing Multiple Approaches</title>
+      <link>/post/nested-data/analyzing-nested-data-comparing-multiple-approaches/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      <guid>/post/nested-data/analyzing-nested-data-comparing-multiple-approaches/</guid>
+      <description>
+
+
+
+</description>
+    </item>
     
     <item>
       <title>Why is PISA Difficult to Analyze</title>

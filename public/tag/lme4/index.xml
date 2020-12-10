@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lme4 | Byoung-gyu Gong</title>
+    <link>/tag/lme4/</link>
+      <atom:link href="/tag/lme4/index.xml" rel="self" type="application/rss+xml" />
+    <description>lme4</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_512x512_fill_lanczos_center_2.png</url>
+      <title>lme4</title>
+      <link>/tag/lme4/</link>
+    </image>
+    
+    <item>
+      <title>Analyzing Nested Data: Comparing Multiple Approaches</title>
+      <link>/post/nested-data/analyzing-nested-data-comparing-multiple-approaches/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      <guid>/post/nested-data/analyzing-nested-data-comparing-multiple-approaches/</guid>
+      <description>
+
+
+
+</description>
+    </item>
+    
+  </channel>
+</rss>

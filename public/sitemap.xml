@@ -33,8 +33,48 @@
   </url>
   
   <url>
+    <loc>/post/nested-data/analyzing-nested-data-comparing-multiple-approaches/</loc>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/</loc>
-    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/hierchical-linear-model-hlm/</loc>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/lme4/</loc>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/multilevel-analysis/</loc>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/r/</loc>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/category/r/</loc>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-12-10T15:31:33-07:00</lastmod>
   </url>
   
   <url>
@@ -53,27 +93,7 @@
   </url>
   
   <url>
-    <loc>/category/multilevel-analysis/</loc>
-    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tag/pisa/</loc>
-    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/r/</loc>
-    <lastmod>2020-10-10T11:22:28-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2020-10-10T11:22:28-07:00</lastmod>
   </url>
   
@@ -119,11 +139,6 @@
   
   <url>
     <loc>/tag/network-density/</loc>
-    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/category/r/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
