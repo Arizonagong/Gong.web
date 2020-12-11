@@ -20,7 +20,94 @@
       <description>
 
 
+&lt;div id=&#34;what-is-nested-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;strong&gt;1. What is Nested Data&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;Not all data was created to be independent. We often find that the real world data does not meet the strict statistical pressumption that each observation should be independent and identically distributed, so called iid. In many cases, the observations sampled from a population tend to correlate each other because they belong to the same group, region, and culture. Sample data having such common and correlative trait is called nested data.&lt;/p&gt;
+&lt;p&gt;For instance, students in the same school share a number of trait derived from the school and district features. Students in the same school or district tend to have similar socio-economic status (SES) because students are assigned to the schools based on their residential location. Also, students in the same school tend to share same teachers, school leadership, and school resource. In this account, student samples in the same schools may violate iid principle correlating with each other.&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;example-data-analysis&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;strong&gt;2. Example Data Analysis&lt;/strong&gt;&lt;/h2&gt;
+&lt;p&gt;It can be costly to ignore the nested data structure. In this post, I will show you a difference between the models considering and not considering the nested data structure.&lt;/p&gt;
+&lt;p&gt;I used international students’ data file for this analysis. The students studied in foreign country through one-year study abroad program to raise intercultural understanding. I analyzed to what extent the self-efficacy level predicts or explains the level of students intercultural understanding.&lt;/p&gt;
+&lt;div id=&#34;explorative-data-analysis&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;2.1. Explorative Data Analysis&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;This is the summary of the data set. It tells us there are four variables. Intercultural_Understanding and Self-Efficacy are the continuous variables while rest of Major and Year are categorical variables.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Use the following packages for the analysis
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+# This is just file path in my personal computer so you need to set
+# your own directory to retrieve data for the analysis
+load(&amp;quot;/Users/bgong/Documents/Career management/Job/CV development/R portfolio/Gong.web/content/post/Nested-data/Nested-data_files/Nested.RData&amp;quot;)
 
+# Summary of the data
+summary(Studyabroad)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  Intercultural_Understanding Self_Efficacy      Major       Year   
+##  Min.   :1.000               Min.   :3.000   Eng   :20   18-19:31  
+##  1st Qu.:3.250               1st Qu.:4.208   Noneng:52   19-20:41  
+##  Median :4.333               Median :5.190                         
+##  Mean   :4.089               Mean   :4.980                         
+##  3rd Qu.:5.000               3rd Qu.:5.762                         
+##  Max.   :6.000               Max.   :6.000                         
+##  NA&amp;#39;s   :2                   NA&amp;#39;s   :1&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To get a more detailed sense of the data, let’s check the distribution of the data with data visualization.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Scatter plot
+SA &amp;lt;- ggscatter(Studyabroad, x = &amp;quot;Self_Efficacy&amp;quot;, y = &amp;quot;Intercultural_Understanding&amp;quot;,color = &amp;quot;#00AFBB&amp;quot;, size = 1, alpha = 0.6, add = &amp;quot;reg.line&amp;quot;, add.params = list(color = &amp;quot;blue&amp;quot;, fill = &amp;quot;lightgray&amp;quot;),
+   conf.int = TRUE, 
+   cor.coef = TRUE ,rug = TRUE)+
+border()                                         
+# Marginal density plot of x (top panel) and y (right panel)
+xplot &amp;lt;- ggdensity(Studyabroad, &amp;quot;Self_Efficacy&amp;quot;, fill = &amp;quot;lightgray&amp;quot;)
+yplot &amp;lt;- ggdensity(Studyabroad, &amp;quot;Intercultural_Understanding&amp;quot;, fill = &amp;quot;lightgray&amp;quot;)+
+rotate()
+# Cleaning the plots
+SA &amp;lt;- SA + rremove(&amp;quot;legend&amp;quot;)
+yplot &amp;lt;- yplot + clean_theme() + rremove(&amp;quot;legend&amp;quot;) 
+xplot &amp;lt;- xplot + clean_theme() + rremove(&amp;quot;legend&amp;quot;)
+# Arranging the plot using cowplot
+library(cowplot)
+plot_grid(xplot, NULL, SA, yplot, ncol = 2, align = &amp;quot;hv&amp;quot;, 
+      rel_widths = c(2, 1), rel_heights = c(1, 2))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;
+### &lt;strong&gt;2.2. Simple Linear Regression&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The easiest way to analyze this data is simple linear regression. The analysis summary indicates that the self-efficacy of the students is positively associated with the level of intercultural understanding. The coefficient estimate is 0.3914 and the p-value is significant at 0.05 level.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(lm(Intercultural_Understanding ~ Self_Efficacy , data =  Studyabroad))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = Intercultural_Understanding ~ Self_Efficacy, data = Studyabroad)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.9404 -0.9175  0.2527  0.9850  1.8409 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&amp;gt;|t|)  
+## (Intercept)     2.1298     0.9314   2.287   0.0254 *
+## Self_Efficacy   0.3914     0.1841   2.126   0.0372 *
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Residual standard error: 1.253 on 67 degrees of freedom
+##   (3 observations deleted due to missingness)
+## Multiple R-squared:  0.06319,    Adjusted R-squared:  0.04921 
+## F-statistic:  4.52 on 1 and 67 DF,  p-value: 0.0372&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;hierarchical-linear-modeling-hlm-of-the-regression&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;&lt;strong&gt;2.3. Hierarchical Linear Modeling (HLM) of the Regression&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;However, the data is stratified with other grouping variables. The data ‘Studyabroad’ has ‘Major’ variable, indicating each students belong to a certain major program. The students’ intercultural understanding explained by self-efficacy may be influenced by their majors.&lt;/p&gt;
+&lt;p&gt;As the bellow plot indicates, the students in English major and non-English major have different level of intercultural understanding. The red dot in the plot is mean for each group.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;SAplot &amp;lt;- 
+    ggplot(Studyabroad, aes(x = Major, y =Intercultural_Understanding)) +
+    geom_point() +
+    theme_minimal() + stat_summary(fun = &amp;quot;mean&amp;quot;, color = &amp;quot;red&amp;quot;,
+                                   size = 3, geom = &amp;quot;point&amp;quot;) +
+    xlab(&amp;quot;Intercept groups&amp;quot;)
+print(SAplot)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 </description>
     </item>
     
