@@ -37,16 +37,7 @@ projects: []
 <div id="explorative-data-analysis" class="section level3">
 <h3><strong>2.1. Explorative Data Analysis</strong></h3>
 <p>This is the summary of the data set. It tells us there are four variables. Intercultural_Understanding and Self-Efficacy are the continuous variables while rest of Major and Year are categorical variables.</p>
-<pre class="r"><code># Use the following packages for the analysis
-library(tidyr)
-library(dplyr)
-library(ggplot2)
-library(ggpubr)
-# This is just file path in my personal computer so you need to set
-# your own directory to retrieve data for the analysis
-load(&quot;/Users/bgong/Documents/Career management/Job/CV development/R portfolio/Gong.web/content/post/Nested-data/Nested-data_files/Nested.RData&quot;)
-
-# Summary of the data
+<pre class="r"><code># Summary of the data
 summary(Studyabroad)</code></pre>
 <pre><code>##  Intercultural_Understanding Self_Efficacy      Major       Year   
 ##  Min.   :1.000               Min.   :3.000   Eng   :20   18-19:31  
@@ -70,14 +61,15 @@ rotate()
 SA &lt;- SA + rremove(&quot;legend&quot;)
 yplot &lt;- yplot + clean_theme() + rremove(&quot;legend&quot;) 
 xplot &lt;- xplot + clean_theme() + rremove(&quot;legend&quot;)
-# Arranging the plot using cowplot
+
 library(cowplot)
 plot_grid(xplot, NULL, SA, yplot, ncol = 2, align = &quot;hv&quot;, 
       rel_widths = c(2, 1), rel_heights = c(1, 2))</code></pre>
-<p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-2-1.png" width="672" />
+<p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 ### <strong>2.2. Simple Linear Regression</strong></p>
 <p>The easiest way to analyze this data is simple linear regression. The analysis summary indicates that the self-efficacy of the students is positively associated with the level of intercultural understanding. The coefficient estimate is 0.3914 and the p-value is significant at 0.05 level.</p>
-<pre class="r"><code>summary(lm(Intercultural_Understanding ~ Self_Efficacy , data =  Studyabroad))</code></pre>
+<pre class="r"><code>Lm0&lt;-lm(Intercultural_Understanding ~ Self_Efficacy, data =  Studyabroad)
+summary(Lm0)</code></pre>
 <pre><code>## 
 ## Call:
 ## lm(formula = Intercultural_Understanding ~ Self_Efficacy, data = Studyabroad)
@@ -97,18 +89,113 @@ plot_grid(xplot, NULL, SA, yplot, ncol = 2, align = &quot;hv&quot;,
 ##   (3 observations deleted due to missingness)
 ## Multiple R-squared:  0.06319,    Adjusted R-squared:  0.04921 
 ## F-statistic:  4.52 on 1 and 67 DF,  p-value: 0.0372</code></pre>
+<pre class="r"><code>deviance(Lm0)</code></pre>
+<pre><code>## [1] 105.2032</code></pre>
 </div>
-<div id="hierarchical-linear-modeling-hlm-of-the-regression" class="section level3">
-<h3><strong>2.3. Hierarchical Linear Modeling (HLM) of the Regression</strong></h3>
+<div id="alternative-analytic-methods-for-the-nested-data" class="section level3">
+<h3><strong>2.3. Alternative Analytic Methods for the Nested Data</strong></h3>
 <p>However, the data is stratified with other grouping variables. The data ‘Studyabroad’ has ‘Major’ variable, indicating each students belong to a certain major program. The students’ intercultural understanding explained by self-efficacy may be influenced by their majors.</p>
-<p>As the bellow plot indicates, the students in English major and non-English major have different level of intercultural understanding. The red dot in the plot is mean for each group.</p>
-<pre class="r"><code>SAplot &lt;- 
-    ggplot(Studyabroad, aes(x = Major, y =Intercultural_Understanding)) +
-    geom_point() +
-    theme_minimal() + stat_summary(fun = &quot;mean&quot;, color = &quot;red&quot;,
-                                   size = 3, geom = &quot;point&quot;) +
-    xlab(&quot;Intercept groups&quot;)
-print(SAplot)</code></pre>
-<p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>We can plot the regression line in the above scatter plot, but this time I will draw two different lines for each group. The scatter plot at bellow shows students in English and non-English major have very different pattern of association. In general, the English major students’ intercultural understanding is related with their self-efficacy level, while the non-English major students showed no relationship between the two.</p>
+<pre class="r"><code>ggscatter(Studyabroad, x = &quot;Self_Efficacy&quot;, y = &quot;Intercultural_Understanding&quot;, size = 0.3,
+          combine = TRUE, color = &quot;Major&quot;, palette = &quot;jco&quot;,
+          add = &quot;reg.line&quot;, conf.int = TRUE) +
+  stat_cor(aes(color = Major), method = &quot;spearman&quot;)</code></pre>
+<p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>The biggest problem of not considering nested structure of the data is underestimation of standard error of each parameter estimation. Then, this underestimation is fed into more frequent rejection of null hypothesis for the coefficient estimation. We’ve already seen that the simple linear regression model rejected null hypothesis above.</p>
+</div>
+<div id="solution1.-linear-regression-model-with-dummy-variables-on-grouping-variables" class="section level3">
+<h3><strong>2.3.1. Solution1. Linear Regression Model with Dummy Variables on Grouping Variables</strong></h3>
+<p>One of the immediate solutions to handle nested data issue is adding grouping variables as dummy in the regression modeling.</p>
+<p>New regression model bellow included ‘Major’, one of the grouping variables, in the modeling. Comparing with the previous simple linear regression, the standard error of Self-efficacy’s coefficient increased from 0.1841 to 0.2565. And the significant test of the coefficient estimation did not reject the null hypothesis.</p>
+<pre class="r"><code>Lm1&lt;-lm(Intercultural_Understanding ~ Self_Efficacy + Major, data =  Studyabroad)
+summary(Lm1)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = Intercultural_Understanding ~ Self_Efficacy + Major, 
+##     data = Studyabroad)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.93139 -0.89425  0.05834  1.09501  1.70774 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)  
+## (Intercept)     2.7438     1.0816   2.537   0.0136 *
+## Self_Efficacy   0.1925     0.2565   0.750   0.4557  
+## MajorNoneng     0.5228     0.4706   1.111   0.2706  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.251 on 66 degrees of freedom
+##   (3 observations deleted due to missingness)
+## Multiple R-squared:  0.08039,    Adjusted R-squared:  0.05253 
+## F-statistic: 2.885 on 2 and 66 DF,  p-value: 0.06293</code></pre>
+</div>
+<div id="solution2.-hierarchical-linear-modeling-hlm-or-multilevel-modeling" class="section level3">
+<h3><strong>2.3.2. Solution2. Hierarchical Linear Modeling (HLM) or Multilevel Modeling</strong></h3>
+<p>Then, at this time, I will use hierarchical linear modeling analysis with lme4 package, so that we can compare it with the previous simple linear regression model.</p>
+<p>First, I will create a null model to calculate intraclass correlation (ICC). This number indicates the proportion of outcome variable’s total variation explained by between group variation. The ICC calculation for this data is about 12%, meaning that the 12% out of the total variation of the intercultural understanding is explained by the students’ major difference.</p>
+<pre class="r"><code>library(lme4)
+Lme0&lt;-lmer(Intercultural_Understanding ~ 1+(1|Major), data=Studyabroad)
+summary(Lme0)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: Intercultural_Understanding ~ 1 + (1 | Major)
+##    Data: Studyabroad
+## 
+## REML criterion at convergence: 231.6
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.2609 -0.6583  0.1094  0.8609  1.4064 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  Major    (Intercept) 0.2082   0.4563  
+##  Residual             1.5430   1.2422  
+## Number of obs: 70, groups:  Major, 2
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)   3.9655     0.3606   10.99</code></pre>
+<pre class="r"><code># ICC Calculation
+library(sjstats)
+icc(Lme0)</code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##      Adjusted ICC: 0.119
+##   Conditional ICC: 0.119</code></pre>
+<p>Then, I added self-efficacy as a predictor. The summary statistics indicates that the coefficient of self-efficacy is not significant, with its increased standard error estimation. This tells us that similar to the regression model with the grouping variables as its dummy, the multilevel modeling also helps to avoid underestimation of the standard error lowering probability to reject null hypothesis.</p>
+<pre class="r"><code>library(lmerTest)
+Lme1&lt;-lmer(Intercultural_Understanding ~ Self_Efficacy + (1+Self_Efficacy|Major), data=Studyabroad, na.action = na.exclude)
+summary(Lme1)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: Intercultural_Understanding ~ Self_Efficacy + (1 + Self_Efficacy |  
+##     Major)
+##    Data: Studyabroad
+## 
+## REML criterion at convergence: 223.9
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.4245 -0.5919  0.1211  0.8689  1.4253 
+## 
+## Random effects:
+##  Groups   Name          Variance Std.Dev. Corr 
+##  Major    (Intercept)   34.365   5.862         
+##           Self_Efficacy  1.717   1.310    -1.00
+##  Residual                1.422   1.193         
+## Number of obs: 69, groups:  Major, 2
+## 
+## Fixed effects:
+##               Estimate Std. Error     df t value Pr(&gt;|t|)
+## (Intercept)     0.2977     4.2955 0.6712   0.069    0.960
+## Self_Efficacy   0.8874     0.9615 0.6535   0.923    0.582
+## 
+## Correlation of Fixed Effects:
+##             (Intr)
+## Self_Effccy -0.999
+## convergence code: 0
+## boundary (singular) fit: see ?isSingular</code></pre>
 </div>
 </div>
