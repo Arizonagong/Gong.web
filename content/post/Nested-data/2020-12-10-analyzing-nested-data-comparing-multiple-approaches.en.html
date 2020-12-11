@@ -102,8 +102,8 @@ summary(Lm0)</code></pre>
   stat_cor(aes(color = Major), method = &quot;spearman&quot;)</code></pre>
 <p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>The biggest problem of not considering the nested structure of the data is underestimating each parameter estimation’s standard error. This underestimation is fed into a more frequent rejection of the null hypothesis for the coefficient estimation. We have already seen that the simple linear regression model rejected the null hypothesis above.</p>
-<div id="solution1.-linear-regression-model-with-dummy-variables-on-grouping-variables" class="section level4">
-<h4><strong>2.3.1. Solution1. Linear Regression Model with Dummy Variables on Grouping Variables</strong></h4>
+<div id="solution1.-complex-linear-regression-model-with-grouping-dummy-variables" class="section level4">
+<h4><strong>2.3.1. Solution1. Complex Linear Regression Model with Grouping Dummy Variables</strong></h4>
 <p>One of the immediate solutions to handle nested data issue is adding grouping dummy variables in the regression modeling.</p>
 <p>The new regression model below included ‘Major,’ one of the grouping variables, in the modeling. Comparing with the previous simple linear regression, the standard error of Self-efficacy’s coefficient increased from 0.1841 to 0.2565. Moreover, the significant test of the coefficient estimation did not reject the null hypothesis.</p>
 <pre class="r"><code>Lm1&lt;-lm(Intercultural_Understanding ~ Self_Efficacy + Major, data =  Studyabroad)

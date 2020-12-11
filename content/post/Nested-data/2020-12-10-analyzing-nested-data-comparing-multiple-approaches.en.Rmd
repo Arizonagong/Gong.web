@@ -102,7 +102,7 @@ ggscatter(Studyabroad, x = "Self_Efficacy", y = "Intercultural_Understanding", s
 
 The biggest problem of not considering the nested structure of the data is underestimating each parameter estimation's standard error. This underestimation is fed into a more frequent rejection of the null hypothesis for the coefficient estimation. We have already seen that the simple linear regression model rejected the null hypothesis above.
 
-#### **2.3.1. Solution1. Linear Regression Model with Dummy Variables on Grouping Variables**
+#### **2.3.1. Solution1. Complex Linear Regression Model with Grouping Dummy Variables**
 
 One of the immediate solutions to handle nested data issue is adding grouping dummy variables in the regression modeling.
 
