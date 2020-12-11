@@ -112,6 +112,7 @@ Lm1<-lm(Intercultural_Understanding ~ Self_Efficacy + Major, data =  Studyabroad
 summary(Lm1)
 ```
 
+
 ####**2.3.2. Solution2. Hierarchical Linear Modeling (HLM) or Multilevel Modeling**
 
 Then, at this time, I will use hierarchical linear modeling analysis with lme4 package, so that we can compare it with the previous simple linear regression model.
