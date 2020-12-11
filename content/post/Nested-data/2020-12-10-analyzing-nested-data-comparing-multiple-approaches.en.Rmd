@@ -134,7 +134,7 @@ Lme1<-lmer(Intercultural_Understanding ~ 1 + Self_Efficacy + (1+Self_Efficacy|Ma
 summary(Lme1)
 ```
 
-## 3. Conclusion
+## **3. Conclusion
 
 This post addressed analyzing nested data, which often violates iid assumption for the inferential statistics. I compared the simple regression model with a more complex regression model, including the group dummy variable and multilevel model. This comparison showed that the simple regression model without considering nested data structure tends to underestimate the coefficient's standard error, thus more frequently rejecting the null hypothesis in the significant test. Thus, to avoid this underestimation of standard error, it is generally recommended to use a more complex regression model with group dummy variables or multilevel modeling analysis. 
 
