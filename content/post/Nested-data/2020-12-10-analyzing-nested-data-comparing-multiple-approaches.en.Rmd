@@ -78,6 +78,7 @@ library(cowplot)
 plot_grid(xplot, NULL, SA, yplot, ncol = 2, align = "hv", 
       rel_widths = c(2, 1), rel_heights = c(1, 2))
 ```
+
 ###   **2.2. Simple Linear Regression**
 
 The easiest way to analyze this data is simple linear regression. The analysis summary indicates that the self-efficacy of the students is positively associated with the level of intercultural understanding. The coefficient estimate is 0.3914 and the p-value is significant at 0.05 level. 
@@ -85,10 +86,9 @@ The easiest way to analyze this data is simple linear regression. The analysis s
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 Lm0<-lm(Intercultural_Understanding ~ Self_Efficacy, data =  Studyabroad)
 summary(Lm0)
-deviance(Lm0)
 ```
 
-###   **2.3. Alternative Analytic Methods for the Nested Data**
+###**2.3. Alternative Analytic Methods for the Nested Data**
 
 However, the data is stratified with other grouping variables. The data 'Studyabroad' has 'Major' variable, indicating each students belong to a certain major program. The students' intercultural understanding explained by self-efficacy may be influenced by their majors. 
 
@@ -102,7 +102,7 @@ ggscatter(Studyabroad, x = "Self_Efficacy", y = "Intercultural_Understanding", s
 
 The biggest problem of not considering nested structure of the data is underestimation of standard error of each parameter estimation. Then, this underestimation is fed into more frequent rejection of null hypothesis for the coefficient estimation. We've already seen that the simple linear regression model rejected null hypothesis above.
 
-###      **2.3.1. Solution1. Linear Regression Model with Dummy Variables on Grouping Variables**
+####**2.3.1. Solution1. Linear Regression Model with Dummy Variables on Grouping Variables**
 
 One of the immediate solutions to handle nested data issue is adding grouping variables as dummy in the regression modeling.
 
@@ -112,7 +112,7 @@ Lm1<-lm(Intercultural_Understanding ~ Self_Efficacy + Major, data =  Studyabroad
 summary(Lm1)
 ```
 
-###      **2.3.2. Solution2. Hierarchical Linear Modeling (HLM) or Multilevel Modeling**
+####**2.3.2. Solution2. Hierarchical Linear Modeling (HLM) or Multilevel Modeling**
 
 Then, at this time, I will use hierarchical linear modeling analysis with lme4 package, so that we can compare it with the previous simple linear regression model.
 
@@ -129,6 +129,6 @@ icc(Lme0)
 Then, I added self-efficacy as a predictor. The summary statistics indicates that the coefficient of self-efficacy is not significant, with its increased standard error estimation. This tells us that similar to the regression model with the grouping variables as its dummy, the multilevel modeling also helps to avoid underestimation of the standard error lowering probability to reject null hypothesis.
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
 library(lmerTest)
-Lme1<-lmer(Intercultural_Understanding ~ Self_Efficacy + (1+Self_Efficacy|Major), data=Studyabroad, na.action = na.exclude)
+Lme1<-lmer(Intercultural_Understanding ~ 1 + Self_Efficacy + (1+Self_Efficacy|Major), data=Studyabroad, na.action = na.exclude)
 summary(Lme1)
 ```

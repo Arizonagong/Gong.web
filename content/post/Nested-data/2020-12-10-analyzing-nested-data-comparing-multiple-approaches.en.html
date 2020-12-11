@@ -65,8 +65,10 @@ xplot &lt;- xplot + clean_theme() + rremove(&quot;legend&quot;)
 library(cowplot)
 plot_grid(xplot, NULL, SA, yplot, ncol = 2, align = &quot;hv&quot;, 
       rel_widths = c(2, 1), rel_heights = c(1, 2))</code></pre>
-<p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-3-1.png" width="672" />
-### <strong>2.2. Simple Linear Regression</strong></p>
+<p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="simple-linear-regression" class="section level3">
+<h3><strong>2.2. Simple Linear Regression</strong></h3>
 <p>The easiest way to analyze this data is simple linear regression. The analysis summary indicates that the self-efficacy of the students is positively associated with the level of intercultural understanding. The coefficient estimate is 0.3914 and the p-value is significant at 0.05 level.</p>
 <pre class="r"><code>Lm0&lt;-lm(Intercultural_Understanding ~ Self_Efficacy, data =  Studyabroad)
 summary(Lm0)</code></pre>
@@ -89,11 +91,7 @@ summary(Lm0)</code></pre>
 ##   (3 observations deleted due to missingness)
 ## Multiple R-squared:  0.06319,    Adjusted R-squared:  0.04921 
 ## F-statistic:  4.52 on 1 and 67 DF,  p-value: 0.0372</code></pre>
-<pre class="r"><code>deviance(Lm0)</code></pre>
-<pre><code>## [1] 105.2032</code></pre>
-</div>
-<div id="alternative-analytic-methods-for-the-nested-data" class="section level3">
-<h3><strong>2.3. Alternative Analytic Methods for the Nested Data</strong></h3>
+<p>###<strong>2.3. Alternative Analytic Methods for the Nested Data</strong></p>
 <p>However, the data is stratified with other grouping variables. The data ‘Studyabroad’ has ‘Major’ variable, indicating each students belong to a certain major program. The students’ intercultural understanding explained by self-efficacy may be influenced by their majors.</p>
 <p>We can plot the regression line in the above scatter plot, but this time I will draw two different lines for each group. The scatter plot at bellow shows students in English and non-English major have very different pattern of association. In general, the English major students’ intercultural understanding is related with their self-efficacy level, while the non-English major students showed no relationship between the two.</p>
 <pre class="r"><code>ggscatter(Studyabroad, x = &quot;Self_Efficacy&quot;, y = &quot;Intercultural_Understanding&quot;, size = 0.3,
@@ -102,9 +100,7 @@ summary(Lm0)</code></pre>
   stat_cor(aes(color = Major), method = &quot;spearman&quot;)</code></pre>
 <p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>The biggest problem of not considering nested structure of the data is underestimation of standard error of each parameter estimation. Then, this underestimation is fed into more frequent rejection of null hypothesis for the coefficient estimation. We’ve already seen that the simple linear regression model rejected null hypothesis above.</p>
-</div>
-<div id="solution1.-linear-regression-model-with-dummy-variables-on-grouping-variables" class="section level3">
-<h3><strong>2.3.1. Solution1. Linear Regression Model with Dummy Variables on Grouping Variables</strong></h3>
+<p>####<strong>2.3.1. Solution1. Linear Regression Model with Dummy Variables on Grouping Variables</strong></p>
 <p>One of the immediate solutions to handle nested data issue is adding grouping variables as dummy in the regression modeling.</p>
 <p>New regression model bellow included ‘Major’, one of the grouping variables, in the modeling. Comparing with the previous simple linear regression, the standard error of Self-efficacy’s coefficient increased from 0.1841 to 0.2565. And the significant test of the coefficient estimation did not reject the null hypothesis.</p>
 <pre class="r"><code>Lm1&lt;-lm(Intercultural_Understanding ~ Self_Efficacy + Major, data =  Studyabroad)
@@ -130,9 +126,7 @@ summary(Lm1)</code></pre>
 ##   (3 observations deleted due to missingness)
 ## Multiple R-squared:  0.08039,    Adjusted R-squared:  0.05253 
 ## F-statistic: 2.885 on 2 and 66 DF,  p-value: 0.06293</code></pre>
-</div>
-<div id="solution2.-hierarchical-linear-modeling-hlm-or-multilevel-modeling" class="section level3">
-<h3><strong>2.3.2. Solution2. Hierarchical Linear Modeling (HLM) or Multilevel Modeling</strong></h3>
+<p>####<strong>2.3.2. Solution2. Hierarchical Linear Modeling (HLM) or Multilevel Modeling</strong></p>
 <p>Then, at this time, I will use hierarchical linear modeling analysis with lme4 package, so that we can compare it with the previous simple linear regression model.</p>
 <p>First, I will create a null model to calculate intraclass correlation (ICC). This number indicates the proportion of outcome variable’s total variation explained by between group variation. The ICC calculation for this data is about 12%, meaning that the 12% out of the total variation of the intercultural understanding is explained by the students’ major difference.</p>
 <pre class="r"><code>library(lme4)
@@ -166,11 +160,12 @@ icc(Lme0)</code></pre>
 ##   Conditional ICC: 0.119</code></pre>
 <p>Then, I added self-efficacy as a predictor. The summary statistics indicates that the coefficient of self-efficacy is not significant, with its increased standard error estimation. This tells us that similar to the regression model with the grouping variables as its dummy, the multilevel modeling also helps to avoid underestimation of the standard error lowering probability to reject null hypothesis.</p>
 <pre class="r"><code>library(lmerTest)
-Lme1&lt;-lmer(Intercultural_Understanding ~ Self_Efficacy + (1+Self_Efficacy|Major), data=Studyabroad, na.action = na.exclude)
+Lme1&lt;-lmer(Intercultural_Understanding ~ 1 + Self_Efficacy + (1+Self_Efficacy|Major), data=Studyabroad, na.action = na.exclude)
 summary(Lme1)</code></pre>
 <pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
 ## lmerModLmerTest]
-## Formula: Intercultural_Understanding ~ Self_Efficacy + (1 + Self_Efficacy |  
+## Formula: 
+## Intercultural_Understanding ~ 1 + Self_Efficacy + (1 + Self_Efficacy |  
 ##     Major)
 ##    Data: Studyabroad
 ## 

@@ -162,11 +162,12 @@ icc(Lme0)&lt;/code&gt;&lt;/pre&gt;
 ##   Conditional ICC: 0.119&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Then, I added self-efficacy as a predictor. The summary statistics indicates that the coefficient of self-efficacy is not significant, with its increased standard error estimation. This tells us that similar to the regression model with the grouping variables as its dummy, the multilevel modeling also helps to avoid underestimation of the standard error lowering probability to reject null hypothesis.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(lmerTest)
-Lme1&amp;lt;-lmer(Intercultural_Understanding ~ Self_Efficacy + (1+Self_Efficacy|Major), data=Studyabroad, na.action = na.exclude)
+Lme1&amp;lt;-lmer(Intercultural_Understanding ~ 1 + Self_Efficacy + (1+Self_Efficacy|Major), data=Studyabroad, na.action = na.exclude)
 summary(Lme1)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Linear mixed model fit by REML. t-tests use Satterthwaite&amp;#39;s method [
 ## lmerModLmerTest]
-## Formula: Intercultural_Understanding ~ Self_Efficacy + (1 + Self_Efficacy |  
+## Formula: 
+## Intercultural_Understanding ~ 1 + Self_Efficacy + (1 + Self_Efficacy |  
 ##     Major)
 ##    Data: Studyabroad
 ## 
