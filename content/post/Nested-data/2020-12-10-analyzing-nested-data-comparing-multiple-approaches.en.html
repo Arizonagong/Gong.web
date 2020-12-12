@@ -54,8 +54,8 @@ SA &lt;- ggscatter(Studyabroad, x = &quot;Self_Efficacy&quot;, y = &quot;Intercu
    cor.coef = TRUE ,rug = TRUE)+
 border()                                         
 # Marginal density plot of x (top panel) and y (right panel)
-xplot &lt;- ggdensity(Studyabroad, &quot;Self_Efficacy&quot;, fill = &quot;lightgray&quot;)
-yplot &lt;- ggdensity(Studyabroad, &quot;Intercultural_Understanding&quot;, fill = &quot;lightgray&quot;)+
+xplot &lt;- ggdensity(Studyabroad, &quot;Self_Efficacy&quot;, fill = &quot;lightgrey&quot;)
+yplot &lt;- ggdensity(Studyabroad, &quot;Intercultural_Understanding&quot;, fill = &quot;lightgrey&quot;)+
 rotate()
 # Cleaning the plots
 SA &lt;- SA + rremove(&quot;legend&quot;)
@@ -96,10 +96,23 @@ summary(Lm0)</code></pre>
 <h3><strong>2.3. Alternative Analytic Methods for the Nested Data</strong></h3>
 <p>However, the data is stratified with other grouping variables. The data ‘Studyabroad’ has a ‘Major’ variable, indicating that each student belongs to a specific major program. The students’ intercultural understanding explained by self-efficacy may be influenced by their majors.</p>
 <p>We can plot the regression line in the above scatter plot, but I will draw two different lines for each group this time. The scatter plot below shows that students in English and non-English majors have very different patterns of association. In general, the students’ intercultural understanding in English majors is related to their self-efficacy level, while the non-English major students showed no relationship between them.</p>
-<pre class="r"><code>ggscatter(Studyabroad, x = &quot;Self_Efficacy&quot;, y = &quot;Intercultural_Understanding&quot;, size = 0.3,
+<pre class="r"><code>SA&lt;-ggscatter(Studyabroad, x = &quot;Self_Efficacy&quot;, y = &quot;Intercultural_Understanding&quot;, size = 0.3,
           combine = TRUE, color = &quot;Major&quot;, palette = &quot;jco&quot;,
           add = &quot;reg.line&quot;, conf.int = TRUE) +
-  stat_cor(aes(color = Major), method = &quot;spearman&quot;)</code></pre>
+  stat_cor(aes(color = Major), method = &quot;spearman&quot;)
+# Marginal density plot of x (top panel) and y (right panel)
+xplot &lt;- ggdensity(Studyabroad, &quot;Self_Efficacy&quot;, fill = &quot;Major&quot;,
+                   palette = &quot;jco&quot;)
+yplot &lt;- ggdensity(Studyabroad, &quot;Intercultural_Understanding&quot;, fill = &quot;Major&quot;,palette = &quot;jco&quot;)+
+rotate()
+# Cleaning the plots
+SA &lt;- SA + rremove(&quot;legend&quot;)
+yplot &lt;- yplot + clean_theme() + rremove(&quot;legend&quot;) 
+xplot &lt;- xplot + clean_theme() + rremove(&quot;legend&quot;)
+
+library(cowplot)
+plot_grid(xplot, NULL, SA, yplot, ncol = 2, align = &quot;hv&quot;, 
+      rel_widths = c(2, 1), rel_heights = c(1, 2))</code></pre>
 <p><img src="/post/Nested-data/2020-12-10-analyzing-nested-data-comparing-multiple-approaches.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>The biggest problem of not considering the nested structure of the data is underestimating each parameter estimation’s standard error. This underestimation is fed into a more frequent rejection of the null hypothesis for the coefficient estimation. We have already seen that the simple linear regression model rejected the null hypothesis above.</p>
 <div id="solution1.-complex-linear-regression-model-with-grouping-dummy-variables" class="section level4">

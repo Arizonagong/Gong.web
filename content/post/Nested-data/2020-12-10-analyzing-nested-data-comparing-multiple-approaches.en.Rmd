@@ -66,8 +66,8 @@ SA <- ggscatter(Studyabroad, x = "Self_Efficacy", y = "Intercultural_Understandi
    cor.coef = TRUE ,rug = TRUE)+
 border()                                         
 # Marginal density plot of x (top panel) and y (right panel)
-xplot <- ggdensity(Studyabroad, "Self_Efficacy", fill = "lightgray")
-yplot <- ggdensity(Studyabroad, "Intercultural_Understanding", fill = "lightgray")+
+xplot <- ggdensity(Studyabroad, "Self_Efficacy", fill = "lightgrey")
+yplot <- ggdensity(Studyabroad, "Intercultural_Understanding", fill = "lightgrey")+
 rotate()
 # Cleaning the plots
 SA <- SA + rremove("legend")
@@ -94,10 +94,23 @@ However, the data is stratified with other grouping variables. The data 'Studyab
 
 We can plot the regression line in the above scatter plot, but I will draw two different lines for each group this time. The scatter plot below shows that students in English and non-English majors have very different patterns of association. In general, the students' intercultural understanding in English majors is related to their self-efficacy level, while the non-English major students showed no relationship between them. 
 ```{r echo=TRUE, message=FALSE, warning=FALSE}
-ggscatter(Studyabroad, x = "Self_Efficacy", y = "Intercultural_Understanding", size = 0.3,
+SA<-ggscatter(Studyabroad, x = "Self_Efficacy", y = "Intercultural_Understanding", size = 0.3,
           combine = TRUE, color = "Major", palette = "jco",
           add = "reg.line", conf.int = TRUE) +
   stat_cor(aes(color = Major), method = "spearman")
+# Marginal density plot of x (top panel) and y (right panel)
+xplot <- ggdensity(Studyabroad, "Self_Efficacy", fill = "Major",
+                   palette = "jco")
+yplot <- ggdensity(Studyabroad, "Intercultural_Understanding", fill = "Major",palette = "jco")+
+rotate()
+# Cleaning the plots
+SA <- SA + rremove("legend")
+yplot <- yplot + clean_theme() + rremove("legend") 
+xplot <- xplot + clean_theme() + rremove("legend")
+
+library(cowplot)
+plot_grid(xplot, NULL, SA, yplot, ncol = 2, align = "hv", 
+      rel_widths = c(2, 1), rel_heights = c(1, 2))
 ```
 
 The biggest problem of not considering the nested structure of the data is underestimating each parameter estimation's standard error. This underestimation is fed into a more frequent rejection of the null hypothesis for the coefficient estimation. We have already seen that the simple linear regression model rejected the null hypothesis above.
