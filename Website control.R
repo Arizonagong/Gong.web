@@ -44,3 +44,19 @@ ggplot(modelOutPlot, aes(x = term, y = estimate,
   geom_hline(yintercept = 0.0, color = 'red', size = 2.0) +
   geom_point() +
   geom_linerange() + coord_flip()    
+
+
+# Parking lot: learning analytics1
+####    **2.1.2 Intra-Class Correlation (ICC) Analysis**
+
+#First, before analyzing students' performance depending on the student #subgroups, we need to check whether this analysis is worth to do. The #intra class correlation (ICC) is the measure indicating proportion of the #total variance explained by the assumed group difference. We calculated #the ICC of students' membership to the underreprented population group, #and physics course because our research interest is to know #underrepresented students group performance well in general and also this 
+#group's performance in the physics classes.
+
+The result means that the ICC score of membership to the underrepresented group is about 4% (0.040/(0.040+0.001+0.872)) and that of physics classes is about 2% (0.001/(0.041+0.001+0.872)), which means students' affiliation to the underrepresented and majority group explains about 4% of the students' academic performance variance, while taking physics and non-physics classes explains about 2% of it. 4% and 2% is not a trivial amount of variance portion, and it is worth to explore further with these variables.
+
+```{r}
+## ICC calculation
+model0 <- lme(GRD_PTS_PER_UNIT ~ 1,random= ~1|STDNT_GROUP3/PHYSICS, 
+              data=Overall_Comp,control=(msMaxIter=1000))
+VarCorr(model0)
+```

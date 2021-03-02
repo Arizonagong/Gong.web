@@ -20,17 +20,17 @@ image:
 
 <div id="learning-analytics" class="section level2">
 <h2><strong>1. Learning Analytics</strong></h2>
-<p>Learning analytics is a computational approach analyzing large-sized students’ learning and education data. It became pretty much popular as the online learning and digitized school administrative platforms produce an infinite stream of students’ data on a daily basis. Many higher education institutions actively seeks for learning analytics to promote data-driven decision-making and evidence-based institutional innovation, targeting to enhance students’ performance, retention, and administrative efficiency.</p>
+<p>Learning analytics is a computational approach analyzing large-sized students’ learning and education data. It became pretty much popular as the online learning and digitized school administrative platforms produce an infinite stream of students’ data daily. Many higher education institutions actively seek learning analytics to promote data-driven decision-making and evidence-based institutional innovation to enhance students’ performance, retention, and administrative efficiency.</p>
 </div>
 <div id="example-data-analysis" class="section level2">
 <h2><strong>2. Example Data Analysis</strong></h2>
-<p>In this post, I will analyze students’ academic achievement data to see whether the underrepresented student group is performing well enough comparing with the other majority group across the time and subject area. The data was artificially and randomly created based on the preconfigured parameter distribution.</p>
+<p>This post will analyze students’ academic achievement data to see whether the underrepresented student group is performing well enough compared with the other majority group across the time and subject area. The data was artificially and randomly created based on the preconfigured parameter distribution.</p>
 <div id="explorative-data-analysis" class="section level3">
 <h3><strong>2.1. Explorative Data Analysis</strong></h3>
 <div id="visual-investigation-histogram" class="section level4">
 <h4><strong>2.1.1 Visual Investigation: Histogram</strong></h4>
-<p>UG represents Underrepresented Group with 1 and non-UG is the other majority students with 0. MATHs means the math subjects with 1 and non-math subjects with 0. In the histogram bellow, y axis means the number of student count and x axis means GPA score. The upper histogram is the students’ distribution in the non-math subject area, and the bottom histogram is that in the math subject area. The blue and red dotted line in the middle of the histogram respectively indicate the mean GPA score of UG and non-UG group students. This figure provides us a glimpse of that first there is a clear gap between UG and non-UG students across all subject areas. But it is also indicative of that the gap has been slightly narrower in the math subjects.</p>
-<pre class="r"><code>### CSP vs. Non.CSP student performance mean
+<p>UG represents the Underrepresented Group with 1, and non-UG is the other majority students with 0. MATHs means the math subjects with 1 and non-math subjects with 0. In the histogram below, the y-axis means the number of student count, and the x-axis means GPA. The upper histogram is the students’ distribution in the non-math subject area, and the bottom histogram is that in the math subject area. The blue and red dotted line in the middle of the histogram indicates the mean GPA score of UG and non-UG group students. This figure provides us a glimpse of that first; there is a clear gap between UG and non-UG students across all subject areas. However, it is also indicative that the gap has been slightly narrower in the math subjects.</p>
+<pre class="r"><code>### UG vs. Non.UG student performance mean
 
 UG_mean&lt;-Overall_Comp %&gt;% group_by(STDNT_GROUP3,MATHs) %&gt;% 
   summarise(mean=mean(GRD_PTS_PER_UNIT)) </code></pre>
@@ -55,7 +55,7 @@ UG_mean&lt;-Overall_Comp %&gt;% group_by(STDNT_GROUP3,MATHs) %&gt;%
 </div>
 <div id="visual-investigation-time-series-change" class="section level4">
 <h4><strong>2.1.2 Visual Investigation: Time Series Change</strong></h4>
-<p>The graph bellow shows how the average GPA score of UG and non UG students changes across the term period. It means that in the non-math courses the gap has been maintained while the gap has been continuously narrowed in the math courses. (Yey! This is a great news to raise equitable future STEM workforce.)</p>
+<p>The graph below shows how UG and non-UG students’ average GPA score changes across the term period. In the non-math courses the gap has been maintained while the gap has been continuously narrowed in the math courses. (Yey! It is excellent news to raise equitable future STEM workforce.)</p>
 <pre class="r"><code># Time series trend analysis
 Term_TS_UG&lt;-Overall_Comp %&gt;% 
   select(TERM,Term.Descr,STDNT_GROUP3,GRD_PTS_PER_UNIT, MATHs) %&gt;% 
@@ -80,7 +80,7 @@ Term_TS_UG&lt;-Overall_Comp %&gt;%
 </div>
 <div id="visual-investigation-interaction" class="section level4">
 <h4><strong>2.1.3 Visual Investigation: Interaction</strong></h4>
-<p>I checked the interaction effect between UG membership and taking math classes. If there is a clear interaction then we should spot line-crossing or clear trend of convergence between the two lines. Here, the result is a bit unclear. We cannot estimate whether there is an interaction or not with this picutre.</p>
+<p>I checked the interaction effect between UG membership and taking math classes. If there is a clear interaction, we should spot line-crossing or apparent convergence between the two lines. Here, the result is a bit unclear. We cannot estimate whether there is an interaction or not with this picture.</p>
 <pre class="r"><code># Interaction plot between CSP membership and Physics class
 ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT, 
                          group=STDNT_GROUP3,color=STDNT_GROUP3)) +
@@ -102,7 +102,7 @@ ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT,
 <h3><strong>2.2. Linear Multiple Regression</strong></h3>
 <div id="simplistic-model" class="section level4">
 <h4><strong>2.2.1 Simplistic Model</strong></h4>
-<p>Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership and math class as independent variables. The result shows that the UG-membership tends to be negatively associated with students’ GPA score and this relationship is statistically significant. Also, it explains that the students taking math classes tend to score less comparing with their counterparts in the other subject classes. This is also statistically significant.</p>
+<p>Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership and math class as independent variables. The result shows that the UG-membership tends to be negatively associated with students’ GPA score and this relationship is statistically significant. It also explains that the students taking math classes tend to score less compared to their counterparts in the other subject classes. It is also statistically significant.</p>
 <pre class="r"><code>LM2&lt;-lm(GRD_PTS_PER_UNIT ~ STDNT_GROUP3 + MATHs, data=Overall_Comp)
 summary(LM2)</code></pre>
 <pre><code>## 
@@ -127,8 +127,8 @@ summary(LM2)</code></pre>
 </div>
 <div id="all-possible-confounders-counted" class="section level4">
 <h4><strong>2.2.2 All Possible Confounders Counted</strong></h4>
-<p>Then, we added other predictors in our regression model, because sometimes the statistical significance in the basic model diminishes due to the other predictors. Although the coefficient score has been slightly decreased, still the negative association between GPA score and UG-membership, and GPA score and math class is statistically significant. Also, it indicates male students tend to score lower comparing with the female students. HSGPA means the high school GPA score and it positively associated with their university GPA score. GPAO is the GPA score in the other classes so far in the university. It shows very strong association wit the current GPA score.
-However, it was revealed that there is no interaction effect between UG-membership and math classes, though it has negative coefficient. This means that underrepresented group students taking math classes do not under- nor outperform other student group.</p>
+<p>Then, we added other predictors in our regression model because sometimes the statistical significance in the basic model diminishes due to the other predictors. Although the coefficient score has been slightly decreased, the negative association between GPA and UG-membership and GPA scores and math classes is statistically significant. Also, it indicates male students tend to score lower compared with female students. HSGPA means the high school GPA score, and it is positively associated with their university GPA score. GPAO is the GPA score in the other classes so far in the university. It shows a solid association with the current GPA score.
+However, it was revealed no interaction effect between UG-membership and math classes, though it has a negative coefficient. It means that underrepresented group students taking math classes do not under- nor outperform another student group.</p>
 <pre class="r"><code>LM6&lt;-lm(GRD_PTS_PER_UNIT ~ STDNT_GROUP3 + MATHs + SEX + HSGPA + GPAO +
         STDNT_GROUP3:MATHs, data=Overall_Comp)
 summary(LM6)</code></pre>
@@ -157,9 +157,9 @@ summary(LM6)</code></pre>
 ## Multiple R-squared:  0.3103, Adjusted R-squared:  0.3103 
 ## F-statistic: 9.722e+04 on 6 and 1296729 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div id="multicolinearity-check" class="section level4">
-<h4><strong>2.2.3 Multicolinearity Check</strong></h4>
-<p>Multicolinearty indicates a degree of association among the independent variables. Once the score exceeds 7 or 9, this means that the model is inefficient because it includes some redundant variables that is explained by the other independent variables. Fortunately, in this regression model, there is no multicolinearity among the independent variables.</p>
+<div id="multicollinearity-check" class="section level4">
+<h4><strong>2.2.3 Multicollinearity Check</strong></h4>
+<p>Multicollinearity indicates a degree of association among the independent variables. Once the score exceeds 7 or 9, the model is inefficient because it includes some redundant variables explained by the other independent variables. Fortunately, in this regression model, there is no multicollinearity among the independent variables.</p>
 <pre class="r"><code>car::vif(LM6)</code></pre>
 <pre><code>##       STDNT_GROUP3              MATHs                SEX              HSGPA 
 ##           1.093532           1.088315           1.008777           1.011272 
@@ -225,7 +225,7 @@ ggarrange(plot_list[[1]],plot_list[[2]],plot_list[[3]],plot_list[[4]],
 ## the group aesthetic?
 ## geom_path: Each group consists of only one observation. Do you need to adjust
 ## the group aesthetic?</code></pre>
-<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
 </div>
 </div>
 </div>
