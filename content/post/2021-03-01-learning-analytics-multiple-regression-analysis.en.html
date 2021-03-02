@@ -27,15 +27,8 @@ image:
 <p>In this post, I will analyze students’ academic achievement data to see whether the underrepresented student group is performing well enough comparing with the other majority group across the time and subject area. The data was artificially and randomly created based on the preconfigured parameter distribution.</p>
 <div id="explorative-data-analysis" class="section level3">
 <h3><strong>2.1. Explorative Data Analysis</strong></h3>
-<div id="missing-data-analysis" class="section level4">
-<h4><strong>2.1.1 Missing data analysis</strong></h4>
-<p>Before starting our analysis first, it is always important to check up the missing data. Although this data was artificially created so there should not be a missing data, but we need to make it a habit to check up the missing data all the time. The result at bellow figure visually represents the missing data pattern. The grey area is the missing data observation and rest of the white area is non-missing data point. The result indicate there is no serious missingness in this data set.</p>
-<pre class="r"><code># Missing data examination
-vis_miss(Overall_Comp, warn_large_data = FALSE)</code></pre>
-<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-</div>
 <div id="visual-investigation-histogram" class="section level4">
-<h4><strong>2.1.2 Visual Investigation: Histogram</strong></h4>
+<h4><strong>2.1.1 Visual Investigation: Histogram</strong></h4>
 <p>UG represents Underrepresented Group with 1 and non-UG is the other majority students with 0. MATHs means the math subjects with 1 and non-math subjects with 0. In the histogram bellow, y axis means the number of student count and x axis means GPA score. The upper histogram is the students’ distribution in the non-math subject area, and the bottom histogram is that in the math subject area. The blue and red dotted line in the middle of the histogram respectively indicate the mean GPA score of UG and non-UG group students. This figure provides us a glimpse of that first there is a clear gap between UG and non-UG students across all subject areas. But it is also indicative of that the gap has been slightly narrower in the math subjects.</p>
 <pre class="r"><code>### CSP vs. Non.CSP student performance mean
 
@@ -58,10 +51,10 @@ UG_mean&lt;-Overall_Comp %&gt;% group_by(STDNT_GROUP3,MATHs) %&gt;%
           axis.title.y = element_text(size=14, face=&quot;bold&quot;),
           axis.text.x = element_text(size=10, face=&quot;bold&quot;),
           axis.text.y = element_text(size=10, face=&quot;bold&quot;))</code></pre>
-<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="visual-investigation-time-series-change" class="section level4">
-<h4><strong>2.1.3 Visual Investigation: Time Series Change</strong></h4>
+<h4><strong>2.1.2 Visual Investigation: Time Series Change</strong></h4>
 <p>The graph bellow shows how the average GPA score of UG and non UG students changes across the term period. It means that in the non-math courses the gap has been maintained while the gap has been continuously narrowed in the math courses. (Yey! This is a great news to raise equitable future STEM workforce.)</p>
 <pre class="r"><code># Time series trend analysis
 Term_TS_UG&lt;-Overall_Comp %&gt;% 
@@ -83,10 +76,10 @@ Term_TS_UG&lt;-Overall_Comp %&gt;%
   labs(title=&quot;GPA Change Across Terms&quot;, x=&quot;Term&quot;, y=&quot;GPA Mean&quot;) +
   lims(y=c(2,4))</code></pre>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="visual-investigation-interaction" class="section level4">
-<h4><strong>2.1.4 Visual Investigation: Interaction</strong></h4>
+<h4><strong>2.1.3 Visual Investigation: Interaction</strong></h4>
 <p>I checked the interaction effect between UG membership and taking math classes. If there is a clear interaction then we should spot line-crossing or clear trend of convergence between the two lines. Here, the result is a bit unclear. We cannot estimate whether there is an interaction or not with this picutre.</p>
 <pre class="r"><code># Interaction plot between CSP membership and Physics class
 ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT, 
@@ -102,7 +95,7 @@ ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT,
           axis.title.x = element_text(size=14, face=&quot;bold&quot;),
           axis.title.y = element_text(size=14, face=&quot;bold&quot;),
           axis.text.y = element_text(size=14, face=&quot;bold&quot;))</code></pre>
-<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 </div>
 <div id="linear-multiple-regression" class="section level3">
@@ -175,9 +168,15 @@ summary(LM6)</code></pre>
 </div>
 <div id="coefficient-change-across-time" class="section level4">
 <h4><strong>2.2.4 Coefficient Change Across Time</strong></h4>
-<p>What if we divide the data set according to their terms and establish regression modeling for each term? Would the coefficients be the same across the time? This is just beyond multiple regression and it may request multilevel modeling, assuming each students’ score observation is embeded in each term, or we can add term as a categorical independent variable. In addition, there is a way to include interaction between the variables and the term.</p>
-<p>However, this may require more complicated data preprocessing and can be felt between multiple regression here. So, I just decided to provide simple visualization giving us a glimpse of the time series change of each coefficient. In the graphes, dots mean the coefficient for each term and the vertical lines indicate confidence interval. It shows a birds eye view of the change in coefficients across the time.</p>
-<p>Although it is not a rigor statistical methods to figure out coefficient change across the time, it provides us some great insight that can build up our next model. First, the students’ general GPA has been constantly improved across the terms as we can see the intercept graph. Second, the underrepresented students’ group has improved their academic performance although their score stays lower than the majority students’ group. The graph “STDNT_GROUP3” shows this upward trend very clearly. Third, the students dramatically reversed the coefficient value from negative to positive for the math class. This means that in the past students taking math classes got a lower score comparing with the students in the non-math classes, but thesedays this tendency was reversed. Fourth, the high-school GPA (HSGPA) is still a meaningful predictor of the students’ GPA in the university, but its level of association is lower than the past. Lastly, there seems to be the seasonaly trend in the students’ GPA score, as can be seen from the graphes of Intercept, SEXM, and GPAO. We can see a constant up and down between fall and winter semester. It may indicate that our mdoel has some missing independent variable in explaining the students’ academic performance.</p>
+<p>What if we divide the data set according to their terms and establish regression modeling for each term? Would the coefficients be the same across the time? It is just beyond multiple regression, and it may request multilevel modeling, assuming each students’ score observation is embedded in each term, or we can add term as a categorical independent variable. Also, there is a way to include the interaction between the variables and the term.</p>
+<p>However, this may require more complicated data preprocessing and can be felt between multiple regression here. So, I just decided to provide simple visualization, giving us a glimpse of each coefficient’s time-series change. The graphs indicate the coefficient for each term, and the vertical lines indicate confidence intervals. It shows a birds-eye view of the change in coefficients across time.</p>
+<p>Although it is not a rigorous statistical method to figure out coefficient change across time, it provides us some great insight that can build up our next model:
++1. The students’ general GPA continuously been improved across the terms as we can see in the intercept graph.
++2. The underrepresented students’ group has improved their academic performance although their score stays lower than the majority students’ group. The graph “STDNT_GROUP3” shows this upward trend very clearly.
++3. The students dramatically reversed the coefficient value from negative to positive for the math class. This means that in the past, students taking math classes got a lower score comparing with the students in the non-math classes, but these days this tendency was reversed.
++4. The high-school GPA (HSGPA) is still a meaningful predictor of the student’s GPA in the university, but its association level is lower than in the past.
++5. There seems to be a seasonal trend in the students’ GPA score, as seen from graphs of Intercept, SEXM, and GPAO.
+We can see a constant up and down between fall and winter semester. It may indicate that our model has some missing independent variables in explaining the students’ academic performance.</p>
 <pre class="r"><code>Stu_Dist&lt;-Overall_Comp %&gt;% 
   select(TERM, Term.Descr, MATHs, STDNT_GROUP3) %&gt;%
   group_by(TERM,Term.Descr, MATHs, STDNT_GROUP3) %&gt;%
@@ -211,7 +210,7 @@ p&lt;-ggplot(filter(LM_Summary_TERM,term==i),
 
 ggarrange(plot_list[[1]],plot_list[[2]],plot_list[[3]],plot_list[[4]],
           plot_list[[5]],plot_list[[6]],plot_list[[7]],
-          ncol = 2, nrow = 4)</code></pre>
+          ncol = 1, nrow = 7)</code></pre>
 <pre><code>## geom_path: Each group consists of only one observation. Do you need to adjust
 ## the group aesthetic?</code></pre>
 <pre><code>## geom_path: Each group consists of only one observation. Do you need to adjust
@@ -226,7 +225,7 @@ ggarrange(plot_list[[1]],plot_list[[2]],plot_list[[3]],plot_list[[4]],
 ## the group aesthetic?
 ## geom_path: Each group consists of only one observation. Do you need to adjust
 ## the group aesthetic?</code></pre>
-<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 </div>
 </div>
 </div>
