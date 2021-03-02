@@ -222,7 +222,7 @@ ggarrange(plot_list[[1]],plot_list[[2]],plot_list[[3]],plot_list[[4]],
 ```
 
 
-####   **3 Conclusion**
+##   **3. Conclusion**
 
 In this post, I examined the academic performance of the underrepresented students group comparing with another non-underrepresented students group in all courses and also in the math courses. My analysis discovered that the underrepresented students group tends to score lower both in all classes and math classes, but the performance gap has been narrowed down across the time. Also, the analysis found that the underrepresented students group does not specifically under-perform in the math classes comparing with the other classes. 
 
