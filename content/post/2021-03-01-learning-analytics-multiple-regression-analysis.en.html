@@ -99,8 +99,9 @@ ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT,
 </div>
 <div id="linear-multiple-regression" class="section level3">
 <h3><strong>2.2. Linear Multiple Regression</strong></h3>
-<p>####| <strong>2.2.1 Simplistic Model</strong>
-Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership (STDNT_GROUP3) and math class (MATHs) as independent variables. The result shows that the UG-membership tends to be negatively associated with students’ GPA score and this relationship is statistically significant. It also explains that the students taking math classes tend to score less compared to their counterparts in the other subject classes. It is also statistically significant.</p>
+<div id="simplistic-model" class="section level4">
+<h4><strong>2.2.1 Simplistic Model</strong></h4>
+<p>Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership (STDNT_GROUP3) and math class (MATHs) as independent variables. The result shows that the UG-membership tends to be negatively associated with students’ GPA score and this relationship is statistically significant. It also explains that the students taking math classes tend to score less compared to their counterparts in the other subject classes. It is also statistically significant.</p>
 <pre class="r"><code>LM2&lt;-lm(GRD_PTS_PER_UNIT ~ STDNT_GROUP3 + MATHs, data=Overall_Comp)
 summary(LM2)</code></pre>
 <pre><code>## 
@@ -122,6 +123,7 @@ summary(LM2)</code></pre>
 ## Residual standard error: 0.9308 on 1296733 degrees of freedom
 ## Multiple R-squared:  0.01084,    Adjusted R-squared:  0.01084 
 ## F-statistic:  7106 on 2 and 1296733 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
 <div id="all-possible-confounders-counted" class="section level4">
 <h4><strong>2.2.2 All Possible Confounders Counted</strong></h4>
 <p>Then, we added other predictors in our regression model because sometimes the statistical significance in the basic model diminishes due to the other predictors. Although the coefficient score has been slightly decreased, the negative association between GPA and UG-membership and GPA scores and math classes is statistically significant. Also, it indicates male students tend to score lower compared with female students. HSGPA means the high school GPA score, and it is positively associated with their university GPA score. GPAO is the GPA score in the other classes so far in the university. It shows a solid association with the current GPA score.
@@ -167,19 +169,15 @@ summary(LM6)</code></pre>
 <h4><strong>2.2.4 Coefficient Change Across Time</strong></h4>
 <p>What if we divide the data set according to their terms and establish regression modeling for each term? Would the coefficients be the same across the time? It is just beyond multiple regression, and it may request multilevel modeling, assuming each students’ score observation is embedded in each term, or we can add term as a categorical independent variable. Also, there is a way to include the interaction between the variables and the term.</p>
 <p>However, this may require more complicated data preprocessing and can be felt between multiple regression here. So, I just decided to provide simple visualization, giving us a glimpse of each coefficient’s time-series change. The graphs indicate the coefficient for each term, and the vertical lines indicate confidence intervals. It shows a birds-eye view of the change in coefficients across time.</p>
-<p>Although it is not a rigorous statistical method to figure out coefficient change across time, it provides us some great insight that can build up our next model:
- 
-+1. The students’ general GPA continuously been improved across the terms as we can see in the intercept graph.
- 
-+2. The underrepresented students’ group has improved their academic performance although their score stays lower than the majority students’ group. The graph “STDNT_GROUP3” shows this upward trend very clearly.
- 
-+3. The students dramatically reversed the coefficient value from negative to positive for the math class. This means that in the past, students taking math classes got a lower score comparing with the students in the non-math classes, but these days this tendency was reversed.
- 
-+4. The high-school GPA (HSGPA) is still a meaningful predictor of the student’s GPA in the university, but its association level is lower than in the past.
- 
-+5. There seems to be a seasonal trend in the students’ GPA score, as seen from graphs of Intercept, SEXM, and GPAO.
- 
-We can see a constant up and down between fall and winter semester. It may indicate that our model has some missing independent variables in explaining the students’ academic performance.</p>
+<p>Although it is not a rigorous statistical method to figure out coefficient change across time, it provides us some great insight that can build up our next model.</p>
+<ol style="list-style-type: decimal">
+<li><p>The students’ general GPA continuously been improved across the terms as we can see in the intercept graph.</p></li>
+<li><p>The underrepresented students’ group has improved their academic performance although their score stays lower than the majority students’ group. The graph “STDNT_GROUP3” shows this upward trend very clearly.</p></li>
+<li><p>The students dramatically reversed the coefficient value from negative to positive for the math class. This means that in the past, students taking math classes got a lower score comparing with the students in the non-math classes, but these days this tendency was reversed.</p></li>
+<li><p>The high-school GPA (HSGPA) is still a meaningful predictor of the student’s GPA in the university, but its association level is lower than in the past.</p></li>
+<li><p>There seems to be a seasonal trend in the students’ GPA score, as seen from graphs of Intercept, SEXM, and GPAO.</p></li>
+</ol>
+<p>We can see a constant up and down between fall and winter semester. It may indicate that our model has some missing independent variables in explaining the students’ academic performance.</p>
 <pre class="r"><code>Stu_Dist&lt;-Overall_Comp %&gt;% 
   select(TERM, Term.Descr, MATHs, STDNT_GROUP3) %&gt;%
   group_by(TERM,Term.Descr, MATHs, STDNT_GROUP3) %&gt;%
