@@ -99,9 +99,8 @@ ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT,
 </div>
 <div id="linear-multiple-regression" class="section level3">
 <h3><strong>2.2. Linear Multiple Regression</strong></h3>
-<div id="simplistic-model" class="section level4">
-<h4><strong>2.2.1 Simplistic Model</strong></h4>
-<p>Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership and math class as independent variables. The result shows that the UG-membership tends to be negatively associated with students’ GPA score and this relationship is statistically significant. It also explains that the students taking math classes tend to score less compared to their counterparts in the other subject classes. It is also statistically significant.</p>
+<p>####| <strong>2.2.1 Simplistic Model</strong>
+Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership (STDNT_GROUP3) and math class (MATHs) as independent variables. The result shows that the UG-membership tends to be negatively associated with students’ GPA score and this relationship is statistically significant. It also explains that the students taking math classes tend to score less compared to their counterparts in the other subject classes. It is also statistically significant.</p>
 <pre class="r"><code>LM2&lt;-lm(GRD_PTS_PER_UNIT ~ STDNT_GROUP3 + MATHs, data=Overall_Comp)
 summary(LM2)</code></pre>
 <pre><code>## 
@@ -123,7 +122,6 @@ summary(LM2)</code></pre>
 ## Residual standard error: 0.9308 on 1296733 degrees of freedom
 ## Multiple R-squared:  0.01084,    Adjusted R-squared:  0.01084 
 ## F-statistic:  7106 on 2 and 1296733 DF,  p-value: &lt; 2.2e-16</code></pre>
-</div>
 <div id="all-possible-confounders-counted" class="section level4">
 <h4><strong>2.2.2 All Possible Confounders Counted</strong></h4>
 <p>Then, we added other predictors in our regression model because sometimes the statistical significance in the basic model diminishes due to the other predictors. Although the coefficient score has been slightly decreased, the negative association between GPA and UG-membership and GPA scores and math classes is statistically significant. Also, it indicates male students tend to score lower compared with female students. HSGPA means the high school GPA score, and it is positively associated with their university GPA score. GPAO is the GPA score in the other classes so far in the university. It shows a solid association with the current GPA score.

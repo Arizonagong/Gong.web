@@ -138,8 +138,8 @@ ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT,
 
 ###   **2.2. Linear Multiple Regression**
 
-####   **2.2.1 Simplistic Model**
-Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership and math class as independent variables. The result shows that the UG-membership tends to be negatively associated with students' GPA score and this relationship is statistically significant. It also explains that the students taking math classes tend to score less compared to their counterparts in the other subject classes. It is also statistically significant.
+####|   **2.2.1 Simplistic Model**
+Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership (STDNT_GROUP3) and math class (MATHs) as independent variables. The result shows that the UG-membership tends to be negatively associated with students' GPA score and this relationship is statistically significant. It also explains that the students taking math classes tend to score less compared to their counterparts in the other subject classes. It is also statistically significant.
 
 ```{r message=FALSE, warning=FALSE}
 LM2<-lm(GRD_PTS_PER_UNIT ~ STDNT_GROUP3 + MATHs, data=Overall_Comp)
