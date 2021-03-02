@@ -33,9 +33,9 @@ image:
 <pre class="r"><code>### UG vs. Non.UG student performance mean
 
 UG_mean&lt;-Overall_Comp %&gt;% group_by(STDNT_GROUP3,MATHs) %&gt;% 
-  summarise(mean=mean(GRD_PTS_PER_UNIT)) </code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;STDNT_GROUP3&#39; (override with `.groups` argument)</code></pre>
-<pre class="r"><code>### Histogram Visualization
+  summarise(mean=mean(GRD_PTS_PER_UNIT)) 
+
+### Histogram Visualization
   ggplot(Overall_Comp, aes(x=GRD_PTS_PER_UNIT)) +
   geom_histogram(aes(fill=STDNT_GROUP3),position=&quot;dodge&quot;, bins=40, binwidth = 0.3)+
     facet_grid(rows = vars(MATHs), labeller = label_both) +
@@ -60,9 +60,9 @@ UG_mean&lt;-Overall_Comp %&gt;% group_by(STDNT_GROUP3,MATHs) %&gt;%
 Term_TS_UG&lt;-Overall_Comp %&gt;% 
   select(TERM,Term.Descr,STDNT_GROUP3,GRD_PTS_PER_UNIT, MATHs) %&gt;% 
   group_by(TERM,Term.Descr,STDNT_GROUP3, MATHs) %&gt;% 
-  summarise(mean=mean(GRD_PTS_PER_UNIT))</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;TERM&#39;, &#39;Term.Descr&#39;, &#39;STDNT_GROUP3&#39; (override with `.groups` argument)</code></pre>
-<pre class="r"><code>ggplot(Term_TS_UG, aes(x=TERM, y=mean, group=STDNT_GROUP3))+
+  summarise(mean=mean(GRD_PTS_PER_UNIT))
+
+ggplot(Term_TS_UG, aes(x=TERM, y=mean, group=STDNT_GROUP3))+
   scale_x_discrete(labels = unique(Term_TS_UG$Term.Descr))+
   scale_color_manual(name=&quot;UG&quot;,labels = c(&quot;Non-UG&quot;, &quot;UG&quot;),values = c(&quot;#FFCB05&quot;, &quot;#00274C&quot;)) +
   theme_minimal() + 
@@ -75,7 +75,6 @@ Term_TS_UG&lt;-Overall_Comp %&gt;%
         axis.text.y = element_text(size=10, face=&quot;bold&quot;)) +
   labs(title=&quot;GPA Change Across Terms&quot;, x=&quot;Term&quot;, y=&quot;GPA Mean&quot;) +
   lims(y=c(2,4))</code></pre>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="visual-investigation-interaction" class="section level4">
@@ -171,11 +170,17 @@ summary(LM6)</code></pre>
 <p>What if we divide the data set according to their terms and establish regression modeling for each term? Would the coefficients be the same across the time? It is just beyond multiple regression, and it may request multilevel modeling, assuming each students’ score observation is embedded in each term, or we can add term as a categorical independent variable. Also, there is a way to include the interaction between the variables and the term.</p>
 <p>However, this may require more complicated data preprocessing and can be felt between multiple regression here. So, I just decided to provide simple visualization, giving us a glimpse of each coefficient’s time-series change. The graphs indicate the coefficient for each term, and the vertical lines indicate confidence intervals. It shows a birds-eye view of the change in coefficients across time.</p>
 <p>Although it is not a rigorous statistical method to figure out coefficient change across time, it provides us some great insight that can build up our next model:
+ 
 +1. The students’ general GPA continuously been improved across the terms as we can see in the intercept graph.
+ 
 +2. The underrepresented students’ group has improved their academic performance although their score stays lower than the majority students’ group. The graph “STDNT_GROUP3” shows this upward trend very clearly.
+ 
 +3. The students dramatically reversed the coefficient value from negative to positive for the math class. This means that in the past, students taking math classes got a lower score comparing with the students in the non-math classes, but these days this tendency was reversed.
+ 
 +4. The high-school GPA (HSGPA) is still a meaningful predictor of the student’s GPA in the university, but its association level is lower than in the past.
+ 
 +5. There seems to be a seasonal trend in the students’ GPA score, as seen from graphs of Intercept, SEXM, and GPAO.
+ 
 We can see a constant up and down between fall and winter semester. It may indicate that our model has some missing independent variables in explaining the students’ academic performance.</p>
 <pre class="r"><code>Stu_Dist&lt;-Overall_Comp %&gt;% 
   select(TERM, Term.Descr, MATHs, STDNT_GROUP3) %&gt;%
@@ -183,9 +188,9 @@ We can see a constant up and down between fall and winter semester. It may indic
   summarise(n=n()) %&gt;% ungroup() %&gt;%
   group_by(TERM,Term.Descr,MATHs) %&gt;% 
   mutate(prop=n/sum(n)) %&gt;%
-  mutate(MATHs=as.factor(MATHs))</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;TERM&#39;, &#39;Term.Descr&#39;, &#39;MATHs&#39; (override with `.groups` argument)</code></pre>
-<pre class="r"><code># LM Summary by each term
+  mutate(MATHs=as.factor(MATHs))
+
+# LM Summary by each term
 
 LM_Summary_TERM&lt;-Overall_Comp %&gt;% 
   group_by(TERM) %&gt;%
@@ -211,21 +216,12 @@ p&lt;-ggplot(filter(LM_Summary_TERM,term==i),
 ggarrange(plot_list[[1]],plot_list[[2]],plot_list[[3]],plot_list[[4]],
           plot_list[[5]],plot_list[[6]],plot_list[[7]],
           ncol = 1, nrow = 7)</code></pre>
-<pre><code>## geom_path: Each group consists of only one observation. Do you need to adjust
-## the group aesthetic?</code></pre>
-<pre><code>## geom_path: Each group consists of only one observation. Do you need to adjust
-## the group aesthetic?
-## geom_path: Each group consists of only one observation. Do you need to adjust
-## the group aesthetic?
-## geom_path: Each group consists of only one observation. Do you need to adjust
-## the group aesthetic?
-## geom_path: Each group consists of only one observation. Do you need to adjust
-## the group aesthetic?
-## geom_path: Each group consists of only one observation. Do you need to adjust
-## the group aesthetic?
-## geom_path: Each group consists of only one observation. Do you need to adjust
-## the group aesthetic?</code></pre>
 <p><img src="/post/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+</div>
+<div id="conclusion" class="section level4">
+<h4><strong>3 Conclusion</strong></h4>
+<p>In this post, I examined the academic performance of the underrepresented students group comparing with another non-underrepresented students group in all courses and also in the math courses. My analysis discovered that the underrepresented students group tends to score lower both in all classes and math classes, but the performance gap has been narrowed down across the time. Also, the analysis found that the underrepresented students group does not specifically under-perform in the math classes comparing with the other classes.</p>
+<p>This information can be crucial to make an institutional level policy decision. Fortunately, the result showed that underrepresented students group is improving their academic performance a lot, and even the influence of high school GPA score has been decrease, which means the students’ learning experience in the university contributed to their GPA score. However, it should be noticed that we may need more rigorous test to prove that the students’ performance has been much improved and the gap has been narrowed down across the time. I will address this problem in another posting.</p>
 </div>
 </div>
 </div>
