@@ -138,7 +138,7 @@ ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT,
 
 ###   **2.2. Linear Multiple Regression**
 
-####|   **2.2.1 Simplistic Model**
+####   **2.2.1 Simplistic Model**
 Then, I ran the regression. First, I made up the simplistic model, just adding UG-membership (STDNT_GROUP3) and math class (MATHs) as independent variables. The result shows that the UG-membership tends to be negatively associated with students' GPA score and this relationship is statistically significant. It also explains that the students taking math classes tend to score less compared to their counterparts in the other subject classes. It is also statistically significant.
 
 ```{r message=FALSE, warning=FALSE}
@@ -172,17 +172,24 @@ What if we divide the data set according to their terms and establish regression
 However, this may require more complicated data preprocessing and can be felt between multiple regression here. So, I just decided to provide simple visualization, giving us a glimpse of each coefficient's time-series change. The graphs indicate the coefficient for each term, and the vertical lines indicate confidence intervals. It shows a birds-eye view of the change in coefficients across time.
 
 Although it is not a rigorous statistical method to figure out coefficient change across time, it provides us some great insight that can build up our next model:
+
 &nbsp;
-  +1. The students' general GPA continuously been improved across the terms as we can see in the intercept graph.
+
+1. The students' general GPA continuously been improved across the terms as we can see in the intercept graph.
   &nbsp;
-  +2. The underrepresented students' group has improved their academic performance although their score stays lower than the majority students' group. The graph "STDNT_GROUP3" shows this upward trend very clearly.
+  
+2. The underrepresented students' group has improved their academic performance although their score stays lower than the majority students' group. The graph "STDNT_GROUP3" shows this upward trend very clearly.
   &nbsp;
-  +3. The students dramatically reversed the coefficient value from negative to positive for the math class. This means that in the past, students taking math classes got a lower score comparing with the students in the non-math classes, but these days this tendency was reversed.
+  
+3. The students dramatically reversed the coefficient value from negative to positive for the math class. This means that in the past, students taking math classes got a lower score comparing with the students in the non-math classes, but these days this tendency was reversed.
   &nbsp;
-  +4. The high-school GPA (HSGPA) is still a meaningful predictor of the student's GPA in the university, but its association level is lower than in the past.
+  
+4. The high-school GPA (HSGPA) is still a meaningful predictor of the student's GPA in the university, but its association level is lower than in the past.
   &nbsp;
-  +5. There seems to be a seasonal trend in the students' GPA score, as seen from graphs of Intercept, SEXM, and GPAO.
+  
+5. There seems to be a seasonal trend in the students' GPA score, as seen from graphs of Intercept, SEXM, and GPAO.
   &nbsp;
+  
 We can see a constant up and down between fall and winter semester. It may indicate that our model has some missing independent variables in explaining the students' academic performance. 
 ```{r echo=TRUE, fig.height=30, fig.width=10, message=FALSE, warning=FALSE, paged.print=FALSE}
 Stu_Dist<-Overall_Comp %>% 
