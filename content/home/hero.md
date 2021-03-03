@@ -37,14 +37,10 @@ image_parallax = true  # Use a fun parallax-like fixed background effect? true/f
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
 [cta]
-  url = "https://sourcethemes.com/academic/docs/install/"
-  label = "Get Started"
+  url = "https://603f4970e4b1c7000af06614--gongedunet.netlify.app/project/dissertation/"
+  label = "View My Project"
   icon_pack = "fas"
   icon = "download"
-  
-[cta_alt]
-  url = "https://sourcethemes.com/academic/"
-  label = "View Documentation"
 
 # Note. An optional note to show underneath the links.
 [cta_note]
