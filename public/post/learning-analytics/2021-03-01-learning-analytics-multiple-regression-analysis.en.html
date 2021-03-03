@@ -1,22 +1,4 @@
----
-title: 'Learning Analytics: Is Underrepresented Students Group Performing Well?'
-featuredImage: "/unnamed-chunk-3-1.png"
-author: bgong
-date: '2021-03-01'
-categories:
-  - R
-tags:
-  - Regression
-slug: learning-analytics-multiple-regression-analysis
-lastmod: '2021-03-01T21:01:42-07:00'
-featured: no
-image:
-  caption: ''
-  focal_point: ''
-  preview_only: no
----
-
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<script src="2021-03-01-learning-analytics-multiple-regression-analysis.en_files/header-attrs/header-attrs.js"></script>
 
 
 <div id="learning-analytics" class="section level2">
@@ -52,7 +34,7 @@ UG_mean&lt;-Overall_Comp %&gt;% group_by(STDNT_GROUP3,MATHs) %&gt;%
           axis.title.y = element_text(size=14, face=&quot;bold&quot;),
           axis.text.x = element_text(size=10, face=&quot;bold&quot;),
           axis.text.y = element_text(size=10, face=&quot;bold&quot;))</code></pre>
-<p><img src="/post/Learning-analytics/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 <div id="visual-investigation-time-series-change" class="section level4">
 <h4><strong>2.1.2 Visual Investigation: Time Series Change</strong></h4>
@@ -76,7 +58,7 @@ ggplot(Term_TS_UG, aes(x=TERM, y=mean, group=STDNT_GROUP3))+
         axis.text.y = element_text(size=10, face=&quot;bold&quot;)) +
   labs(title=&quot;GPA Change Across Terms&quot;, x=&quot;Term&quot;, y=&quot;GPA Mean&quot;) +
   lims(y=c(2,4))</code></pre>
-<p><img src="/post/Learning-analytics/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="visual-investigation-interaction" class="section level4">
 <h4><strong>2.1.3 Visual Investigation: Interaction</strong></h4>
@@ -95,7 +77,7 @@ ggplot(Overall_Comp, aes(x=MATHs, y=GRD_PTS_PER_UNIT,
           axis.title.x = element_text(size=14, face=&quot;bold&quot;),
           axis.title.y = element_text(size=14, face=&quot;bold&quot;),
           axis.text.y = element_text(size=14, face=&quot;bold&quot;))</code></pre>
-<p><img src="/post/Learning-analytics/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 </div>
 <div id="linear-multiple-regression" class="section level3">
@@ -213,7 +195,7 @@ p&lt;-ggplot(filter(LM_Summary_TERM,term==i),
 ggarrange(plot_list[[1]],plot_list[[2]],plot_list[[3]],plot_list[[4]],
           plot_list[[5]],plot_list[[6]],plot_list[[7]],
           ncol = 1, nrow = 7)</code></pre>
-<p><img src="/post/Learning-analytics/2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
+<p><img src="2021-03-01-learning-analytics-multiple-regression-analysis.en_files/figure-html/unnamed-chunk-8-1.png" width="960" /></p>
 </div>
 </div>
 </div>
