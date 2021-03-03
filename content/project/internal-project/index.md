@@ -20,7 +20,7 @@ url_video: ''
 ---
 
 ## **Bibliographic Data Analysis**
- 
+
 I am interested in collecting, processing, and analyzing large-sized web-based textual data. The bibliographic data retrievable from the web journal databases such as Web of Science (WoS) and Scopus is one of the textual data source I usually work with, comprised of author, institution, keyword, citation, and abstract information. 
 
 ## **My Dissertation Research Project**
