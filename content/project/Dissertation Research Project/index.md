@@ -3,13 +3,14 @@ title: "Dissertation Research Project"
 external_link: ''
 date: '2021-03-02T00:00:00Z'
 links:
-- icon: null
-  icon_pack: null
-  name: null
-  url: null
+- icon:
+  icon_pack:
+  name:
+  url:
 slides:
 summary: Dissertation research project using citation network analysis method.
-tags: Network Analysis
+tags: 
+- Network Analysis
 image:
   caption: Photo by Byoung-gyu Gong, AI-Edu Citation Networks from my Dissertation
   focal_point: Smart
