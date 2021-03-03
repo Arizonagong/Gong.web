@@ -5,7 +5,8 @@ headless = true  # This file represents a page section.
 active = true # Activate this widget? true/false
 weight = 10  # Order that this section will appear.
 
-title = "Featured Research"
+
+--metadata title= "Featured Research".
 
 # Hero image (optional). Enter filename of an image in the `static/media/` folder.
 hero_media = "Brain.jpg"
@@ -47,5 +48,5 @@ image_parallax = true  # Use a fun parallax-like fixed background effect? true/f
   label = '<a class="js-github-release" href="https://sourcethemes.com/academic/updates" data-repo="gcushen/hugo-academic">Latest release<!-- V --></a>'
 +++
 
-**Exploring a Cyborg Space in Education**: Bibliographic and Metaphor Analysis of Educational Psychology and Artificial Intelligence Studies
+**Exploring a Cyborg Space in Education**: Bibliographic and Metaphor Analysis of Educational Psychology and Artificial Intelligence Studies 
 
