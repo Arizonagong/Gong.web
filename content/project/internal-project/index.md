@@ -5,10 +5,10 @@ image:
   caption: Photo by Byoung-gyu Gong, AI-Edu Citation Network
   focal_point: Smart
 links:
-- icon: twitter
-  icon_pack: fab
-  name: Follow
-  url: https://twitter.com/georgecushen
+- icon: 
+  icon_pack: 
+  name:
+  url:
 slides: example
 summary: Dissertation research project using citation network analysis method.
 tags:
@@ -29,9 +29,7 @@ I am interested in collecting, processing, and analyzing large-sized web-based t
 
 My dissertation research used almost 450,000 bibliographic data to see how the newly emerging technology of artificial intelligence (AI) interacts with the education at the research level. My research identified cross-referencing pattern of the two fields by analyzing the journal-journal citation network. 
 
-<img src="/internal-project/index_files/2010s_Inter_intra.png" alt="Citation Network: Interdisciplinary Cross-Referenceing in Red Color" width="400px" height="200px"/>
-
-<img src="/internal-project/index_files/Pane_2010s.png" alt="Pane-view of the citation network" width="400px" height="200px"/>
+<img src="/internal-project/index_files/2010s_Inter_intra.png" alt="" width="400px" height="200px"/>
 
 ## **Implication of the Research**
 
