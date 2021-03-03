@@ -33,17 +33,12 @@
   </url>
   
   <url>
-    <loc>/tag/bibliographic-analysis/</loc>
-    <lastmod>2021-03-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/citation-network-analysis/</loc>
-    <lastmod>2021-03-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/project/internal-project/</loc>
+    <lastmod>2021-03-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/network-analysis/</loc>
     <lastmod>2021-03-02T00:00:00+00:00</lastmod>
   </url>
   
@@ -154,11 +149,6 @@
   
   <url>
     <loc>/tag/eivenvector-centrality/</loc>
-    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/network-analysis/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
