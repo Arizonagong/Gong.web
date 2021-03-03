@@ -3,7 +3,7 @@ title: 'Learning Analytics: Is Underrepresented Students Group Performing Well?'
 author: bgong
 date: '2021-03-01'
 categories:
-  - R
+  - R 
 tags:
   - Regression
 slug: learning-analytics-multiple-regression-analysis
