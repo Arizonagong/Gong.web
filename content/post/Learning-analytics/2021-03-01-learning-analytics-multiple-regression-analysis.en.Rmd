@@ -1,6 +1,6 @@
 ---
 title: 'Learning Analytics: Is Underrepresented Students Group Performing Well?'
-thumbnail: "unnamed-chunk-3-1.png"
+featuredImage: "unnamed-chunk-3-1.png"
 author: bgong
 date: '2021-03-01'
 categories:
@@ -25,7 +25,7 @@ Learning analytics is a computational approach analyzing large-sized students' l
 This post will analyze students' academic achievement data to see whether the underrepresented student group is performing well enough compared with the other majority group across the time and subject area. The data was artificially and randomly created based on the preconfigured parameter distribution. 
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
-setwd("/Users/bgong/Documents/Career management/Job/CV development/R portfolio/Gong.web/content/post/")
+setwd("/Users/bgong/Documents/Career management/Job/CV development/R portfolio/Gong.web/content/post/Learning-analytics/")
 
 # Library
 library(data.table)
