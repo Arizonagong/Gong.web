@@ -1,6 +1,5 @@
 ---
 title: 'Learning Analytics: Is Underrepresented Students Group Performing Well?'
-featuredImage: "/unnamed-chunk-3-1.png"
 author: bgong
 date: '2021-03-01'
 categories:

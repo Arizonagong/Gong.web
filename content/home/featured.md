@@ -10,7 +10,7 @@ active: false
 headless: true
 
 # Order that this section appears on the page.
-weight: 10
+weight: 100
 
 title: Featured Publications
 subtitle: ""
