@@ -1,5 +1,5 @@
 ---
-title: "Dissertation Research Project"
+title: "Dissertation Research Project: Overview"
 external_link: ''
 date: '2021-03-02T00:00:00Z'
 links:
@@ -33,3 +33,5 @@ My dissertation research used almost 450,000 bibliographic data to see how the n
 This study is meaningful in two ways. First this study quantified and visualized textual data to represent educational research field in the citation network space. In the featured picture above, I visualized cross-referencing between the two fields with the red-colored edges in the middle of the two clusters for the last 60 years in the right upper side of the figure. The graph on the left side indicates the interdisciplinary journals identified through community detection method. Each color represents cluster identified through the Louvain community detection method. The figure in the right-bottom side is the pane-view of the citation exchange between journals.  
 
 Second, this research provides a glimpse of what is the foundational knowledge-base ranges across AI and educational studies. It can be an essential background knowledge to design educational policy and program to enhance education’s AI-readiness. The findings implied that the computational and statistical representation of human and machine intelligence created a theoretical continuum between the two fields, precipitating interaction and cross-referencing. Also, the human-machine interaction studies are the bridge-researches connecting AI and educational studies. Such findings will provide policy implication predicting future research direction to advance educational science research.
+
+I will post more detailed code and research process in the next project postings.
