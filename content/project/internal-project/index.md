@@ -7,7 +7,7 @@ links:
   icon_pack: null
   name: null
   url: null
-slides: example
+slides:
 summary: Dissertation research project using citation network analysis method.
 tags: Network Analysis
 image:
