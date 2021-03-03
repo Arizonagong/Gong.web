@@ -148,7 +148,7 @@ summary(LM2)
 
 ####   **2.2.2 All Possible Confounders Counted**
 
-Then, we added other predictors in our regression model because sometimes the statistical significance in the basic model diminishes due to the other predictors. Although the coefficient score has been slightly decreased, the negative association between GPA and UG-membership and GPA scores and math classes is statistically significant. Also, it indicates male students tend to score lower compared with female students. HSGPA means the high school GPA score, and it is positively associated with their university GPA score. GPAO is the GPA score in the other classes so far in the university. It shows a solid association with the current GPA score. 
+Then, I added other predictors in our regression model because sometimes the statistical significance in the basic model diminishes due to the other predictors. Although the coefficient score has been slightly decreased, the negative association between GPA and UG-membership and GPA scores and math classes is statistically significant. Also, it indicates male students tend to score lower compared with female students. HSGPA means the high school GPA score, and it is positively associated with their university GPA score. GPAO is the GPA score in the other classes so far in the university. It shows a solid association with the current GPA score. 
 However, it was revealed no interaction effect between UG-membership and math classes, though it has a negative coefficient. It means that underrepresented group students taking math classes do not under- nor outperform another student group. 
 ```{r message=FALSE, warning=FALSE}
 LM6<-lm(GRD_PTS_PER_UNIT ~ STDNT_GROUP3 + MATHs + SEX + HSGPA + GPAO +
