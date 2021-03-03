@@ -33,26 +33,6 @@
   </url>
   
   <url>
-    <loc>/project/internal-project/</loc>
-    <lastmod>2021-03-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tag/network-analysis/</loc>
-    <lastmod>2021-03-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/project/</loc>
-    <lastmod>2021-03-02T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2021-03-01T21:01:42-07:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/categories/</loc>
     <lastmod>2021-03-01T21:01:42-07:00</lastmod>
   </url>
@@ -74,6 +54,11 @@
   
   <url>
     <loc>/tag/regression/</loc>
+    <lastmod>2021-03-01T21:01:42-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
     <lastmod>2021-03-01T21:01:42-07:00</lastmod>
   </url>
   
@@ -149,6 +134,11 @@
   
   <url>
     <loc>/tag/eivenvector-centrality/</loc>
+    <lastmod>2020-10-04T14:55:59-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tag/network-analysis/</loc>
     <lastmod>2020-10-04T14:55:59-07:00</lastmod>
   </url>
   
@@ -254,6 +244,11 @@
   
   <url>
     <loc>/project/external-project/</loc>
+    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/project/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url>
   
